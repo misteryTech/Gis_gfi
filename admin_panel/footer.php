@@ -47,8 +47,8 @@
             </div>
         </div>
     </footer>
-    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
-    <script src="assets/js/startup-modern.js"></script>
+    <script src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../assets/js/startup-modern.js"></script>
 </body>
 
 </html>
