@@ -152,7 +152,7 @@ $(document).ready(function() {
     // Load subjects into the table
     function loadSubjects() {
         $.ajax({
-            url: 'fetch-subjects.php',
+            url: 'fetch-subject.php',
             method: 'GET',
             success: function(data) {
                 $('#subjects-table-body').html(data);
