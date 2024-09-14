@@ -15,7 +15,7 @@ include("header.php");
             <ul class="navbar-nav mx-auto">
 
             <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle " href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle active" href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Administrator
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
@@ -29,7 +29,7 @@ include("header.php");
 
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Manage Students
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdown">
@@ -51,7 +51,6 @@ include("header.php");
         </div>
     </div>
 </nav>
-
 
 <section class="py-5 mt-5">
     <div class="container py-5">
