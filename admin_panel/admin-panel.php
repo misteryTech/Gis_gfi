@@ -21,7 +21,7 @@ include("header.php");
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
                         <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
                         <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-                        <li><a class="dropdown-item" href="manage-requirements.php">Requirements</a></li>
+                        <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
                     </ul>
 
 
@@ -35,7 +35,7 @@ include("header.php");
                     <ul class="dropdown-menu" aria-labelledby="manageDropdown">
                         <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
                         <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-                        <li><a class="dropdown-item" href="student_requirements.php">Requirements</a></li>
+                        <li><a class="dropdown-item" href="requirements.php">Requirements</a></li>
                     </ul>
                 </li>
 
@@ -47,7 +47,7 @@ include("header.php");
                 <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
                 <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
             </ul>
-            <a class="btn btn-primary shadow" role="button" href="sign_up.php">Sign up</a>
+            <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>
     </div>
 </nav>

@@ -1,6 +1,4 @@
-<?php
-include("header.php");
-?>
+<?php include("header.php"); ?>
 <body>
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
     <div class="container">
@@ -11,15 +9,34 @@ include("header.php");
         </button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav mx-auto">
-                <li class="nav-item"><a class="nav-link " href="manage-students.php">Manage Students</a></li>
-                <li class="nav-item"><a class="nav-link" href="manage-teacher.php">Manage Teacher</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Administrator
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
+                        <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
+                        <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
+                        <li><a class="dropdown-item" href="manage-requirements.php">Requirements</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Manage Students
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="manageDropdown">
+                        <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
+                        <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
+                        <li><a class="dropdown-item" href="student_requirements.php">Requirements</a></li>
+                    </ul>
+                </li>
                 <li class="nav-item"><a class="nav-link active" href="encode-grades.php">Encode Grades</a></li>
-                <li class="nav-item"><a class="nav-link" href="generate-reports.php">Generate Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
             </ul>
-            <a class="btn btn-primary shadow" role="button" href="sign_up.php">Sign up</a>
+            <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>
     </div>
 </nav>
+
 <section class="py-5 mt-5">
     <div class="container py-5">
         <div class="row d-flex justify-content-center">
@@ -41,10 +58,9 @@ include("header.php");
                         <tr>
                             <th>ID</th>
                             <th>Name</th>
-                            <th>Gender</th>
-                            <th>Phone</th>
-                            <th>Email</th>
+                            <th>Year Level</th>
                             <th>Course</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="students-table-body">
@@ -79,14 +95,13 @@ $(document).ready(function() {
                             rows += '<tr>' +
                                 '<td>' + student.id + '</td>' +
                                 '<td>' + student.first_name + ' ' + student.last_name + '</td>' +
-                                '<td>' + student.gender + '</td>' +
-                                '<td>' + student.phone + '</td>' +
-                                '<td>' + student.email + '</td>' +
+                                '<td>' + student.year_level + '</td>' +
                                 '<td>' + student.course + '</td>' +
+                                '<td><a class="btn btn-primary" href="encoding_grade.php?student_id=' + student.id + '">Encode Grades</a></td>' +
                                 '</tr>';
                         });
                     } else {
-                        rows = '<tr><td colspan="6" class="text-center">No students found</td></tr>';
+                        rows = '<tr><td colspan="5" class="text-center">No students found</td></tr>';
                     }
 
                     $('#students-table-body').html(rows);
@@ -99,3 +114,4 @@ $(document).ready(function() {
 });
 </script>
 </body>
+</html>

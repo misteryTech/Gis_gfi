@@ -31,6 +31,7 @@ try {
         } else {
             // Invalid credentials
             echo "Invalid email or password.";
+            header("Location: login.php"); // Redirect to the dashboard or home page
         }
     }
 } catch (PDOException $e) {

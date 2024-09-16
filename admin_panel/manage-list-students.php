@@ -60,7 +60,7 @@ $result = mysqli_query($conn, $query);
                 <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
                 <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
             </ul>
-            <a class="btn btn-primary shadow" role="button" href="sign_up.php">Sign up</a>
+            <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>
     </div>
 </nav>
@@ -88,26 +88,27 @@ $result = mysqli_query($conn, $query);
                     </thead>
                     <tbody>
                         <?php
-                        if (mysqli_num_rows($result) > 0) {
-                            while ($row = mysqli_fetch_assoc($result)) {
-                                echo "<tr>";
-                                echo "<td><img src='" . $row['student_photo'] . "' width='50'></td>";
-                                echo "<td>" . $row['student_id'] . "</td>";
-                                echo "<td>" . $row['first_name'] . " " . $row['last_name'] . "</td>";
 
-                                echo "<td>" . $row['year_level'] . "</td>";
-                                echo "<td>" . $row['course'] . "</td>";
-                                echo "<td>
-                                        <button class='btn btn-warning btn-sm edit-btn' data-id='" . $row['id'] . "' data-bs-toggle='modal' data-bs-target='#editStudentModal'>Edit</button>
-                                        <button class='btn btn-danger btn-sm delete-btn' data-id='" . $row['id'] . "'>Delete</button>
-                                      </td>";
-                                echo "</tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='9' class='text-center'>No students found</td></tr>";
-                        }
-                        ?>
-                    </tbody>
+                       if (mysqli_num_rows($result) > 0) {
+                           while ($row = mysqli_fetch_assoc($result)) {
+                               echo "<tr>";
+                               echo "<td><img src='" . htmlspecialchars($row['student_photo']) . "' width='50'></td>";
+                               echo "<td>" . htmlspecialchars($row['student_id']) . "</td>";
+                               echo "<td>" . htmlspecialchars($row['first_name']) . " " . htmlspecialchars($row['last_name']) . "</td>";
+                               echo "<td>" . htmlspecialchars($row['year_level']) . "</td>";
+                               echo "<td>" . htmlspecialchars($row['course']) . "</td>";
+                               echo "<td>
+                                       <a class='btn btn-primary btn-sm' href='student-profile.php?student_id=" . htmlspecialchars($row['id']) . "'>View Profile</a>
+                                       <button class='btn btn-danger btn-sm delete-btn' data-id='" . htmlspecialchars($row['id']) . "'>Delete</button>
+                                     </td>";
+                               echo "</tr>";
+                           }
+                       } else {
+                           echo "<tr><td colspan='6' class='text-center'>No students found</td></tr>";
+                       }
+                       ?>
+
+                          </tbody>
                 </table>
             </div>
         </div>

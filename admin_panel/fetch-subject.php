@@ -17,6 +17,7 @@ if (mysqli_num_rows($result) > 0) {
             <td>{$row['subject_name']}</td>
             <td>{$row['year']}</td>
             <td>{$row['semester']}</td>
+            <td>{$row['unit']}</td>
             <td>
                 <button class='btn btn-warning edit-btn' data-id='{$row['id']}'>Edit</button>
                 <button class='btn btn-danger delete-btn' data-id='{$row['id']}'>Delete</button>

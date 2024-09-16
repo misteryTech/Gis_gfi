@@ -6,36 +6,67 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get data from the form
-    $student_id = mysqli_real_escape_string($conn, $_POST['student_id']);
-    $student_name = mysqli_real_escape_string($conn, $_POST['student_name']);
-    $gender = mysqli_real_escape_string($conn, $_POST['gender']);
-    $phone = mysqli_real_escape_string($conn, $_POST['phone']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $course = mysqli_real_escape_string($conn, $_POST['course']);
+// Check if form was submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get the submitted form data
+    $student_id = $_POST['student_id'];
+    $first_name = $_POST['first_name'];
+    $last_name = $_POST['last_name'];
+    $gender = $_POST['gender'];
+    $phone = $_POST['phone'];
+    $email = $_POST['email'];
+    $year_level = $_POST['year_level'];
+    $course = $_POST['course'];
 
-    // Split the name into first and last name (if applicable)
-    $name_parts = explode(' ', $student_name);
-    $first_name = $name_parts[0];
-    $last_name = isset($name_parts[1]) ? $name_parts[1] : '';
+    // Handle photo upload if provided
+    $student_photo = $_FILES['student_photo']['name'];
+    if ($student_photo) {
+        $target_dir = "uploads/"; // Ensure this folder exists with write permissions
+        $target_file = $target_dir . basename($student_photo);
 
-    // Update query
-    $query = "UPDATE students SET
-                first_name = '$first_name',
-                last_name = '$last_name',
-                gender = '$gender',
-                phone = '$phone',
-                email = '$email',
-                course = '$course'
-              WHERE id = '$student_id'";
-
-    if (mysqli_query($conn, $query)) {
-        echo json_encode(['status' => 'success']);
+        // Upload the file
+        if (move_uploaded_file($_FILES["student_photo"]["tmp_name"], $target_file)) {
+            // Update with new photo
+            $query = "UPDATE students SET
+                first_name = ?,
+                last_name = ?,
+                gender = ?,
+                phone = ?,
+                email = ?,
+                year_level = ?,
+                course = ?,
+                student_photo = ?
+                WHERE id = ?";
+            $stmt = $conn->prepare($query);
+            $stmt->bind_param("ssssssssi", $first_name, $last_name, $gender, $phone, $email, $year_level, $course, $target_file, $student_id);
+        }
     } else {
-        echo json_encode(['status' => 'error', 'message' => mysqli_error($conn)]);
+        // Update without changing the photo
+        $query = "UPDATE students SET
+            first_name = ?,
+            last_name = ?,
+            gender = ?,
+            phone = ?,
+            email = ?,
+            year_level = ?,
+            course = ?
+            WHERE id = ?";
+        $stmt = $conn->prepare($query);
+        $stmt->bind_param("sssssssi", $first_name, $last_name, $gender, $phone, $email, $year_level, $course, $student_id);
     }
 
-    mysqli_close($conn);
+    // Execute the query
+    if ($stmt->execute()) {
+        // Redirect after successful update
+        header("Location: student-profile.php?student_id=" . $student_id);
+        exit();
+    } else {
+        echo "Error updating record: " . mysqli_error($conn);
+    }
+
+    $stmt->close();
 }
+
+// Close the database connection
+mysqli_close($conn);
 ?>
