@@ -16,19 +16,19 @@ try {
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Get form data
-        $email = isset($_POST['email']) ? trim($_POST['email']) : '';
+        $id_no = isset($_POST['id_no']) ? trim($_POST['id_no']) : ''; // Changed from email to id_no
         $password = isset($_POST['password']) ? $_POST['password'] : '';
 
         // Basic validation (server-side)
-        if (empty($email) || empty($password)) {
+        if (empty($id_no) || empty($password)) {
             $response['message'] = 'All fields are required.';
             echo json_encode($response);
             exit;
         }
 
         // Fetch user record from the database
-        $stmt = $conn->prepare("SELECT id, email, password FROM users WHERE email = :email");
-        $stmt->bindParam(':email', $email);
+        $stmt = $conn->prepare("SELECT id, student_id, password FROM students WHERE student_id = :id_no");
+        $stmt->bindParam(':id_no', $id_no);
         $stmt->execute();
 
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -36,13 +36,13 @@ try {
         if ($user && password_verify($password, $user['password'])) {
             // Password is correct
             session_start();
-            $_SESSION['user_id'] = $user['id']; // Set session variable
-            $_SESSION['user_email'] = $user['email'];
+            $_SESSION['student_id'] = $user['id']; // Set session variable
+            $_SESSION['student_id_no'] = $user['id_no'];
             $response['success'] = true;
             $response['message'] = 'Login successful.';
         } else {
             // Invalid credentials
-            $response['message'] = 'Invalid email or password.';
+            $response['message'] = 'Invalid ID number or password.';
         }
     } else {
         $response['message'] = 'Invalid request method.';

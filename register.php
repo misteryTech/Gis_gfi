@@ -1,22 +1,33 @@
 <?php
-// Database connection
+// Include the database connection
 include("connection.php"); // Include the database connection file
+
+// Enable error reporting for debugging (remove or comment out for production)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+header('Content-Type: application/json');
+
+$response = array('success' => false, 'message' => '');
 
 try {
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Get form data
-        $email = $_POST['email'];
-        $password = $_POST['password'];
-        $password_repeat = $_POST['password_repeat'];
+        $email = $_POST['email'] ?? '';
+        $password = $_POST['password'] ?? '';
+        $password_repeat = $_POST['password_repeat'] ?? '';
 
         // Basic validation (server-side)
         if (empty($email) || empty($password) || empty($password_repeat)) {
-            echo "All fields are required.";
+            $response['message'] = 'All fields are required.';
+            echo json_encode($response);
             exit;
         }
 
         if ($password !== $password_repeat) {
-            echo "Passwords do not match.";
+            $response['message'] = 'Passwords do not match.';
+            echo json_encode($response);
             exit;
         }
 
@@ -26,7 +37,8 @@ try {
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            echo "This email is already registered!";
+            $response['message'] = 'This email is already registered!';
+            echo json_encode($response);
             exit;
         }
 
@@ -40,15 +52,18 @@ try {
         $stmt->bindParam(':password', $hashed_password);
 
         if ($stmt->execute()) {
-            echo "Registration successful!";
-            // Redirect to success page or login page
-            header("Location: login.php");
-            exit;
+            $response['success'] = true;
+            $response['message'] = 'Registration successful!';
         } else {
-            echo "Error: Could not register user.";
+            $response['message'] = 'Error: Could not register user.';
         }
     }
 } catch (PDOException $e) {
-    echo "Connection failed: " . $e->getMessage();
+    $response['message'] = 'Connection failed: ' . $e->getMessage();
 }
+
+// Ensure no extra output is sent
+ob_end_clean();
+
+echo json_encode($response);
 ?>

@@ -7,7 +7,3 @@
     <title>Home - Grading System</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
 </head>
-
-<?php
-            include("connection.php")
-?>

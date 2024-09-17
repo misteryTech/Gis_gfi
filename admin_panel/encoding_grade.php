@@ -79,7 +79,7 @@ mysqli_close($conn);
                 <li class="nav-item"><a class="nav-link active" href="encode-grades.php">Encode Grades</a></li>
                 <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
             </ul>
-            <a class="btn btn-primary shadow" role="button" href="sign_up.php">Sign up</a>
+            <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>
     </div>
 </nav>

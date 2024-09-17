@@ -6,32 +6,49 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-// Check if the form is submitted
+// Check if the request method is POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = mysqli_real_escape_string($conn, $_POST['requirements_title']);
-    $description = mysqli_real_escape_string($conn, $_POST['description']);
-    $steps = mysqli_real_escape_string($conn, $_POST['steps']);
+    // Sanitize and validate form inputs
+    $requirements_title = mysqli_real_escape_string($conn, trim($_POST['requirements_title']));
+    $description = mysqli_real_escape_string($conn, trim($_POST['description']));
+    $steps = mysqli_real_escape_string($conn, trim($_POST['steps']));
 
-    // Check if an ID is set for update
-    if (isset($_POST['id'])) {
-        $id = mysqli_real_escape_string($conn, $_POST['id']);
-        // Update existing requirement
-        $update_sql = "UPDATE requirements SET title='$title', description='$description', steps='$steps' WHERE id='$id'";
-        if (mysqli_query($conn, $update_sql)) {
-            echo "Requirement updated successfully";
+    // Example debug output (remove this in production)
+    // echo "Received: " . print_r($_POST, true);
+
+    // Check if all fields are filled
+    if (!empty($requirements_title) && !empty($description) && !empty($steps)) {
+        // Insert data into the database
+        $sql = "INSERT INTO requirements (title, description, steps) VALUES ('$requirements_title', '$description', '$steps')";
+
+        if (mysqli_query($conn, $sql)) {
+            // Success response
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Requirement submitted successfully!'
+            ]);
         } else {
-            echo "Error updating requirement: " . mysqli_error($conn);
+            // Error response if query fails
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Failed to submit requirement: ' . mysqli_error($conn)
+            ]);
         }
     } else {
-        // Insert new requirement
-        $insert_sql = "INSERT INTO requirements (title, description, steps) VALUES ('$title', '$description', '$steps')";
-        if (mysqli_query($conn, $insert_sql)) {
-            echo "Requirement registered successfully";
-        } else {
-            echo "Error registering requirement: " . mysqli_error($conn);
-        }
+        // Error response if fields are missing
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Please fill in all fields.'
+        ]);
     }
-
-    mysqli_close($conn);
+} else {
+    // Invalid request method
+    echo json_encode([
+        'status' => 'error',
+        'message' => 'Invalid request method.'
+    ]);
 }
+
+// Close the database connection
+mysqli_close($conn);
 ?>

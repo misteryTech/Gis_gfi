@@ -1,6 +1,7 @@
 <?php
 include("header.php");
 ?>
+
 <body>
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
     <div class="container">
@@ -15,37 +16,29 @@ include("header.php");
             <ul class="navbar-nav mx-auto">
 
             <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle active" href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Administrator
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
-                        <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
-                        <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-                        <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
-                    </ul>
+                <a class="nav-link dropdown-toggle active" href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Administrator
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
+                    <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
+                    <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
+                    <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
+                </ul>
+            </li>
 
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Manage Students
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="manageDropdown">
+                    <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
+                    <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
+                    <li><a class="dropdown-item" href="requirements.php">Requirements</a></li>
+                </ul>
+            </li>
 
-                </li>
-
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Manage Students
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="manageDropdown">
-                        <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
-                        <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-                        <li><a class="dropdown-item" href="requirements.php">Requirements</a></li>
-                    </ul>
-                </li>
-
-
-
-
-
-
-                <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
-                <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
+            <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>
@@ -56,13 +49,14 @@ include("header.php");
     <div class="container py-5">
         <div class="row">
             <div class="col-md-8 col-xl-6 text-center mx-auto">
-                <h2 class="display-6 fw-bold mb-4">Student <span class="underline">Registration</span></h2>
-                <p class="text-muted">Please fill out the form below to register as a student.</p>
-            </div>
+            <?php if (isset($_SESSION['user_email'])): ?>
+                <h2 class="display-6 fw-bold mb-4">Welcome <span class="underline"><?php echo htmlspecialchars($_SESSION['user_email']); ?></span></h2>
+                <?php endif; ?>
+                          </div>
         </div>
         <div class="row d-flex justify-content-center">
             <div class="col-md-10 col-xl-8">
-                <form class="p-3 p-xl-4 form-floating" method="post"  enctype="multipart/form-data" id="studentRegistrationForm">
+                <form class="p-3 p-xl-4 form-floating" method="post" enctype="multipart/form-data" id="studentRegistrationForm">
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <input class="shadow form-control" type="file" id="student-photo" name="student_photo" placeholder="Student Photo" required>
