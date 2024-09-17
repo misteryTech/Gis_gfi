@@ -3,7 +3,29 @@
 ?>
 
 <body>
+<style>
+    .card.sales-card {
+    background-color: #007bff; /* Blue */
+    color: #fff;
+}
 
+.card.revenue-card {
+    background-color: #28a745; /* Green */
+    color: #fff;
+}
+
+.card.customers-card {
+    background-color: #dc3545; /* Red */
+    color: #fff;
+}
+
+.card-icon {
+    background-color: #fff;
+    color: #000;
+}
+
+
+</style>
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="dashboard.php">
@@ -49,7 +71,7 @@
 
         <!-- Sales Card -->
         <div class="col-xxl-4 col-md-6">
-            <div class="card info-card sales-card">
+            <div class="card  info-card sales-card bg-primary text-white">
                 <div class="filter">
                     <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -60,9 +82,9 @@
                     </ul>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Sales <span>| Today</span></h5>
+                    <h5 class="card-title">Student <span>| Today</span></h5>
                     <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-light text-dark">
                             <i class="bi bi-cart"></i>
                         </div>
                         <div class="ps-3">
@@ -77,7 +99,7 @@
 
         <!-- Revenue Card -->
         <div class="col-xxl-4 col-md-6">
-            <div class="card info-card revenue-card">
+            <div class="card info-card revenue-card bg-success text-white">
                 <div class="filter">
                     <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -88,9 +110,9 @@
                     </ul>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Revenue <span>| This Month</span></h5>
+                    <h5 class="card-title">Request <span>| This Month</span></h5>
                     <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-light text-dark">
                             <i class="bi bi-currency-dollar"></i>
                         </div>
                         <div class="ps-3">
@@ -105,7 +127,7 @@
 
         <!-- Customers Card -->
         <div class="col-xxl-4 col-xl-12">
-            <div class="card info-card customers-card">
+            <div class="card info-card customers-card bg-danger text-white">
                 <div class="filter">
                     <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -116,9 +138,9 @@
                     </ul>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Customers <span>| This Year</span></h5>
+                    <h5 class="card-title">Release <span>| This Year</span></h5>
                     <div class="d-flex align-items-center">
-                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                        <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-light text-dark">
                             <i class="bi bi-people"></i>
                         </div>
                         <div class="ps-3">
