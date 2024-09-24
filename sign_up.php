@@ -11,7 +11,7 @@
                 </div>
                 <div class="col-md-5 col-xl-4 text-center text-md-start">
                     <h2 class="display-6 fw-bold mb-5">
-                        <span class="underline pb-1"><strong>Sign up</strong></span>
+                        <span class="underline apb-1"><strong>Sign up</strong></span>
                     </h2>
                     <form id="registrationForm" method="post" data-bs-theme="light">
                         <div class="mb-3">

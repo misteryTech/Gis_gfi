@@ -111,14 +111,18 @@ include("header.php");
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <select class="shadow form-control" id="course" name="course" required>
-                                <option value="" disabled selected>Select Course</option>
-                                <option value="bachelor-computer-science">BS Computer Science</option>
-                                <option value="bachelor-information-technology">BS Information Technology</option>
-                                <option value="bachelor-business-administration">BS Business Administration</option>
-                                <option value="bachelor-nursing">BS Nursing</option>
-                                <option value="bachelor-accountancy">BS Accountancy</option>
-                            </select>
+                        <select class="shadow form-control" id="course" name="course" required>
+    <option value="" disabled selected>Select Course</option>
+    <option value="bs-education">BS Education</option>
+    <option value="bs-information-system">BS Information System</option>
+    <option value="bS-literacy-cultural-studies">BS in Literacy & Cultural Studies</option>
+    <option value="bs-criminology">BS Criminology</option>
+    <option value="bs-entrepreneurship">BS Entrepreneurship</option>
+    <option value="bs-office-administration">BS Office Administration</option>
+    <option value="bs-tourism-management">BS Tourism Management</option>
+</select>
+
+
                         </div>
                     </div>
                     <div>
