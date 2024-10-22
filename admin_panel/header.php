@@ -20,3 +20,9 @@ session_start(); // Start the session
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 </head>
+<style>
+    .navbar-brand {
+        color:red;
+    }
+    .dropdown-item{}
+</style>

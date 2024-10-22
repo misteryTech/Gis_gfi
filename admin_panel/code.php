@@ -9,7 +9,6 @@ $conn = mysqli_connect($servername, $username, $password, $database);
 
 // Check connection
 if (!$conn) {
-    // Return a JSON response indicating failure to connect to the database
     echo json_encode(['status' => 'error', 'message' => 'Database connection failed']);
     exit();
 }
@@ -27,6 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = mysqli_real_escape_string($conn, $_POST['email']);
     $year_level = mysqli_real_escape_string($conn, $_POST['year_level']);
     $course = mysqli_real_escape_string($conn, $_POST['course']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = password_hash(mysqli_real_escape_string($conn, $_POST['password']), PASSWORD_DEFAULT); // Hash the password
 
     // Photo Upload Handling
     $target_dir = "uploads/"; // Directory to store uploaded photos
@@ -36,25 +37,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (move_uploaded_file($_FILES["student_photo"]["tmp_name"], $target_file)) {
 
         // SQL query to insert the data into the database
-        $query = "INSERT INTO students (student_photo, student_id, first_name, last_name, gender, phone, email, year_level, course)
-                  VALUES ('$target_file', '$student_id', '$first_name', '$last_name', '$gender', '$phone', '$email', '$year_level', '$course')";
+        $query = "INSERT INTO students (student_photo, student_id, first_name, last_name, gender, phone, email, year_level, course, username, password)
+                  VALUES ('$target_file', '$student_id', '$first_name', '$last_name', '$gender', '$phone', '$email', '$year_level', '$course', '$username', '$password')";
 
         // Execute the query
         if (mysqli_query($conn, $query)) {
-            // Success response
             echo json_encode(['status' => 'success', 'message' => 'Student has been successfully registered']);
         } else {
-            // Error response for SQL failure
             echo json_encode(['status' => 'error', 'message' => 'Failed to register student in the database']);
         }
 
     } else {
-        // Error response for file upload failure
         echo json_encode(['status' => 'error', 'message' => 'Failed to upload student photo']);
     }
 
 } else {
-    // Invalid request method
     echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 }
 ?>

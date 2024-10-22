@@ -8,7 +8,22 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$query = "SELECT * FROM students";
+
+
+// Fetch the passed student_id and year_level from the URL
+$student_id = isset($_GET['student_id']) ? intval($_GET['student_id']) : 0;
+$year_level = isset($_GET['year']) ? intval($_GET['year']) : 0;
+$id = isset($_GET['id']) ? intval($_GET['id']) : 0;
+
+
+$query = "SELECT G.*,S.*
+
+
+
+FROM grades AS G
+INNER JOIN subjects AS S ON G.subject_id = S.id
+
+ WHERE G.student_id = '$id'";
 $result = mysqli_query($conn, $query);
 
 
@@ -70,7 +85,8 @@ $result = mysqli_query($conn, $query);
     <div class="container py-5">
         <div class="row">
             <div class="col-md-8 col-xl-6 text-center mx-auto">
-                <h2 class="display-6 fw-bold mb-4">Student <span class="underline">List</span></h2>
+                <h2 class="display-6 fw-bold mb-4">Student ID: <?php echo $student_id; ?> <br><span class="underline">Year: <?php echo $year_level; ?></span></h2>
+                <?php echo $id; ?> 
             </div>
         </div>
         <div class="row d-flex justify-content-center">
@@ -78,12 +94,13 @@ $result = mysqli_query($conn, $query);
                 <table class="table table-striped" id="studentsTable">
                     <thead>
                         <tr>
-                            <th>Photo</th>
-                            <th>Student ID</th>
-                            <th>Name</th>
-
+               
+                            <th>Subject Code</th>
+                            <th>Subject Name</th>
                             <th>Year Level</th>
-                            <th>Course</th>
+                            <th>Semester</th>
+                            <th>Unit</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -93,23 +110,26 @@ $result = mysqli_query($conn, $query);
                        if (mysqli_num_rows($result) > 0) {
                            while ($row = mysqli_fetch_assoc($result)) {
                                echo "<tr>";
-                               echo "<td><img src='" . htmlspecialchars($row['student_photo']) . "' width='50'></td>";
-                               echo "<td>" . htmlspecialchars($row['student_id']) . "</td>";
-                               echo "<td>" . htmlspecialchars($row['first_name']) . " " . htmlspecialchars($row['last_name']) . "</td>";
-                               echo "<td>" . htmlspecialchars($row['year_level']) . "</td>";
-                               echo "<td>" . htmlspecialchars($row['course']) . "</td>";
+                     
+                               echo "<td>" . htmlspecialchars($row['subject_code']) . "</td>";
+                              
+                               echo "<td>" . htmlspecialchars($row['subject_name']) . "</td>";
+                               echo "<td>" . htmlspecialchars($row['year']) . "</td>";
+                               echo "<td>" . htmlspecialchars($row['semester']) . "</td>";
+                               echo "<td>" . htmlspecialchars($row['unit']) . "</td>";
+                               echo "<td>" . htmlspecialchars($row['status']) . "</td>";
                                echo "<td>
-                                       <a class='btn btn-primary btn-sm' href='student-profile.php?student_id=" . htmlspecialchars($row['id']) . "'>View Profile</a>
-                                       <button class='btn btn-danger btn-sm delete-btn' data-id='" . htmlspecialchars($row['id']) . "'>Delete</button>
+                                       <a class='btn btn-success btn-sm' href='student-profile.php?student_id=" . htmlspecialchars($row['id']) . "'>Completed</a>
+                                       <button class='btn btn-danger btn-sm delete-btn' data-id='" . htmlspecialchars($row['id']) . "'>Reject</button>
                                      </td>";
                                echo "</tr>";
                            }
                        } else {
-                           echo "<tr><td colspan='6' class='text-center'>No students found</td></tr>";
+                           echo "<tr><td colspan='6' class='text-center'>No Grades found</td></tr>";
                        }
                        ?>
 
-                          </tbody>
+                    </tbody>
                 </table>
             </div>
         </div>

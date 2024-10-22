@@ -9,25 +9,34 @@
 <?php
     include("topnav.php");
 ?>
-    <header class="pt-5">
-        <div class="container pt-4 pt-xl-5">
-            <div class="row pt-5">
-                <div class="col-md-8 text-center text-md-start mx-auto">
-                    <div class="text-center">
-                        <h1 class="display-4 fw-bold mb-5">Tools for teams that work&nbsp;<span class="underline">together</span>.</h1>
-                        <p class="fs-5 text-muted mb-5">Metus quisque ultricies vehicula proin, magna nullam.</p>
-                        <form class="d-flex justify-content-center flex-wrap" method="post" data-bs-theme="light">
-                            <div class="shadow-lg mb-3"><input class="form-control" type="email" name="email" placeholder="Your Email"></div>
-                            <div class="shadow-lg mb-3"><button class="btn btn-primary" type="submit">Subscribe </button></div>
-                        </form>
-                    </div>
+<header class="pt-5">
+    <div class="container pt-4 pt-xl-5">
+        <div class="row pt-5">
+            <div class="col-md-8 text-center text-md-start mx-auto">
+                <div class="text-center">
+                    <h1 class="display-4 fw-bold mb-5">Welcome to the Online Grading Portal</h1>
+                    <p class="fs-5 text-muted mb-5">
+                        Simplify your grading process with our integrated tools for seamless collaboration between students and educators.
+                    </p>
+                    <form class="d-flex justify-content-center flex-wrap" method="post" data-bs-theme="light">
+                        <div class="shadow-lg mb-3">
+                            <input class="form-control" type="email" name="email" placeholder="Enter your email to stay updated">
+                        </div>
+                        <div class="shadow-lg mb-3">
+                            <button class="btn btn-primary" type="submit">Subscribe</button>
+                        </div>
+                    </form>
                 </div>
-                <div class="col-12 col-lg-10 mx-auto">
-                    <div class="text-center position-relative"><img class="img-fluid" src="assets/img/illustrations/meeting.svg" style="width: 800px;"></div>
+            </div>
+            <div class="col-12 col-lg-10 mx-auto">
+                <div class="text-center position-relative">
+                    <img class="img-fluid" src="assets/img/illustrations/meeting.svg" alt="Illustration of Team Collaboration" style="width: 800px;">
                 </div>
             </div>
         </div>
-    </header>
+    </div>
+</header>
+
     <section>
         <div class="container py-4 py-xl-5">
             <div class="row gy-4 row-cols-1 row-cols-md-2 row-cols-lg-3">

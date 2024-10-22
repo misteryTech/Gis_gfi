@@ -1,55 +1,51 @@
 <?php
+session_start(); // Start the session
 
-header('Content-Type: application/json');
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "gis_database";
 
-$response = array('success' => false, 'message' => '');
+// Create a database connection
+$conn = new mysqli($servername, $username, $password, $database);
 
-try {
-    // Database connection settings
-    $dsn = 'mysql:host=localhost;dbname=gis_database'; // Adjust the host, dbname, etc.
-    $username = 'root'; // Replace with your database username
-    $password = ''; // Replace with your database password
-
-    // Create a PDO instance
-    $conn = new PDO($dsn, $username, $password);
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Get form data
-        $id_no = isset($_POST['id_no']) ? trim($_POST['id_no']) : ''; // Changed from email to id_no
-        $password = isset($_POST['password']) ? $_POST['password'] : '';
-
-        // Basic validation (server-side)
-        if (empty($id_no) || empty($password)) {
-            $response['message'] = 'All fields are required.';
-            echo json_encode($response);
-            exit;
-        }
-
-        // Fetch user record from the database
-        $stmt = $conn->prepare("SELECT id, student_id, password FROM students WHERE student_id = :id_no");
-        $stmt->bindParam(':id_no', $id_no);
-        $stmt->execute();
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user && password_verify($password, $user['password'])) {
-            // Password is correct
-            session_start();
-            $_SESSION['student_id'] = $user['id']; // Set session variable
-            $_SESSION['student_id_no'] = $user['id_no'];
-            $response['success'] = true;
-            $response['message'] = 'Login successful.';
-        } else {
-            // Invalid credentials
-            $response['message'] = 'Invalid ID number or password.';
-        }
-    } else {
-        $response['message'] = 'Invalid request method.';
-    }
-} catch (PDOException $e) {
-    $response['message'] = 'Error: ' . $e->getMessage();
+// Check if the connection was successful
+if ($conn->connect_error) {
+    echo json_encode(['success' => false, 'message' => 'Database connection failed']);
+    exit();
 }
 
-echo json_encode($response);
+// Check if the request is a POST request
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id_no = mysqli_real_escape_string($conn, $_POST['id_no']);
+    $password = mysqli_real_escape_string($conn, $_POST['password']);
+
+    // SQL query to fetch the user data based on ID number
+    $query = "SELECT student_id,id, password FROM students WHERE student_id = '$id_no'";
+    $result = $conn->query($query);
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $hashedPassword = $row['password'];
+
+        // Verify the password using password_verify()
+        if (password_verify($password, $hashedPassword)) {
+            // Password is correct, store student_id in session and return success response
+            $_SESSION['student_id'] = $row['student_id'];
+            $_SESSION['id'] = $row['id'];
+
+            echo json_encode(['success' => true, 'message' => 'Login successful']);
+        } else {
+            // Incorrect password
+            echo json_encode(['success' => false, 'message' => 'Incorrect ID number or password']);
+        }
+    } else {
+        // No user found with the provided ID number
+        echo json_encode(['success' => false, 'message' => 'Incorrect ID number or password']);
+    }
+} else {
+    echo json_encode(['success' => false, 'message' => 'Invalid request method']);
+}
+
+$conn->close();
 ?>

@@ -14,19 +14,18 @@
                         <span class="underline pb-1"><strong>Login</strong><br></span>
                     </h2>
                     <form id="loginForm" method="post" data-bs-theme="light">
-    <div class="mb-3">
-        <input class="shadow form-control" type="text" name="id_no" id="id_no" placeholder="ID Number" required>
-        <small id="idNoError" class="text-danger"></small>
-    </div>
-    <div class="mb-3">
-        <input class="shadow form-control" type="password" name="password" id="password" placeholder="Password" required>
-        <small id="passwordError" class="text-danger"></small>
-    </div>
-    <div class="mb-5">
-        <button class="btn btn-primary shadow" type="submit">Log in</button>
-    </div>
-</form>
-
+                        <div class="mb-3">
+                            <input class="shadow form-control" type="text" name="id_no" id="id_no" placeholder="ID Number" required>
+                            <small id="idNoError" class="text-danger"></small>
+                        </div>
+                        <div class="mb-3">
+                            <input class="shadow form-control" type="password" name="password" id="password" placeholder="Password" required>
+                            <small id="passwordError" class="text-danger"></small>
+                        </div>
+                        <div class="mb-5">
+                            <button class="btn btn-primary shadow" type="submit">Log in</button>
+                        </div>
+                    </form>
                     <p class="text-muted">
                         <a href="forgotten-password.html">Forgot your password?</a>
                     </p>
@@ -72,7 +71,7 @@
                         timer: 1500,
                         timerProgressBar: true,
                         willClose: () => {
-                            window.location.href = 'student_panel/student_profile.php'; // Redirect on success
+                            window.location.href = 'student_panel/students_profile.php'; // Redirect on success
                         }
                     });
                 } else {

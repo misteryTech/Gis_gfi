@@ -8,7 +8,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$query = "SELECT * FROM students";
+$query = "SELECT * FROM grade_access_requests_db";
 $result = mysqli_query($conn, $query);
 
 
@@ -53,11 +53,6 @@ $result = mysqli_query($conn, $query);
                     </ul>
                 </li>
 
-
-
-
-
-
                 <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
                 <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
             </ul>
@@ -78,13 +73,12 @@ $result = mysqli_query($conn, $query);
                 <table class="table table-striped" id="studentsTable">
                     <thead>
                         <tr>
-                            <th>Photo</th>
+                  
                             <th>Student ID</th>
-                            <th>Name</th>
-
-                            <th>Year Level</th>
-                            <th>Course</th>
-                            <th>Actions</th>
+                            <th>Year Requested</th>
+                            <th>Date Requested</th>
+                            <th>Action</th>
+                        
                         </tr>
                     </thead>
                     <tbody>
@@ -93,14 +87,12 @@ $result = mysqli_query($conn, $query);
                        if (mysqli_num_rows($result) > 0) {
                            while ($row = mysqli_fetch_assoc($result)) {
                                echo "<tr>";
-                               echo "<td><img src='" . htmlspecialchars($row['student_photo']) . "' width='50'></td>";
+                              
                                echo "<td>" . htmlspecialchars($row['student_id']) . "</td>";
-                               echo "<td>" . htmlspecialchars($row['first_name']) . " " . htmlspecialchars($row['last_name']) . "</td>";
-                               echo "<td>" . htmlspecialchars($row['year_level']) . "</td>";
-                               echo "<td>" . htmlspecialchars($row['course']) . "</td>";
+                               echo "<td>" . htmlspecialchars($row['year']) . "</td>";
+                               echo "<td>" . htmlspecialchars($row['date_request']) . "</td>";
                                echo "<td>
-                                       <a class='btn btn-primary btn-sm' href='student-profile.php?student_id=" . htmlspecialchars($row['id']) . "'>View Profile</a>
-                                       <button class='btn btn-danger btn-sm delete-btn' data-id='" . htmlspecialchars($row['id']) . "'>Delete</button>
+                                        <a class='btn btn-success btn-sm' href='view-request.php?student_id=" . htmlspecialchars($row['student_id']) . "&year=" . htmlspecialchars($row['year']) . "&id=" . htmlspecialchars($row['id']) . "'>View</a>
                                      </td>";
                                echo "</tr>";
                            }
