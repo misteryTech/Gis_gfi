@@ -70,6 +70,12 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
         }
         .encoded-grades-table th, .encoded-grades-table td {
             text-align: center;
+   
+        }
+
+        .btn-primarys{
+            background-color: green;
+            color: white;
         }
     </style>
 </head>
@@ -112,114 +118,32 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
 </nav>
 
 <section class="py-5 mt-5">
-    <div class="container py-5">
+    <div class="container py-5" id="printSection">
         <div class="row d-flex justify-content-center">
             <div class="col-md-10 col-xl-8">
                 <h3 class="mb-4">Student Profile</h3>
 
                 <?php if ($student): ?>
                     <div class="student-details mb-4">
-    <div class="row align-items-center">
-        <!-- Student Photo -->
-        <div class="col-md-3">
-            <img src="<?php echo htmlspecialchars($student['student_photo']); ?>" alt="Student Image" class="img-fluid rounded">
-        </div>
+                        <div class="row align-items-center">
+                            <!-- Student Photo -->
+                            <div class="col-md-5">
+                                <img src="<?php echo htmlspecialchars($student['student_photo']); ?>" alt="Student Image" class="img-fluid rounded">
+                            </div>
 
-        <!-- Student Info -->
-        <div class="col-md-7">
-            <h4><strong>ID:</strong> <?php echo htmlspecialchars($student['student_id']); ?></h4>
-            <h4><strong>Name:</strong> <?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name']); ?></h4>
-            <p><strong>Gender:</strong> <?php echo htmlspecialchars($student['gender']); ?></p>
-
-            <p><strong>Contact Info (Phone):</strong> <?php echo htmlspecialchars($student['phone']); ?></p>
-            <p><strong>Contact Info (Email):</strong> <?php echo htmlspecialchars($student['email']); ?></p>
-            <p><strong>Year Level:</strong> <?php echo htmlspecialchars($student['year_level']); ?></p>
-            <p><strong>Course:</strong> <?php echo htmlspecialchars($student['course']); ?></p>
-        </div>
-
-        <!-- Edit Button -->
-        <div class="col-md-2 text-end">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editStudentModal">
-                Edit
-            </button>
-        </div>
-    </div>
-</div>
-
-<!-- Edit Student Modal -->
-<div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editStudentModalLabel">Edit Student Details</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form action="edit-student.php" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="student_id" value="<?php echo htmlspecialchars($student['id']); ?>">
-
-                    <div class="mb-3">
-                        <label for="first_name" class="form-label">First Name</label>
-                        <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo htmlspecialchars($student['first_name']); ?>">
+                            <!-- Student Info -->
+                            <div class="col-md-7">
+                                <h4><strong>ID:</strong> <?php echo htmlspecialchars($student['student_id']); ?></h4>
+                                <h4><strong>Name:</strong> <?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name']); ?></h4>
+                                <p><strong>Gender:</strong> <?php echo htmlspecialchars($student['gender']); ?></p>
+                                <p><strong>Contact Info (Phone):</strong> <?php echo htmlspecialchars($student['phone']); ?></p>
+                                <p><strong>Contact Info (Email):</strong> <?php echo htmlspecialchars($student['email']); ?></p>
+                                <p><strong>Year Level:</strong> <?php echo htmlspecialchars($student['year_level']); ?></p>
+                                <p><strong>Course:</strong> <?php echo htmlspecialchars($student['course']); ?></p>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="mb-3">
-                        <label for="last_name" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo htmlspecialchars($student['last_name']); ?>">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="gender" class="form-label">Gender</label>
-                        <select class="form-select" id="gender" name="gender">
-                            <option value="Male" <?php echo ($student['gender'] == 'Male') ? 'selected' : ''; ?>>Male</option>
-                            <option value="Female" <?php echo ($student['gender'] == 'Female') ? 'selected' : ''; ?>>Female</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="phone" class="form-label">Phone</label>
-                        <input type="text" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($student['phone']); ?>">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($student['email']); ?>">
-                    </div>
-                    <div class="mb-3">
-    <label for="year_level" class="form-label">Year Level</label>
-    <select class="form-select" id="year_level" name="year_level">
-        <option value="1st Year" <?php echo ($student['year_level'] == '1st Year') ? 'selected' : ''; ?>>1st Year</option>
-        <option value="2nd Year" <?php echo ($student['year_level'] == '2nd Year') ? 'selected' : ''; ?>>2nd Year</option>
-        <option value="3rd Year" <?php echo ($student['year_level'] == '3rd Year') ? 'selected' : ''; ?>>3rd Year</option>
-        <option value="4th Year" <?php echo ($student['year_level'] == '4th Year') ? 'selected' : ''; ?>>4th Year</option>
-    </select>
-</div>
-
-<div class="mb-3">
-    <label for="course" class="form-label">Course</label>
-    <select class="form-select" id="course" name="course">
-        <option value="BS Computer Science" <?php echo ($student['course'] == 'BS Computer Science') ? 'selected' : ''; ?>>BS Computer Science</option>
-        <option value="BS Information Technology" <?php echo ($student['course'] == 'BS Information Technology') ? 'selected' : ''; ?>>BS Information Technology</option>
-        <option value="BS Business Administration" <?php echo ($student['course'] == 'BS Business Administration') ? 'selected' : ''; ?>>BS Business Administration</option>
-        <option value="BS Accountancy" <?php echo ($student['course'] == 'BS Accountancy') ? 'selected' : ''; ?>>BS Accountancy</option>
-        <option value="BS Psychology" <?php echo ($student['course'] == 'BS Psychology') ? 'selected' : ''; ?>>BS Psychology</option>
-        <!-- Add more courses as needed -->
-    </select>
-</div>
-
-                    <div class="mb-3">
-                        <label for="student_photo" class="form-label">Upload New Photo</label>
-                        <input type="file" class="form-control" id="student_photo" name="student_photo">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Save Changes</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-                    <!-- Encoded Grades Section -->
+                    <a class="btn btn-primarys btn-sm" href="print_grades.php?student_id=<?php echo htmlspecialchars($student['id']); ?>">Print Grades</a>
                     <h4 class="mt-5">Encoded Grades</h4>
                     <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
                         <?php for ($year = 1; $year <= 4; $year++): ?>
@@ -230,64 +154,56 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
                             </li>
                         <?php endfor; ?>
                     </ul>
+
                     <div class="tab-content" id="pills-tabContent">
                         <?php for ($year = 1; $year <= 4; $year++): ?>
                             <div class="tab-pane fade <?php echo ($year == 1) ? 'show active' : ''; ?>" id="pills-year<?php echo $year; ?>" role="tabpanel" aria-labelledby="pills-year<?php echo $year; ?>-tab">
                                 <?php if (isset($grades_by_year[$year]) && count($grades_by_year[$year]) > 0): ?>
-                                    <table class="table table-striped encoded-grades-table" id="studentGradesYear<?php echo $year; ?>">
+                                    <table class="table table-striped encoded-grades-table">
                                         <thead>
                                             <tr>
-                                                <th>Subject</th>
                                                 <th>Subject Code</th>
+                                                <th>Subject Name</th>
                                                 <th>Grade</th>
-                                                <th>Units</th>
                                                 <th>Semester</th>
-                                                <th>Year</th>
+                                                <th>Units</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <?php foreach ($grades_by_year[$year] as $grade): ?>
                                                 <tr>
-                                                    <td><?php echo htmlspecialchars($grade['subject_name']); ?></td>
                                                     <td><?php echo htmlspecialchars($grade['subject_code']); ?></td>
+                                                    <td><?php echo htmlspecialchars($grade['subject_name']); ?></td>
                                                     <td><?php echo htmlspecialchars($grade['grade']); ?></td>
-                                                    <td><?php echo htmlspecialchars($grade['unit']); ?></td>
                                                     <td><?php echo htmlspecialchars($grade['semester']); ?></td>
-                                                    <td><?php echo htmlspecialchars($grade['year']); ?></td>
+                                                    <td><?php echo htmlspecialchars($grade['unit']); ?></td>
                                                 </tr>
                                             <?php endforeach; ?>
                                         </tbody>
                                     </table>
                                 <?php else: ?>
-                                    <p>No grades recorded for Year <?php echo $year; ?>.</p>
+                                    <p>No grades available for this year.</p>
                                 <?php endif; ?>
                             </div>
                         <?php endfor; ?>
                     </div>
-
                 <?php else: ?>
-                    <div class="alert alert-warning">Student not found.</div>
+                    <p>Student not found.</p>
                 <?php endif; ?>
+
+        
             </div>
         </div>
     </div>
 </section>
 
-<?php include("footer.php"); ?>
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
 <script>
     $(document).ready(function() {
-        // Initialize DataTable for each year's table
-        for (let year = 1; year <= 4; year++) {
-            $('#studentGradesYear' + year).DataTable({
-                paging: true,
-                searching: true,
-                info: true
-            });
-        }
+        $('.encoded-grades-table').DataTable();
     });
 </script>
 </body>
