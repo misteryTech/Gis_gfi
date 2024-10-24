@@ -15,7 +15,7 @@ $id = $_SESSION['id'];
 // Fetch grade requests from the database
 $grade_requests = [];
 if ($student_id) {
-    $query = "SELECT id, year, status, date_request 
+    $query = "SELECT id, year, status, date_request, comment
               FROM grade_access_requests_db 
               WHERE student_id = '$student_id' 
               ORDER BY date_request DESC";
@@ -98,6 +98,7 @@ mysqli_close($conn);
                             <th>Request ID</th>
                             <th>Year</th>
                             <th>Status</th>
+                            <th>Comment</th>
                             <th>Request Date</th>
                         </tr>
                     </thead>
@@ -108,6 +109,7 @@ mysqli_close($conn);
                                     <td><?php echo htmlspecialchars($request['id']); ?></td>
                                     <td><?php echo htmlspecialchars($request['year']); ?></td>
                                     <td><?php echo ucfirst(htmlspecialchars($request['status'])); ?></td>
+                                    <td><?php echo ucfirst(htmlspecialchars($request['comment'])); ?></td>
                                     <td><?php echo htmlspecialchars($request['date_request']); ?></td>
                                 </tr>
                             <?php endforeach; ?>

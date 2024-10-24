@@ -11,9 +11,8 @@ if (!$conn) {
 $query = "SELECT * FROM grade_access_requests_db";
 $result = mysqli_query($conn, $query);
 
-
-
 ?>
+
 <body>
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
     <div class="container">
@@ -28,37 +27,34 @@ $result = mysqli_query($conn, $query);
             <ul class="navbar-nav mx-auto">
 
             <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle " href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Administrator
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
-                        <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
-                        <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-                        <li><a class="dropdown-item" href="manage-requirements.php">Requirements</a></li>
-                    </ul>
+                <a class="nav-link dropdown-toggle active" href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Administrator
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
+                    <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
+                    <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
+                    <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
+                </ul>
+            </li>
 
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Manage Students
+                </a>
+                <ul class="dropdown-menu" aria-labelledby="manageDropdown">
+                    <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
+                    <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
+                    <li><a class="dropdown-item" href="requirements.php">Requirements</a></li>
+                </ul>
+            </li>
 
-                </li>
-
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Manage Students
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="manageDropdown">
-                        <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
-                        <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-                        <li><a class="dropdown-item" href="student_requirements.php">Requirements</a></li>
-                        <li><a class="dropdown-item" href="request_grade_page.php">Request Grade</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
-                <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
+            <li class="nav-item"><a class="nav-link" href="generate_reports.php">Generate Reports</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>
     </div>
+</nav>
 </nav>
 
 <section class="py-5 mt-5">
@@ -73,81 +69,64 @@ $result = mysqli_query($conn, $query);
                 <table class="table table-striped" id="studentsTable">
                     <thead>
                         <tr>
-                  
                             <th>Student ID</th>
                             <th>Year Requested</th>
                             <th>Date Requested</th>
+                            <th>Status</th>
                             <th>Action</th>
-                        
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-
-                       if (mysqli_num_rows($result) > 0) {
-                           while ($row = mysqli_fetch_assoc($result)) {
-                               echo "<tr>";
-                              
-                               echo "<td>" . htmlspecialchars($row['student_id']) . "</td>";
-                               echo "<td>" . htmlspecialchars($row['year']) . "</td>";
-                               echo "<td>" . htmlspecialchars($row['date_request']) . "</td>";
-                               echo "<td>
-                                        <a class='btn btn-success btn-sm' href='view-request.php?student_id=" . htmlspecialchars($row['student_id']) . "&year=" . htmlspecialchars($row['year']) . "&id=" . htmlspecialchars($row['id']) . "'>View</a>
-                                     </td>";
-                               echo "</tr>";
-                           }
-                       } else {
-                           echo "<tr><td colspan='6' class='text-center'>No students found</td></tr>";
-                       }
-                       ?>
-
-                          </tbody>
+                    <?php
+                    if (mysqli_num_rows($result) > 0) {
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            echo "<tr>";
+                            echo "<td>" . htmlspecialchars($row['student_id']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['year']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['date_request']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['status']) . "</td>";
+                            echo "<td>
+                                    <button class='btn btn-success btn-sm' onclick='acceptRequest(" . htmlspecialchars($row['student_id']) . ")'>Accept</button>
+                                    <button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#rejectModal' data-id='" . htmlspecialchars($row['student_id']) . "'>Reject</button>
+                                  </td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='6' class='text-center'>No students found</td></tr>";
+                    }
+                    ?>
+                    </tbody>
                 </table>
+
+                <!-- Reject Modal -->
+                <div class="modal fade" id="rejectModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="rejectModalLabel">Reject Request</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <form action="reject-request.php" method="POST">
+                        <div class="modal-body">
+                          <input type="hidden" id="rejectRequestId" name="request_id">
+                          <div class="form-group">
+                            <label for="rejectReason">Reason for Rejection</label>
+                            <textarea class="form-control" id="rejectReason" name="reject_reason" rows="3" required></textarea>
+                          </div>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-danger">Reject Request</button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+
             </div>
         </div>
     </div>
 </section>
-
-<!-- Edit Student Modal -->
-<div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editStudentModalLabel">Edit Student</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="editStudentForm">
-          <input type="hidden" id="edit-student-id" name="student_id">
-          <div class="mb-3">
-            <label for="edit-student-name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="edit-student-name" name="student_name">
-          </div>
-          <div class="mb-3">
-            <label for="edit-student-gender" class="form-label">Gender</label>
-            <select class="form-control" id="edit-student-gender" name="gender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="edit-student-phone" class="form-label">Phone</label>
-            <input type="text" class="form-control" id="edit-student-phone" name="phone">
-          </div>
-          <div class="mb-3">
-            <label for="edit-student-email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="edit-student-email" name="email">
-          </div>
-          <div class="mb-3">
-            <label for="edit-student-course" class="form-label">Course</label>
-            <input type="text" class="form-control" id="edit-student-course" name="course">
-          </div>
-          <button type="submit" class="btn btn-primary">Save changes</button>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
 
 <?php
 include("footer.php");
@@ -156,59 +135,27 @@ include("footer.php");
 <!-- DataTables and jQuery -->
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-
 <script>
 $(document).ready(function() {
-    // Initialize DataTable
-    $('#studentsTable').DataTable();
+      // Initialize DataTable
+      $('#studentsTable').DataTable();
 
-    // Fetch student data into the edit modal
-    $('.edit-btn').click(function() {
-        var studentId = $(this).data('id');
+    // Accept request function
+    function acceptRequest(requestId) {
+        // Redirect to the accept-request.php page with the student ID
+        window.location.href = "accept-request.php?id=" + requestId;
+    }
 
-        // Fetch student details using AJAX (replace `get-student.php` with your actual backend URL)
-        $.ajax({
-            url: 'get-student.php',
-            type: 'POST',
-            data: {id: studentId},
-            success: function(response) {
-                var student = JSON.parse(response);
-                $('#edit-student-id').val(student.id);
-                $('#edit-student-name').val(student.first_name + ' ' + student.last_name);
-                $('#edit-student-gender').val(student.gender);
-                $('#edit-student-phone').val(student.phone);
-                $('#edit-student-email').val(student.email);
-                $('#edit-student-course').val(student.course);
-            }
-        });
+    // Set the request ID in the reject modal when the Reject button is clicked
+    $('#rejectModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget); // Button that triggered the modal
+        var requestId = button.data('id'); // Extract the request ID from data-* attribute
+        var modal = $(this);
+        modal.find('#rejectRequestId').val(requestId); // Set the hidden input value
     });
 
-    // Delete student functionality
-    $('.delete-btn').click(function() {
-        var studentId = $(this).data('id');
+    // Attach the acceptRequest function to global scope for the inline onclick event
+    window.acceptRequest = acceptRequest;
 
-        swal({
-            title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this student's data!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                $.ajax({
-                    url: 'delete-student.php',
-                    type: 'POST',
-                    data: {id: studentId},
-                    success: function(response) {
-                        swal("Student has been deleted!", {
-                            icon: "success",
-                        }).then(() => {
-                            location.reload();
-                        });
-                    }
-                });
-            }
-        });
-    });
 });
 </script>

@@ -44,8 +44,11 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
                         <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
+                        <li><a class="dropdown-item" href="encoder-manage.php">Manage Encoder</a></li>
+                        <li><a class="dropdown-item" href="manage-list-encoders.php">Encoders List</a></li>
                         <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-                        <li><a class="dropdown-item" href="requirements.php">Requirements</a></li>
+                        <li><a class="dropdown-item" href="manage-requirements.php">Requirements</a></li>
+                        <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
                     </ul>
                 </li>
                 <!-- Manage Students Dropdown -->
@@ -111,6 +114,29 @@ if (!$conn) {
     $resultTotalStudents = $conn->query($sqlTotalStudents);
     $totalStudents = $resultTotalStudents->fetch_assoc()['total_students'];
 
+
+
+    $sqlTotalRequest = "
+    SELECT COUNT(*) AS total_request
+    FROM grade_access_requests_db
+";
+$resultTotalRequest = $conn->query($sqlTotalRequest);
+$totalRequest = $resultTotalRequest->fetch_assoc()['total_request'];
+
+
+
+$sqlTotalPrint = "
+SELECT COUNT(*) AS total_print
+FROM grade_access_requests_db
+";
+$resultTotalPrint = $conn->query($sqlTotalPrint);
+$totalPrint = $resultTotalPrint->fetch_assoc()['total_print'];
+
+
+
+
+
+
     ?>
 
 
@@ -141,7 +167,7 @@ if (!$conn) {
                             <i class="bi bi-currency-dollar"></i>
                         </div>
                         <div class="ps-3">
-                            <h6>$3,264</h6>
+                            <h6><?php echo $totalRequest; ?></h6>
                          
                         </div>
                     </div>
@@ -162,13 +188,13 @@ if (!$conn) {
                     </ul>
                 </div>
                 <div class="card-body">
-                    <h5 class="card-title">Release <span>| This Year</span></h5>
+                    <h5 class="card-title">Release <span></span></h5>
                     <div class="d-flex align-items-center">
                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center bg-light text-dark">
                             <i class="bi bi-people"></i>
                         </div>
                         <div class="ps-3">
-                            <h6>1,244</h6>
+                            <h6><?php echo $totalPrint; ?></h6>
                            
                         </div>
                     </div>

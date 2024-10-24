@@ -16,8 +16,11 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
                         <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
+                        <li><a class="dropdown-item" href="encoder-manage.php">Manage Encoder</a></li>
+                        <li><a class="dropdown-item" href="manage-list-encoders.php">Encoders List</a></li>
                         <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
                         <li><a class="dropdown-item" href="manage-requirements.php">Requirements</a></li>
+                        <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
                     </ul>
                 </li>
                 <li class="nav-item dropdown">

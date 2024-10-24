@@ -26,24 +26,47 @@ try {
             exit;
         }
 
-        // Fetch user record from the database
-        $stmt = $conn->prepare("SELECT id, email, password FROM users WHERE email = :email");
-        $stmt->bindParam(':email', $email);
-        $stmt->execute();
+        // Function to check login for a table
+        function checkLogin($conn, $email, $password, $table) {
+            $stmt = $conn->prepare("SELECT id, email, password FROM $table WHERE email = :email");
+            $stmt->bindParam(':email', $email);
+            $stmt->execute();
 
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if ($user && password_verify($password, $user['password'])) {
+                return $user;
+            }
+            return false;
+        }
 
-        if ($user && password_verify($password, $user['password'])) {
-            // Password is correct
+        // Check if user exists in 'users' table
+        $user = checkLogin($conn, $email, $password, 'users');
+        if ($user) {
             session_start();
-            $_SESSION['user_id'] = $user['id']; // Set session variable
+            $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_email'] = $user['email'];
             $response['success'] = true;
             $response['message'] = 'Login successful.';
-        } else {
-            // Invalid credentials
-            $response['message'] = 'Invalid email or password.';
+            echo json_encode($response);
+            exit;
         }
+
+        // Check if user exists in 'encoder' table
+        $encoder = checkLogin($conn, $email, $password, 'encoder');
+        if ($encoder) {
+            session_start();
+            $_SESSION['encoder_id'] = $encoder['id'];
+            $_SESSION['encoder_course'] = $encoder['course'];
+            $_SESSION['encoder_email'] = $encoder['email'];
+            $response['success'] = true;
+            $response['message'] = 'Login successful as encoder.';
+            $response['redirect'] = 'encoder_panel/'; // Redirect to encoder panel
+            echo json_encode($response);
+            exit;
+        }
+
+        // Invalid credentials if neither table has the user
+        $response['message'] = 'Invalid email or password.';
     } else {
         $response['message'] = 'Invalid request method.';
     }
@@ -52,4 +75,5 @@ try {
 }
 
 echo json_encode($response);
+
 ?>

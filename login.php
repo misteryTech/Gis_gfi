@@ -63,7 +63,6 @@
                             <button class="btn btn-primary shadow" type="submit">Log in</button>
                         </div>
                     </form>
-                  
                 </div>
             </div>
         </div>
@@ -117,7 +116,11 @@
                                 timer: 1500,
                                 timerProgressBar: true,
                                 willClose: () => {
-                                    window.location.href = 'admin_panel/dashboard.php'; // Redirect on success
+                                    if (response.redirect === 'encoder_panel/') {
+                                        window.location.href = 'encoder_panel/dashboard.php'; // Redirect for encoders
+                                    } else {
+                                        window.location.href = 'admin_panel/dashboard.php'; // Redirect for admin users
+                                    }
                                 }
                             });
                         } else {
