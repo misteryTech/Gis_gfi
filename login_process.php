@@ -28,7 +28,7 @@ try {
 
         // Function to check login for a table
         function checkLogin($conn, $email, $password, $table) {
-            $stmt = $conn->prepare("SELECT id, email, password FROM $table WHERE email = :email");
+            $stmt = $conn->prepare("SELECT id, email, password, course FROM $table WHERE email = :email");
             $stmt->bindParam(':email', $email);
             $stmt->execute();
 
@@ -45,6 +45,7 @@ try {
             session_start();
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_email'] = $user['email'];
+            $_SESSION['user_course'] = $user['course']; // Store course in session
             $response['success'] = true;
             $response['message'] = 'Login successful.';
             echo json_encode($response);
@@ -56,7 +57,7 @@ try {
         if ($encoder) {
             session_start();
             $_SESSION['encoder_id'] = $encoder['id'];
-            $_SESSION['encoder_course'] = $encoder['course'];
+            $_SESSION['encoder_course'] = $encoder['course']; // Store course in session
             $_SESSION['encoder_email'] = $encoder['email'];
             $response['success'] = true;
             $response['message'] = 'Login successful as encoder.';

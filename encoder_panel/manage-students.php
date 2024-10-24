@@ -37,7 +37,7 @@ include("header.php");
                 </li>
 
                 <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
-                <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="generate_reports.php">Generate Reports</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>
@@ -109,16 +109,23 @@ include("header.php");
                             </select>
                         </div>
                         <div class="col-md-6">
-                            <select class="shadow form-control" id="course" name="course" required>
-                                <option value="" disabled selected>Select Course</option>
-                                <option value="bs-education">BS Education</option>
-                                <option value="bs-information-system">BS Information System</option>
-                                <option value="bs-literacy-cultural-studies">BS in Literacy & Cultural Studies</option>
-                                <option value="bs-criminology">BS Criminology</option>
-                                <option value="bs-entrepreneurship">BS Entrepreneurship</option>
-                                <option value="bs-office-administration">BS Office Administration</option>
-                                <option value="bs-tourism-management">BS Tourism Management</option>
-                            </select>
+                                                <select class="form-select" id="course" name="course">
+                            <option value="" disabled>Select Course</option>
+                            <option value="BS in Accountancy">BS in Accountancy</option>
+                            <option value="BS in Management Accounting">BS in Management Accounting</option>
+                            <option value="Bachelor of Secondary Education Major in English & Math">Bachelor of Secondary Education Major in English & Math</option>
+                            <option value="Bachelor in Physical Education">Bachelor in Physical Education</option>
+                            <option value="BS in Criminology">BS in Criminology</option>
+                            <option value="BS in Office Administration">BS in Office Administration</option>
+                            <option value="BS in Tourism Management">BS in Tourism Management</option>
+                            <option value="BS in Business Administration Major in Financial Management">BS in Business Administration Major in Financial Management</option>
+                            <option value="BS in Business Administration Major in Marketing Management">BS in Business Administration Major in Marketing Management</option>
+                            <option value="BS in Business Administration Major in Human Resource Development Management">BS in Business Administration Major in Human Resource Development Management</option>
+                            <option value="BS in Entrepreneurship">BS in Entrepreneurship</option>
+                            <option value="Bachelor of Arts in Literary & Cultural Studies">Bachelor of Arts in Literary & Cultural Studies</option>
+                            <option value="BS in Information System">BS in Information System</option>
+                            <option value="Associate in Computer Technology">Associate in Computer Technology</option>
+                        </select>
                         </div>
                     </div>
                     <div>

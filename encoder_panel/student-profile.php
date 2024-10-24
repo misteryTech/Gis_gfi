@@ -113,7 +113,7 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link " href="encode-grades.php">Encode Grades</a></li>
-                <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="generate_reports.php">Generate Reports</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>

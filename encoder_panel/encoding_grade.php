@@ -1,9 +1,6 @@
 <?php
 include("header.php");
 
-// Start the session and get the encoder's course
-$encoder_course = isset($_SESSION['encoder_course']) ? $_SESSION['encoder_course'] : '';
-
 // Database connection
 $conn = mysqli_connect("localhost", "root", "", "gis_database");
 
@@ -17,19 +14,16 @@ $student_id = isset($_GET['student_id']) ? intval($_GET['student_id']) : 0;
 // Fetch student details
 $student = null;
 if ($student_id > 0) {
-    $stmt = $conn->prepare("SELECT * FROM students WHERE id = ? AND course = ?");
-    $stmt->bind_param("is", $student_id, $encoder_course); // Bind the course from the session to filter the student
+    $stmt = $conn->prepare("SELECT * FROM students WHERE id = ?");
+    $stmt->bind_param("i", $student_id);
     $stmt->execute();
     $result = $stmt->get_result();
     $student = $result->fetch_assoc();
     $stmt->close();
 }
 
-// Fetch subjects and units for dropdown that match the encoder's course
-$subjects_stmt = $conn->prepare("SELECT id, subject_name, unit FROM subjects WHERE course = ?");
-$subjects_stmt->bind_param("s", $encoder_course);
-$subjects_stmt->execute();
-$subjects_result = $subjects_stmt->get_result();
+// Fetch subjects and units for dropdown
+$subjects_result = mysqli_query($conn, "SELECT id, subject_name, unit FROM subjects");
 
 mysqli_close($conn);
 ?>
@@ -62,7 +56,31 @@ mysqli_close($conn);
         </button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav mx-auto">
-                <!-- Menu Items -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Administrator
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
+                        <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
+                        <li><a class="dropdown-item" href="encoder-manage.php">Manage Encoder</a></li>
+                        <li><a class="dropdown-item" href="manage-list-encoders.php">Encoders List</a></li>
+                        <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
+                        <li><a class="dropdown-item" href="manage-requirements.php">Requirements</a></li>
+                        <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Manage Students
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="manageDropdown">
+                        <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
+                        <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
+                        <li><a class="dropdown-item" href="student_requirements.php">Requirements</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link active" href="encode-grades.php">Encode Grades</a></li>
+                <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>
@@ -76,26 +94,30 @@ mysqli_close($conn);
                 <h3 class="mb-4">Encode Grades for Student</h3>
 
                 <?php if ($student): ?>
-                    <form class="p-3 p-xl-4 form-floating" action="save-grades.php" method="post">
+                    <form  class="p-3 p-xl-4 form-floating" action="save-grades.php" method="post">
                         <input type="hidden" name="student_id" value="<?php echo htmlspecialchars($student['id']); ?>">
 
                         <div class=" row mb-3">
                             <div class="col-md-6">
-                                <label for="name" class="form-label">Name</label>
-                                <input type="text" class="form-control shadow" id="name" value="<?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name']); ?>" disabled>
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" class="form-control shadow" id="name" value="<?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name']); ?>" disabled>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                              <div class="col-md-6">
-                                <label for="year_level" class="form-label">Year Level</label>
-                                <input type="text" class="form-control shadow" id="year_level" value="<?php echo htmlspecialchars($student['year_level']); ?>" disabled>
+                            <label for="year_level" class="form-label">Year Level</label>
+                            <input type="text" class="form-control shadow" id="year_level" value="<?php echo htmlspecialchars($student['year_level']); ?>" disabled>
                             </div>
                             <div class="col-md-6">
-                                <label for="course" class="form-label">Course</label>
-                                <input type="text" class="form-control shadow" id="course" value="<?php echo htmlspecialchars($student['course']); ?>" disabled>
+                            <label for="course" class="form-label">Course</label>
+                            <input type="text" class="form-control shadow" id="course" value="<?php echo htmlspecialchars($student['course']); ?>" disabled>
                             </div>
+
+
                         </div>
+
+
 
                         <!-- Subject and Grade Input -->
                         <h4 class="mt-4">Enter Grades</h4>
@@ -104,7 +126,7 @@ mysqli_close($conn);
                                 <label for="subject" class="form-label">Select Subject</label>
                                 <select class="form-select" id="subject" name="subject_id">
                                     <option value="">Select Subject</option>
-                                    <?php while ($subject = $subjects_result->fetch_assoc()): ?>
+                                    <?php while ($subject = mysqli_fetch_assoc($subjects_result)): ?>
                                         <option value="<?php echo htmlspecialchars($subject['id']); ?>">
                                             <?php echo htmlspecialchars($subject['subject_name']); ?> (<?php echo htmlspecialchars($subject['unit']); ?> units)
                                         </option>
@@ -123,7 +145,7 @@ mysqli_close($conn);
                         <button type="submit" class="btn btn-primary mt-3">Save Grades</button>
                     </form>
                 <?php else: ?>
-                    <div class="alert alert-warning">Student not found or does not match the encoder's course.</div>
+                    <div class="alert alert-warning">Student not found.</div>
                 <?php endif; ?>
             </div>
         </div>
