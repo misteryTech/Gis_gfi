@@ -22,8 +22,16 @@ if ($student_id > 0) {
     $stmt->close();
 }
 
-// Fetch subjects and units for dropdown
-$subjects_result = mysqli_query($conn, "SELECT id, subject_name, unit FROM subjects");
+// Fetch subjects based on the student's course
+$subjects_result = null;
+if ($student) {
+    $course = $student['course'];
+    $stmt = $conn->prepare("SELECT id, subject_code, subject_name, unit, curriculum FROM subjects WHERE course = ?");
+    $stmt->bind_param("s", $course);
+    $stmt->execute();
+    $subjects_result = $stmt->get_result();
+    $stmt->close();
+}
 
 mysqli_close($conn);
 ?>
@@ -36,17 +44,18 @@ mysqli_close($conn);
     <title>Encode Grades</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
     <style>
-        .form-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
+        .curriculum-table th {
+            background-color: #f8f9fa;
+            color: #333;
         }
-        .form-row .form-group {
-            flex: 1;
+        .curriculum-table td, .curriculum-table th {
+            padding: 12px;
+            border: 1px solid #dee2e6;
         }
     </style>
 </head>
 <body>
+
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="dashboard.php"><span>Grading System</span></a>
@@ -87,6 +96,9 @@ mysqli_close($conn);
     </div>
 </nav>
 
+
+
+
 <section class="py-5 mt-5">
     <div class="container py-5">
         <div class="row d-flex justify-content-center">
@@ -94,54 +106,142 @@ mysqli_close($conn);
                 <h3 class="mb-4">Encode Grades for Student</h3>
 
                 <?php if ($student): ?>
-                    <form  class="p-3 p-xl-4 form-floating" action="save-grades.php" method="post">
-                        <input type="hidden" name="student_id" value="<?php echo htmlspecialchars($student['id']); ?>">
+                    <form class="p-3 p-xl-4" action="save-grades.php" method="post">
+                    <input type="hidden" name="student_id" value="<?php echo htmlspecialchars($student['id']); ?>">
 
-                        <div class=" row mb-3">
-                            <div class="col-md-6">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control shadow" id="name" value="<?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name']); ?>" disabled>
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control shadow" id="name" value="<?php echo htmlspecialchars($student['first_name'] . ' ' . $student['last_name']); ?>" disabled>
+    </div>
+
+    <div class="col-md-6">
+        <label for="name" class="form-label">Student Status</label>
+        <input type="text" class="form-control shadow" id="name" value="<?php echo htmlspecialchars($student['student_status']); ?>" disabled>
+    </div>
+</div>
+
+<div class="row mb-3">
+    <div class="col-md-6">
+        <label for="year_level" class="form-label">Year Level</label>
+        <input type="text" class="form-control shadow" id="year_level" value="<?php echo htmlspecialchars($student['year_level']); ?>" disabled>
+    </div>
+    <div class="col-md-6">
+        <label for="course" class="form-label">Course</label>
+        <input type="text" class="form-control shadow" id="course" value="<?php echo htmlspecialchars($student['course']); ?>" disabled>
+    </div>
+</div>
+
+
+                        <!-- Tabs for New and Old Curriculum -->
+                        <ul class="nav nav-pills mb-3" id="curriculumTabs" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="new-curriculum-tab" data-bs-toggle="pill" data-bs-target="#new-curriculum" type="button" role="tab" aria-controls="new-curriculum" aria-selected="true">New Curriculum</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="old-curriculum-tab" data-bs-toggle="pill" data-bs-target="#old-curriculum" type="button" role="tab" aria-controls="old-curriculum" aria-selected="false">Old Curriculum</button>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content" id="curriculumTabContent">
+                            <!-- New Curriculum Table -->
+                            <div class="tab-pane fade show active" id="new-curriculum" role="tabpanel" aria-labelledby="new-curriculum-tab">
+                                <h5 class="mt-4">New Curriculum Subjects</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered curriculum-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject Code</th>
+                                                <th>Subject Name</th>
+                                                <th>Units</th>
+                                                <th>Grade</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            mysqli_data_seek($subjects_result, 0);
+                                            $newCurriculumFound = false;
+                                            while ($subject = mysqli_fetch_assoc($subjects_result)):
+                                                if ($subject['curriculum'] === 'New'):
+                                                    $newCurriculumFound = true;
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo htmlspecialchars($subject['subject_code']); ?></td>
+                                                    <td><?php echo htmlspecialchars($subject['subject_name']); ?></td>
+                                                    <td><?php echo htmlspecialchars($subject['unit']); ?></td>
+                                                    <td>
+                                                        <input type="hidden" name="subject_ids[]" value="<?php echo htmlspecialchars($subject['id']); ?>">
+                                                        <input type="number" class="form-control" name="grades[]" min="0" max="100" step="0.01" required>
+                                                    </td>
+                                                    <td>
+                                                        <select name="remarks[]" class="form-control">
+                                                            <option value="" disabled selected>Remarks:</option>
+                                                            <option value="passed">Passed</option>
+                                                            <option value="failed">Failed</option>
+                                                            <option value="tbe">To Be Encode</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
+                                            <?php endwhile; ?>
+                                            <?php if (!$newCurriculumFound): ?>
+                                                <tr><td colspan="5" class="text-center">No subjects found under New Curriculum</td></tr>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <!-- Old Curriculum Table -->
+                            <div class="tab-pane fade" id="old-curriculum" role="tabpanel" aria-labelledby="old-curriculum-tab">
+                                <h5 class="mt-4">Old Curriculum Subjects</h5>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered curriculum-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Subject Code</th>
+                                                <th>Subject Name</th>
+                                                <th>Units</th>
+                                                <th>Grade</th>
+                                                <th>Remarks</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php
+                                            mysqli_data_seek($subjects_result, 0);
+                                            $oldCurriculumFound = false;
+                                            while ($subject = mysqli_fetch_assoc($subjects_result)):
+                                                if ($subject['curriculum'] === 'Old'):
+                                                    $oldCurriculumFound = true;
+                                            ?>
+                                                <tr>
+                                                    <td><?php echo htmlspecialchars($subject['subject_code']); ?></td>
+                                                    <td><?php echo htmlspecialchars($subject['subject_name']); ?></td>
+                                                    <td><?php echo htmlspecialchars($subject['unit']); ?></td>
+                                                    <td>
+                                                        <input type="hidden" name="subject_ids[]" value="<?php echo htmlspecialchars($subject['id']); ?>">
+                                                        <input type="number" class="form-control" name="grades[]" min="0" max="100" step="0.01" required>
+                                                    </td>
+                                                    <td>
+                                                        <select name="remarks[]" class="form-control">
+                                                            <option value="" disabled selected>Remarks:</option>
+                                                            <option value="passed">Passed</option>
+                                                            <option value="failed">Failed</option>
+                                                        </select>
+                                                    </td>
+                                                </tr>
+                                            <?php endif; ?>
+                                            <?php endwhile; ?>
+                                            <?php if (!$oldCurriculumFound): ?>
+                                                <tr><td colspan="5" class="text-center">No subjects found under Old Curriculum</td></tr>
+                                            <?php endif; ?>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="row mb-3">
-                             <div class="col-md-6">
-                            <label for="year_level" class="form-label">Year Level</label>
-                            <input type="text" class="form-control shadow" id="year_level" value="<?php echo htmlspecialchars($student['year_level']); ?>" disabled>
-                            </div>
-                            <div class="col-md-6">
-                            <label for="course" class="form-label">Course</label>
-                            <input type="text" class="form-control shadow" id="course" value="<?php echo htmlspecialchars($student['course']); ?>" disabled>
-                            </div>
-
-
-                        </div>
-
-
-
-                        <!-- Subject and Grade Input -->
-                        <h4 class="mt-4">Enter Grades</h4>
-                        <div id="grades-container" class="form-row">
-                            <div class="form-group">
-                                <label for="subject" class="form-label">Select Subject</label>
-                                <select class="form-select" id="subject" name="subject_id">
-                                    <option value="">Select Subject</option>
-                                    <?php while ($subject = mysqli_fetch_assoc($subjects_result)): ?>
-                                        <option value="<?php echo htmlspecialchars($subject['id']); ?>">
-                                            <?php echo htmlspecialchars($subject['subject_name']); ?> (<?php echo htmlspecialchars($subject['unit']); ?> units)
-                                        </option>
-                                    <?php endwhile; ?>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label for="grade" class="form-label">Grade</label>
-                                <input type="number" class="form-control" id="grade" name="grade" min="0" max="100">
-                            </div>
-                            <div class="form-group align-self-end">
-                                <button type="button" class="btn btn-secondary" id="add-grade-btn">Add Subject</button>
-                            </div>
-                        </div>
-                        <div class="mt-3" id="additional-grades"></div>
                         <button type="submit" class="btn btn-primary mt-3">Save Grades</button>
                     </form>
                 <?php else: ?>
@@ -152,33 +252,46 @@ mysqli_close($conn);
     </div>
 </section>
 
+
+
 <?php include("footer.php"); ?>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script>
-$(document).ready(function() {
-    $('#add-grade-btn').click(function() {
-        var subject = $('#subject option:selected').text();
-        var subject_id = $('#subject').val();
-        var grade = $('#grade').val();
+function updateRemarks(gradeInput) {
+    const row = gradeInput.closest('tr');
+    const gradeValue = parseInt(gradeInput.value);
+    const remarksSelect = row.querySelector('select[name="remarks[]"]');
 
-        if (subject_id && grade) {
-            var html = '<div class="form-row mb-3">' +
-                '<div class="form-group">' +
-                '<label class="form-label">' + subject + '</label>' +
-                '<input type="hidden" name="subject_ids[]" value="' + subject_id + '">' +
-                '<input type="number" class="form-control" name="grades[]" value="' + grade + '" min="0" max="100" required>' +
-                '</div>' +
-                '</div>';
+    if (gradeValue >= 1 && gradeValue <= 3) { // Grades 1, 2, 3 are passes
+        remarksSelect.value = 'passed';
+        remarksSelect.style.backgroundColor = 'lightgreen';
+    } else if (gradeValue === 4) { // Grade 4 is a fail
+        remarksSelect.value = 'failed';
+        remarksSelect.style.backgroundColor = 'lightcoral';
+    } else if (gradeValue === 5) { // Grade 4 is a fail
+        remarksSelect.value = 'failed';
+        remarksSelect.style.backgroundColor = 'lightcoral';
+    }else {
+        remarksSelect.value = ''; // Clear remarks if the grade is not in the expected range
+        remarksSelect.style.backgroundColor = ''; // Reset color
+    }
 
-            $('#additional-grades').append(html);
-            $('#subject').val('');
-            $('#grade').val('');
-        } else {
-            alert('Please select a subject and enter a grade.');
-        }
-    });
-});
+    updateGradeColor(remarksSelect);
+}
+
+function updateGradeColor(remarksSelect) {
+    const row = remarksSelect.closest('tr');
+    const gradeInput = row.querySelector('input[name="grades[]"]');
+
+    if (remarksSelect.value === 'passed') {
+        gradeInput.style.backgroundColor = 'lightgreen';
+    } else if (remarksSelect.value === 'failed') {
+        gradeInput.style.backgroundColor = 'lightcoral';
+    } else {
+        gradeInput.style.backgroundColor = ''; // Reset if no selection
+    }
+}
+
 </script>
-</body>
-</html>
+

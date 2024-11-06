@@ -15,7 +15,7 @@ $id = $_SESSION['id'];
 // Fetch grade requests from the database
 $grade_requests = [];
 if ($student_id) {
-    $query = "SELECT id, year, status, date_request, comment
+    $query = "SELECT id, year, status, date_request, comment, semester
               FROM grade_access_requests_db 
               WHERE student_id = '$student_id' 
               ORDER BY date_request DESC";
@@ -86,8 +86,28 @@ mysqli_close($conn);
                                 <option value="3">Third Year</option>
                                 <option value="4">Fourth Year</option>
                             </select>
+
+                            <br>
+
+                            <label for="year">Select Semester:</label>
+                            <select class="form-control" name="semester" id="semester" required>
+                                <option value="">--Select Year--</option>
+                                <option value="1st sem">1st Semester</option>
+                                <option value="2nd sem">2nd Semester</option>
+                        
+                            </select>
+
+
+
+                          
                         </div>
+
+                       
                     </div>
+                    
+                 
+
+                    
                     <button type="submit" class="btn btn-primary">Request Grades</button>
                 </form>
 
@@ -97,6 +117,7 @@ mysqli_close($conn);
                         <tr>
                             <th>Request ID</th>
                             <th>Year</th>
+                            <th>Semester</th>
                             <th>Status</th>
                             <th>Comment</th>
                             <th>Request Date</th>
@@ -108,6 +129,7 @@ mysqli_close($conn);
                                 <tr>
                                     <td><?php echo htmlspecialchars($request['id']); ?></td>
                                     <td><?php echo htmlspecialchars($request['year']); ?></td>
+                                    <td><?php echo htmlspecialchars($request['semester']); ?></td>
                                     <td><?php echo ucfirst(htmlspecialchars($request['status'])); ?></td>
                                     <td><?php echo ucfirst(htmlspecialchars($request['comment'])); ?></td>
                                     <td><?php echo htmlspecialchars($request['date_request']); ?></td>

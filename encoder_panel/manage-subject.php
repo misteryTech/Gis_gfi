@@ -1,4 +1,7 @@
-<?php include("header.php"); ?>
+<?php 
+include("header.php");
+include("connection.php");
+?>
 <body>
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
     <div class="container">
@@ -17,7 +20,6 @@
                     Encoder
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
-       
                         <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
                         <li><a class="dropdown-item" href="manage-requirements.php">Requirements</a></li>
                         <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
@@ -44,7 +46,13 @@
     </div>
 </nav>
 
+
 <section class="py-5 mt-5">
+
+
+
+    <div class="container py-5">
+
     <div class="container py-5">
         <div class="row">
             <div class="col-md-8 col-xl-6 text-center mx-auto">
@@ -54,12 +62,17 @@
         </div>
         <div class="row d-flex justify-content-center">
             <div class="col-md-10 col-xl-8">
+
                 <!-- Subject Registration Form -->
-                <form class="p-3 p-xl-4" method="post" id="subjectForm">
+                <form class="p-3 p-xl-4" method="post" id="subjectForm" action="subject_registration.php">
                     <div class="row mb-3">
-                        <div class="col-md-4">
-                            <input class="shadow form-control" type="text" id="subject-code" name="subject_code" placeholder="Subject Code" required>
-                        </div>
+                    <div class="col-md-4">
+    <input class="shadow form-control" type="text" id="subject-code" name="subject_code" placeholder="Subject Code" required>
+    <div id="subject-code-error" class="text-danger mt-1" style="display: none;"></div>
+</div>
+
+
+
                         <div class="col-md-4">
                             <input class="shadow form-control" type="text" id="subject-name" name="subject_name" placeholder="Subject Name" required>
                         </div>
@@ -85,14 +98,77 @@
                             </select>
                         </div>
                     </div>
-                    <div>
-                        <button class="btn btn-primary shadow d-block w-100" name="submit_subject" type="submit">Register Subject</button>
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <select class="shadow form-control" id="curriculum" name="curriculum" required>
+                                <option value="" disabled selected>Select Curriculum</option>
+                                <option value="New">New Curriculum</option>
+                                <option value="Old">Old Curriculum</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <select class="shadow form-control" id="courseSelect" name="course" required>
+                                <option value="" disabled selected>Select Course</option>
+                                <!-- Courses will be populated here dynamically -->
+                                <?php
+                                // Database connection
+                    
+
+                                // Fetching courses
+                                $courseSql = "SELECT * FROM course_table ORDER BY course_name ASC"; // Adjust your table name accordingly
+                                $courseResult = mysqli_query($conn, $courseSql);
+                                if (mysqli_num_rows($courseResult) > 0) {
+                                    while ($courseRow = mysqli_fetch_assoc($courseResult)) {
+                                        echo "<option value='{$courseRow['course_name']}'>{$courseRow['course_name']}</option>";
+                                    }
+                                } else {
+                                    echo "<option value='' disabled>No courses available</option>";
+                                }
+                  
+                                ?>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <button class="btn btn-primary shadow" data-bs-toggle="modal" data-bs-target="#addCourseModal">Add Course</button>
+                        <button class="btn btn-success shadow" id="submit_subject" name="submit_subject" type="submit">Register Subject</button>
                     </div>
                 </form>
+
+                <!-- Add Course Modal -->
+                <div class="modal fade" id="addCourseModal" tabindex="-1" aria-labelledby="addCourseModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="addCourseModalLabel">Add Course</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="course_registration.php" method="post" id="courseForm">
+                                    <div class="row mb-3">
+                                        <div class="col-md-6">
+                                            <input class="shadow form-control" type="text" id="course-name" name="course_name" placeholder="Course Name" required>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <input class="shadow form-control" type="text" id="department" name="department" placeholder="Department" required>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-success shadow d-block w-100" name="submit_course" type="submit">Register Course</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Modal -->
             </div>
         </div>
 
-        <!-- Subjects Table -->
+
+
         <div class="row d-flex justify-content-center">
             <div class="col-md-10 col-xl-12">
                 <table class="table table-striped" id="subjectsTable">
@@ -104,17 +180,15 @@
                             <th>Year</th>
                             <th>Semester</th>
                             <th>Unit</th>
+                            <th>Curriculum</th>
+                            <th>Course</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="subjects-table-body">
                         <?php
-                        // Database connection
-                        $conn = mysqli_connect("localhost", "root", "", "gis_database");
-                        if (!$conn) {
-                            die("Connection failed: " . mysqli_connect_error());
-                        }
-                        $sql = "SELECT * FROM subjects";
+                        // Fetching subjects
+                        $sql = "SELECT * FROM subjects WHERE archive='1'";
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
@@ -125,14 +199,15 @@
                                     <td>{$row['year']}</td>
                                     <td>{$row['semester']}</td>
                                     <td>{$row['unit']}</td>
+                                    <td>{$row['curriculum']}</td>
+                                    <td>{$row['course']}</td>
                                     <td>
-                                        <button class='btn btn-warning edit-btn' data-id='{$row['id']}'>Edit</button>
-                                        <button class='btn btn-danger delete-btn' data-id='{$row['id']}'>Delete</button>
+                                        <button class='btn btn-primary shadow archive-button' data-id='{$row['id']}' data-name='{$row['subject_name']}'>Archive</button>
                                     </td>
                                 </tr>";
                             }
                         } else {
-                            echo "<tr><td colspan='7' class='text-center'>No subjects found</td></tr>";
+                            echo "<tr><td colspan='9'>No subjects found</td></tr>";
                         }
                         mysqli_close($conn);
                         ?>
@@ -143,80 +218,57 @@
     </div>
 </section>
 
+<!-- Modal for Confirmation -->
+<div class="modal fade" id="archiveModal" tabindex="-1" aria-labelledby="archiveModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="archiveModalLabel">Confirm Archive</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to archive the subject "<span id="subjectNameToArchive"></span>"?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmArchiveButton">Archive</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <?php include("footer.php"); ?>
 
-<!-- JS Scripts -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
 <script>
-$(document).ready(function() {
-    // Initialize DataTables
-    $('#subjectsTable').DataTable();
+    $(document).ready(function() {
+        let subjectIdToArchive;
+        let subjectNameToArchive;
 
-    // Load subjects into the table
-    function loadSubjects() {
-        $.ajax({
-            url: 'fetch-subject.php',
-            method: 'GET',
-            success: function(data) {
-                $('#subjects-table-body').html(data);
-            }
+        // Open the modal when Archive button is clicked
+        $('.archive-button').click(function() {
+            subjectIdToArchive = $(this).data('id');
+            subjectNameToArchive = $(this).data('name');
+            
+            // Set the subject name in the modal
+            $('#subjectNameToArchive').text(subjectNameToArchive);
+            $('#archiveModal').modal('show');
         });
-    }
 
-    // Form submission for subject registration
-    $('#subjectForm').on('submit', function(event) {
-        event.preventDefault();
-        var formData = $(this).serialize();
-
-        $.ajax({
-            url: 'handle-subject.php',
-            method: 'POST',
-            data: formData,
-            success: function(response) {
-                swal("Subject Registered!", "The subject has been successfully registered.", "success").then(function() {
-                    $('#subjectForm')[0].reset();
-                    loadSubjects();
-                });
-            },
-            error: function() {
-                swal("Error", "There was an error processing your request.", "error");
-            }
+        // Confirm archiving the subject
+        $('#confirmArchiveButton').click(function() {
+            $.ajax({
+                url: 'archive_subject.php', // PHP file to handle archiving
+                type: 'POST',
+                data: { id: subjectIdToArchive },
+                success: function(response) {
+                    // Refresh the page or update the table after archiving
+                    location.reload();
+                },
+                error: function() {
+                    alert("An error occurred while archiving the subject.");
+                }
+            });
         });
     });
-
-    // Delete subject
-    $(document).on('click', '.delete-btn', function() {
-        var id = $(this).data('id');
-
-        swal({
-            title: "Are you sure?",
-            text: "This will delete the subject.",
-            icon: "warning",
-            buttons: ["Cancel", "Delete"],
-            dangerMode: true,
-        }).then(function(isConfirm) {
-            if (isConfirm) {
-                $.ajax({
-                    url: 'delete-subject.php',
-                    method: 'POST',
-                    data: { id: id },
-                    success: function(response) {
-                        swal("Deleted!", "The subject has been deleted.", "success").then(function() {
-                            loadSubjects();
-                        });
-                    },
-                    error: function() {
-                        swal("Error", "There was an error processing your request.", "error");
-                    }
-                });
-            }
-        });
-    });
-
-});
 </script>
-</body>

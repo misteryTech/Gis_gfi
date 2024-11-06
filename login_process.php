@@ -56,7 +56,8 @@ try {
         $encoder = checkLogin($conn, $email, $password, 'encoder');
         if ($encoder) {
             session_start();
-            $_SESSION['encoder_id'] = $encoder['id'];
+            $_SESSION['id'] = $encoder['id'];
+            $_SESSION['encoder_id'] = $encoder['encoder_id'];
             $_SESSION['encoder_course'] = $encoder['course']; // Store course in session
             $_SESSION['encoder_email'] = $encoder['email'];
             $response['success'] = true;

@@ -27,6 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $year_level = mysqli_real_escape_string($conn, $_POST['year_level']);
     $course = mysqli_real_escape_string($conn, $_POST['course']);
     $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $student_status = mysqli_real_escape_string($conn, $_POST['student_status']);
     $password = password_hash(mysqli_real_escape_string($conn, $_POST['password']), PASSWORD_DEFAULT); // Hash the password
 
     // Photo Upload Handling
@@ -37,8 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (move_uploaded_file($_FILES["student_photo"]["tmp_name"], $target_file)) {
 
         // SQL query to insert the data into the database
-        $query = "INSERT INTO students (student_photo, student_id, first_name, last_name, gender, phone, email, year_level, course, username, password)
-                  VALUES ('$target_file', '$student_id', '$first_name', '$last_name', '$gender', '$phone', '$email', '$year_level', '$course', '$username', '$password')";
+        $query = "INSERT INTO students (student_photo, student_id, first_name, last_name, gender, phone, email, year_level, course, username, password, student_status)
+                  VALUES ('$target_file', '$student_id', '$first_name', '$last_name', '$gender', '$phone', '$email', '$year_level', '$course', '$username', '$password', '$student_status')";
 
         // Execute the query
         if (mysqli_query($conn, $query)) {

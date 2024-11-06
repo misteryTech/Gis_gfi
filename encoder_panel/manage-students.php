@@ -109,24 +109,41 @@ include("header.php");
                             </select>
                         </div>
                         <div class="col-md-6">
-                                                <select class="form-select" id="course" name="course">
-                            <option value="" disabled>Select Course</option>
-                            <option value="BS in Accountancy">BS in Accountancy</option>
-                            <option value="BS in Management Accounting">BS in Management Accounting</option>
-                            <option value="Bachelor of Secondary Education Major in English & Math">Bachelor of Secondary Education Major in English & Math</option>
-                            <option value="Bachelor in Physical Education">Bachelor in Physical Education</option>
-                            <option value="BS in Criminology">BS in Criminology</option>
-                            <option value="BS in Office Administration">BS in Office Administration</option>
-                            <option value="BS in Tourism Management">BS in Tourism Management</option>
-                            <option value="BS in Business Administration Major in Financial Management">BS in Business Administration Major in Financial Management</option>
-                            <option value="BS in Business Administration Major in Marketing Management">BS in Business Administration Major in Marketing Management</option>
-                            <option value="BS in Business Administration Major in Human Resource Development Management">BS in Business Administration Major in Human Resource Development Management</option>
-                            <option value="BS in Entrepreneurship">BS in Entrepreneurship</option>
-                            <option value="Bachelor of Arts in Literary & Cultural Studies">Bachelor of Arts in Literary & Cultural Studies</option>
-                            <option value="BS in Information System">BS in Information System</option>
-                            <option value="Associate in Computer Technology">Associate in Computer Technology</option>
-                        </select>
+                           <select class="shadow form-control" id="courseSelect" name="course" required>
+                                <option value="" disabled selected>Select Course</option>
+                                <!-- Courses will be populated here dynamically -->
+                                <?php
+                                // Database connection  
+                                include ("connection.php");
+
+                                $courseSql = "SELECT * FROM course_table ORDER BY course_name ASC"; // Adjust your table name accordingly
+                                $courseResult = mysqli_query($conn, $courseSql);
+                                if (mysqli_num_rows($courseResult) > 0) {
+                                    while ($courseRow = mysqli_fetch_assoc($courseResult)) {
+                                        echo "<option value='{$courseRow['course_name']}'>{$courseRow['course_name']}</option>";
+                                    }
+                                } else {
+                                    echo "<option value='' disabled>No courses available</option>";
+                                }
+
+                                ?>
+                            </select>
                         </div>
+
+                        <hr>
+
+                        <div class="col-md-12">
+                            <select class="shadow form-control" id="student_status" name="student_status" required>
+                                <option value="" disabled selected>Student Status</option>
+                                <option value="first-year">Regular</option>
+                                <option value="second-year">Irregular</option>
+               
+                            </select>
+                        </div>
+
+
+
+                        
                     </div>
                     <div>
                         <button class="btn btn-primary shadow d-block w-100" name="student_registration" type="submit">Register</button>

@@ -20,11 +20,12 @@ if ($conn->connect_error) {
 $student_id = $_SESSION['student_id'];
 $year = $_POST['year'];
 $id = $_POST['id'];
+$semester = $_POST['semester'];
 
 // Prepared statement to insert the grade request into the database
-$stmt = $conn->prepare("INSERT INTO grade_access_requests_db (student_id, year, status, user_id) VALUES (?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO grade_access_requests_db (student_id, year, status, user_id, semester) VALUES (?, ?, ?, ?, ?)");
 $status = 'pending';
-$stmt->bind_param("issi", $student_id, $year, $status, $id);
+$stmt->bind_param("issis", $student_id, $year, $status, $id, $semester);
 
 if ($stmt->execute()) {
     // If the insertion is successful, redirect to the 'encode-grades.php' page

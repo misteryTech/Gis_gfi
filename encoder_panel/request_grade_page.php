@@ -8,8 +8,7 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-$query = "SELECT * FROM grade_access_requests_db";
-$result = mysqli_query($conn, $query);
+
 
 ?>
 
@@ -71,7 +70,9 @@ $result = mysqli_query($conn, $query);
                     <thead>
                         <tr>
                             <th>Student ID</th>
+                            <th>Student Name</th>
                             <th>Year Requested</th>
+                            <th>Semester</th>
                             <th>Date Requested</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -79,11 +80,24 @@ $result = mysqli_query($conn, $query);
                     </thead>
                     <tbody>
                     <?php
+
+$query = "SELECT GARD.*, S.*
+
+
+ FROM grade_access_requests_db AS GARD 
+ INNER JOIN students as S ON S.student_id = GARD.student_id
+  ";
+$result = mysqli_query($conn, $query);
+
+
+
                     if (mysqli_num_rows($result) > 0) {
                         while ($row = mysqli_fetch_assoc($result)) {
                             echo "<tr>";
                             echo "<td>" . htmlspecialchars($row['student_id']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['first_name']) . ' ' . htmlspecialchars($row['last_name']). "</td>";
                             echo "<td>" . htmlspecialchars($row['year']) . "</td>";
+                            echo "<td>" . htmlspecialchars($row['semester']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['date_request']) . "</td>";
                             echo "<td>" . htmlspecialchars($row['status']) . "</td>";
                             echo "<td>

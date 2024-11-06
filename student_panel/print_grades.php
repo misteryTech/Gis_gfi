@@ -36,7 +36,7 @@ $encoded_grades_result = mysqli_query($conn, "
            END AS numeric_year
     FROM grades
     JOIN subjects ON grades.subject_id = subjects.id
-    WHERE grades.student_id = $id AND grades.status='Accepted'
+    WHERE grades.student_id = $id
     ORDER BY semester ASC
 ");
 
