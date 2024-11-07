@@ -1,11 +1,5 @@
 <?php
-// Database connection
-$conn = mysqli_connect("localhost", "root", "", "gis_database");
-
-// Check connection
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+include ("connection.php");
 
 // Fetch all requirements
 $sql = "SELECT * FROM requirements";

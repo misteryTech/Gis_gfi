@@ -45,12 +45,8 @@
         <h2 class="mb-4">Monthly Print Attempts of Grades</h2>
 
         <?php
-        // Database connection
-        $conn = mysqli_connect("localhost", "root", "", "gis_database");
+    include ("connection.php");
 
-        if (!$conn) {
-            die("Connection failed: " . mysqli_connect_error());
-        }
 
         // Query to fetch the total print attempts per month for all students
         $attempts_query = "

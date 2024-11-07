@@ -1,10 +1,7 @@
 <?php
 // Database connection
-$conn = mysqli_connect("localhost", "root", "", "gis_database");
+include ("connection.php");
 
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 
 // Check if the request contains a valid student ID
 if (isset($_GET['id']) && !empty($_GET['id'])) {

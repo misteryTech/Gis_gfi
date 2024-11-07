@@ -1,11 +1,6 @@
 <?php
-// Database connection
-$conn = new mysqli("localhost", "root", "", "gis_database");
+include ("connection.php");
 
-// Check connection
-if ($conn->connect_error) {
-    die(json_encode(['status' => 'error', 'message' => 'Database connection failed: ' . $conn->connect_error]));
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if the ID is provided

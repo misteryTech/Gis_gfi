@@ -1,12 +1,7 @@
 <?php
 include("header.php");
 
-// Database connection
-$conn = mysqli_connect("localhost", "root", "", "gis_database");
-
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+include ("connection.php");
 
 // Get the student ID from the query parameter
 $student_id = isset($_GET['student_id']) ? intval($_GET['student_id']) : 0;
