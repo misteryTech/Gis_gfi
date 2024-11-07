@@ -10,7 +10,7 @@
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav mx-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Administrator
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
@@ -23,7 +23,7 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Manage Students
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdown">

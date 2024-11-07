@@ -2,8 +2,10 @@
 <body>
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center" href="dashboard.php"><span>Grading System</span></a>
-        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1">
+        <a class="navbar-brand d-flex align-items-center" href="dashboard.php">
+            <span>Grading System</span>
+        </a>
+        <button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1" aria-controls="navcol-1" aria-expanded="false" aria-label="Toggle navigation">
             <span class="visually-hidden">Toggle navigation</span>
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -14,19 +16,16 @@
                         Encoder
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
-   
                         <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-               
                     </ul>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Manage Students
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdown">
                         <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
                         <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-   
                         <li><a class="dropdown-item" href="request_grade_page.php">Request Grade</a></li>
                     </ul>
                 </li>
@@ -37,6 +36,7 @@
         </div>
     </div>
 </nav>
+
 
 <section class="py-5 mt-5">
     <div class="container py-5">
@@ -114,5 +114,3 @@ $(document).ready(function() {
     });
 });
 </script>
-</body>
-</html>
