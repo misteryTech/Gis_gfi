@@ -38,7 +38,7 @@ $result = mysqli_query($conn, $query);
                 </li>
 
              
-
+                <li class="nav-item"><a class="nav-link " href="manage-course.php">Manage Course</a></li>
                 <li class="nav-item"><a class="nav-link " href="encoder-manage.php">Manage Encoder</a></li>
                 <li class="nav-item"><a class="nav-link active" href="manage-list-encoders.php">Encoders List</a></li>
 

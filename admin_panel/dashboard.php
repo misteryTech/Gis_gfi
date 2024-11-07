@@ -25,7 +25,6 @@
         color: #000;
     }
 </style>
-
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
     <div class="container">
         <a class="navbar-brand d-flex align-items-center" href="dashboard.php">
@@ -37,35 +36,23 @@
         </button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav mx-auto">
-                <!-- Admin Dropdown -->
+
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle active" href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Administrator
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
                         <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
-                        <li><a class="dropdown-item" href="encoder-manage.php">Manage Encoder</a></li>
-                        <li><a class="dropdown-item" href="manage-list-encoders.php">Encoders List</a></li>
-                        <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-                        <li><a class="dropdown-item" href="manage-requirements.php">Requirements</a></li>
-                        <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
                     </ul>
                 </li>
-                <!-- Manage Students Dropdown -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Manage Students
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="manageDropdown">
-                        <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
-                        <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-                        <li><a class="dropdown-item" href="student_requirements.php">Requirements</a></li>
-                        <li><a class="dropdown-item" href="request_grade_page.php">Request Grade</a></li>
-                    </ul>
-                </li>
-                <!-- Other Links -->
-                <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
-                <li class="nav-item"><a class="nav-link" href="generate-reports.php">Generate Reports</a></li>
+
+             
+
+                <li class="nav-item"><a class="nav-link " href="manage-course.php">Manage Course</a></li>
+                <li class="nav-item"><a class="nav-link " href="encoder-manage.php">Manage Encoder</a></li>
+                <li class="nav-item"><a class="nav-link" href="manage-list-encoders.php">Encoders List</a></li>
+
+                <li class="nav-item"><a class="nav-link" href="generate_reports.php">Generate Reports</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>
