@@ -120,7 +120,7 @@ $result = mysqli_query($conn, $query);
           </div>
           <div class="mb-3">
             <label for="edit-encoder-phone" class="form-label">Phone</label>
-            <input type="text" class="form-control" id="edit-encoder-phone" name="phone">
+            <input type="text" class="form-control" max="11" id="edit-encoder-phone" name="phone">
           </div>
           <div class="mb-3">
             <label for="edit-encoder-email" class="form-label">Email</label>

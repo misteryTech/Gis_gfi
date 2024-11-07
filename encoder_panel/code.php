@@ -1,11 +1,5 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "gis_database";
-
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $database);
+include ("connection.php");
 
 // Check connection
 if (!$conn) {
@@ -13,7 +7,7 @@ if (!$conn) {
     exit();
 }
 
-// Check if form is submitted via AJAX
+// Check if form is submitted via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Get form data
@@ -33,25 +27,58 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Photo Upload Handling
     $target_dir = "uploads/"; // Directory to store uploaded photos
     $target_file = $target_dir . basename($student_photo);
+    $uploadOk = 1;
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-    // Check if the file has been uploaded successfully
-    if (move_uploaded_file($_FILES["student_photo"]["tmp_name"], $target_file)) {
-
-        // SQL query to insert the data into the database
-        $query = "INSERT INTO students (student_photo, student_id, first_name, last_name, gender, phone, email, year_level, course, username, password, student_status)
-                  VALUES ('$target_file', '$student_id', '$first_name', '$last_name', '$gender', '$phone', '$email', '$year_level', '$course', '$username', '$password', '$student_status')";
-
-        // Execute the query
-        if (mysqli_query($conn, $query)) {
-            echo json_encode(['status' => 'success', 'message' => 'Student has been successfully registered']);
+    // Check if file is a real image
+    if(isset($_FILES["student_photo"])) {
+        $check = getimagesize($_FILES["student_photo"]["tmp_name"]);
+        if($check !== false) {
+            $uploadOk = 1;
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Failed to register student in the database']);
+            echo json_encode(['status' => 'error', 'message' => 'File is not an image.']);
+            exit();
         }
-
-    } else {
-        echo json_encode(['status' => 'error', 'message' => 'Failed to upload student photo']);
     }
 
+    // Check if file already exists
+    if (file_exists($target_file)) {
+        echo json_encode(['status' => 'error', 'message' => 'Sorry, file already exists.']);
+        exit();
+    }
+
+    // Check file size (limit to 2MB)
+    if ($_FILES["student_photo"]["size"] > 2000000) {
+        echo json_encode(['status' => 'error', 'message' => 'Sorry, your file is too large.']);
+        exit();
+    }
+
+    // Allow only certain file formats (jpg, jpeg, png, gif)
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
+        echo json_encode(['status' => 'error', 'message' => 'Sorry, only JPG, JPEG, PNG & GIF files are allowed.']);
+        exit();
+    }
+
+    // Try to upload file
+    if ($uploadOk == 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Sorry, your file was not uploaded.']);
+        exit();
+    } else {
+        if (move_uploaded_file($_FILES["student_photo"]["tmp_name"], $target_file)) {
+            // SQL query to insert the data into the database
+            $query = "INSERT INTO students (student_photo, student_id, first_name, last_name, gender, phone, email, year_level, course, username, password, student_status)
+                      VALUES ('$target_file', '$student_id', '$first_name', '$last_name', '$gender', '$phone', '$email', '$year_level', '$course', '$username', '$password', '$student_status')";
+
+            // Execute the query
+            if (mysqli_query($conn, $query)) {
+                echo json_encode(['status' => 'success', 'message' => 'Student has been successfully registered']);
+            } else {
+                echo json_encode(['status' => 'error', 'message' => 'Failed to register student in the database']);
+            }
+        } else {
+            echo json_encode(['status' => 'error', 'message' => 'Failed to upload student photo']);
+        }
+    }
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
 }

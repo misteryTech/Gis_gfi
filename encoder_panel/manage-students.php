@@ -54,7 +54,7 @@ include("header.php");
         </div>
         <div class="row d-flex justify-content-center">
             <div class="col-md-10 col-xl-8">
-                <form class="p-3 p-xl-4 form-floating" method="post" enctype="multipart/form-data" id="studentRegistrationForm">
+                <form class="p-3 p-xl-4 form-floating" action="code.php" method="post" enctype="multipart/form-data" id="studentRegistrationForm">
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <input class="shadow form-control" type="file" id="student-photo" name="student_photo" placeholder="Student Photo" required>
@@ -82,7 +82,7 @@ include("header.php");
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <input class="shadow form-control" type="text" id="phone-number" name="phone" placeholder="Phone Number" required>
+                            <input class="shadow form-control" type="text" maxlength="11" id="phone-number" name="phone" placeholder="Phone Number" required>
                         </div>
                         <div class="col-md-6">
                             <input class="shadow form-control" type="email" id="email" name="email" placeholder="Email Address" required>
@@ -92,9 +92,14 @@ include("header.php");
                         <div class="col-md-6">
                             <input class="shadow form-control" type="text" id="username" name="username" placeholder="Username" required>
                         </div>
-                        <div class="col-md-6">
-                            <input class="shadow form-control" type="password" id="password" name="password" placeholder="Password" required>
-                        </div>
+
+
+                        <div class="col-md-6  position-relative">
+    <input class="shadow form-control" type="password" id="password" name="password" placeholder="Password" required>
+    <span class="toggle-password" onclick="togglePasswordVisibility()" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+        👁️
+    </span>
+</div>
                     </div>
                     <hr>
                     <p class="text-muted">Course/Program Information</p>
@@ -161,34 +166,20 @@ include("footer.php");
 <!-- SweetAlert JS -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
-    document.getElementById("studentRegistrationForm").addEventListener("submit", function (event) {
-        event.preventDefault(); // Prevent form from submitting
 
-        var form = this;
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById("password");
+    const toggleIcon = document.querySelector(".toggle-password");
 
-        // Perform AJAX call to your PHP backend (or simulate successful registration)
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "code.php", true);
-        xhr.onload = function () {
-            if (xhr.status === 200) {
-                // Assuming a successful registration returns 200 status
-                swal({
-                    title: "Registration Successful!",
-                    text: "Student has been successfully registered.",
-                    icon: "success",
-                    button: "OK",
-                }).then(function() {
-                    form.submit(); // Submit form after alert
-                });
-            } else {
-                swal({
-                    title: "Registration Failed",
-                    text: "There was an issue with the registration. Please try again.",
-                    icon: "error",
-                    button: "OK",
-                });
-            }
-        };
-        xhr.send(new FormData(form));
-    });
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleIcon.textContent = "🙈"; // Change icon to indicate visible password
+    } else {
+        passwordInput.type = "password";
+        toggleIcon.textContent = "👁️"; // Change icon back to indicate hidden password
+    }
+}
+
+
+
 </script>

@@ -73,7 +73,7 @@ include("header.php");
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <input class="shadow form-control" type="text" id="phone-number" name="phone" placeholder="Phone Number" required>
+                            <input class="shadow form-control" type="text" maxlength="11"  id="phone-number" name="phone" placeholder="Phone Number" required>
                         </div>
                         <div class="col-md-6">
                             <input class="shadow form-control" type="email" id="email" name="email" placeholder="Email Address" required>

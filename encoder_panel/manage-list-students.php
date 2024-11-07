@@ -156,6 +156,9 @@ include("footer.php");
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <script>
+
+
+
 $(document).ready(function() {
     // Initialize DataTable
     $('#studentsTable').DataTable();
