@@ -1,10 +1,5 @@
 <?php
-// Database connection
-$conn = mysqli_connect("localhost", "root", "", "gis_database");
-
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+include ("connection.php");
 
 $sql = "SELECT * FROM subjects";
 $result = mysqli_query($conn, $sql);

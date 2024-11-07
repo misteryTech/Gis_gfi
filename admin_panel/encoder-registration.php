@@ -1,17 +1,6 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "";
-$database = "gis_database";
+include ("connection.php");
 
-// Create connection
-$conn = mysqli_connect($servername, $username, $password, $database);
-
-// Check connection
-if (!$conn) {
-    echo json_encode(['status' => 'error', 'message' => 'Database connection failed']);
-    exit();
-}
 
 // Check if form is submitted via AJAX
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
