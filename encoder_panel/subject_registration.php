@@ -12,8 +12,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['submit_subject'])) {
     $course = mysqli_real_escape_string($conn, $_POST['course']);
 
     // Insert into database
-    $sql = "INSERT INTO subjects (subject_code, subject_name, unit, year, semester, curriculum, course) 
-            VALUES ('$subject_code', '$subject_name', '$subject_unit', '$year', '$semester', '$curriculum', '$course')";
+    $sql = "INSERT INTO subjects (subject_code, subject_name, unit, year, semester, curriculum, course, archive) 
+            VALUES ('$subject_code', '$subject_name', '$subject_unit', '$year', '$semester', '$curriculum', '$course', '0')";
 
     if (mysqli_query($conn, $sql)) {
         echo "<script>alert('Subject registered successfully!'); window.location.href = 'manage-subject.php';</script>";

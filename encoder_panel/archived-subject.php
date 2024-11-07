@@ -97,7 +97,7 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                                     <td>{$row['curriculum']}</td>
                                     <td>{$row['course']}</td>
                                     <td>
-                                        <button class='btn btn-primary shadow archive-button' data-id='{$row['id']}' data-name='{$row['subject_name']}'>Archive</button>
+                                        <button class='btn btn-success shadow archive-button' data-id='{$row['id']}' data-name='{$row['subject_name']}'>Restore</button>
                                     </td>
                                 </tr>";
                             }
@@ -126,7 +126,7 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="confirmArchiveButton">Archive</button>
+                <button type="button" class="btn btn-success" id="confirmArchiveButton">Restore Subject</button>
             </div>
         </div>
     </div>
