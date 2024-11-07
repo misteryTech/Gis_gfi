@@ -54,8 +54,15 @@ try {
         if ($encoder = checkLogin($conn, $email, $password, 'encoder')) {
             session_start();
             $_SESSION['id'] = $encoder['id'];
+   
             $_SESSION['encoder_email'] = $encoder['email'];
             $_SESSION['encoder_course'] = $encoder['course'];
+
+            if (isset($encoder['encoder_id'])) {
+                $_SESSION['encoder_id'] = $encoder['encoder_id'];
+            }
+
+            
             $response = [
                 'success' => true,
                 'message' => 'Login successful as encoder.',

@@ -9,7 +9,7 @@ if (!$conn) {
 }
 
 // Fetch the encoder's course based on the session encoder_id
-$encoder_id = $_SESSION['encoder_id'];
+$encoder_id = $_SESSION['id'];
 $query_course = "SELECT course FROM encoder WHERE id = '$encoder_id'";
 $result_course = mysqli_query($conn, $query_course);
 

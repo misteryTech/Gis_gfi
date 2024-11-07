@@ -10,7 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $reject_reason = $_POST['reject_reason'];
 
     // Update the request status to 'Rejected' and store the reason
-    $query = "UPDATE grade_access_requests_db SET status = 'Rejected', comment = ? WHERE student_id = ?";
+    $query = "UPDATE grade_access_requests_db SET status = 'Pending', comment = ? WHERE student_id = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("si", $reject_reason, $request_id);
 

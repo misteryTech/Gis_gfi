@@ -15,32 +15,19 @@ include("header.php");
             <ul class="navbar-nav mx-auto">
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle " href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Administrator
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
                         <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
-                        <li><a class="dropdown-item" href="encoder-manage.php">Manage Encoder</a></li>
-                        <li><a class="dropdown-item" href="manage-list-encoders.php">Encoders List</a></li>
-                        <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-                        <li><a class="dropdown-item" href="manage-requirements.php">Requirements</a></li>
-                        <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
                     </ul>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Manage Students
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="manageDropdown">
-                        <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
-                        <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-                        <li><a class="dropdown-item" href="requirements.php">Requirements</a></li>
-        
-                    </ul>
-                </li>
+             
 
-                <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
+                <li class="nav-item"><a class="nav-link active" href="encoder-manage.php">Manage Encoder</a></li>
+                <li class="nav-item"><a class="nav-link" href="manage-list-encoders.php">Encoders List</a></li>
+
                 <li class="nav-item"><a class="nav-link" href="generate_reports.php">Generate Reports</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
@@ -96,9 +83,12 @@ include("header.php");
                         <div class="col-md-6">
                             <input class="shadow form-control" type="text" id="username" name="username" placeholder="Username" required>
                         </div>
-                        <div class="col-md-6">
-                            <input class="shadow form-control" type="password" id="password" name="password" placeholder="Password" required>
-                        </div>
+                        <div class="col-md-6  position-relative">
+    <input class="shadow form-control" type="password" id="password" name="password" placeholder="Password" required>
+    <span class="toggle-password" onclick="togglePasswordVisibility()" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer;">
+        👁️
+    </span>
+</div>
                     </div>
                     <hr>
                     <p class="text-muted">Course/Program Information</p>
@@ -108,24 +98,29 @@ include("header.php");
 
                             <input class="shadow form-control" type="password" id="year-level" name="year_level"  hidden>
                         </div>
+                        
                         <div class="col-md-12">
-                            <select class="shadow form-control" id="course" name="course" required>
-                            <option value="" disabled>Select Course</option>
-                            <option value="BS in Accountancy">BS in Accountancy</option>
-                            <option value="BS in Management Accounting">BS in Management Accounting</option>
-                            <option value="Bachelor of Secondary Education Major in English & Math">Bachelor of Secondary Education Major in English & Math</option>
-                            <option value="Bachelor in Physical Education">Bachelor in Physical Education</option>
-                            <option value="BS in Criminology">BS in Criminology</option>
-                            <option value="BS in Office Administration">BS in Office Administration</option>
-                            <option value="BS in Tourism Management">BS in Tourism Management</option>
-                            <option value="BS in Business Administration Major in Financial Management">BS in Business Administration Major in Financial Management</option>
-                            <option value="BS in Business Administration Major in Marketing Management">BS in Business Administration Major in Marketing Management</option>
-                            <option value="BS in Business Administration Major in Human Resource Development Management">BS in Business Administration Major in Human Resource Development Management</option>
-                            <option value="BS in Entrepreneurship">BS in Entrepreneurship</option>
-                            <option value="Bachelor of Arts in Literary & Cultural Studies">Bachelor of Arts in Literary & Cultural Studies</option>
-                            <option value="BS in Information System">BS in Information System</option>
-                            <option value="Associate in Computer Technology">Associate in Computer Technology</option>
+                        <select class="shadow form-control" id="courseSelect" name="course" required>
+                                <option value="" disabled selected>Select Course</option>
+                                <!-- Courses will be populated here dynamically -->
+                                <?php
+                                // Database connection  
+                                include ("connection.php");
+
+                                $courseSql = "SELECT * FROM course_table ORDER BY course_name ASC"; // Adjust your table name accordingly
+                                $courseResult = mysqli_query($conn, $courseSql);
+                                if (mysqli_num_rows($courseResult) > 0) {
+                                    while ($courseRow = mysqli_fetch_assoc($courseResult)) {
+                                        echo "<option value='{$courseRow['course_name']}'>{$courseRow['course_name']}</option>";
+                                    }
+                                } else {
+                                    echo "<option value='' disabled>No courses available</option>";
+                                }
+
+                                ?>
                             </select>
+
+
                         </div>
                     </div>
                     <div>
@@ -144,6 +139,22 @@ include("footer.php");
 <!-- SweetAlert JS -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
+
+function togglePasswordVisibility() {
+    const passwordInput = document.getElementById("password");
+    const toggleIcon = document.querySelector(".toggle-password");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        toggleIcon.textContent = "🙈"; // Change icon to indicate visible password
+    } else {
+        passwordInput.type = "password";
+        toggleIcon.textContent = "👁️"; // Change icon back to indicate hidden password
+    }
+}
+
+
+
     document.getElementById("encoderRegistrationForm").addEventListener("submit", function (event) {
         event.preventDefault(); // Prevent form from submitting
 

@@ -86,6 +86,7 @@ $query = "SELECT GARD.*, S.*
 
  FROM grade_access_requests_db AS GARD 
  INNER JOIN students as S ON S.student_id = GARD.student_id
+ ORDER BY date_request DESC
   ";
 $result = mysqli_query($conn, $query);
 
@@ -102,7 +103,7 @@ $result = mysqli_query($conn, $query);
                             echo "<td>" . htmlspecialchars($row['status']) . "</td>";
                             echo "<td>
                                     <button class='btn btn-success btn-sm' onclick='acceptRequest(" . htmlspecialchars($row['student_id']) . ")'>Accept</button>
-                                    <button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#rejectModal' data-id='" . htmlspecialchars($row['student_id']) . "'>Reject</button>
+                                    <button class='btn btn-danger btn-sm' data-bs-toggle='modal' data-bs-target='#rejectModal' data-id='" . htmlspecialchars($row['student_id']) . "'>Pending</button>
                                   </td>";
                             echo "</tr>";
                         }
@@ -125,13 +126,13 @@ $result = mysqli_query($conn, $query);
                         <div class="modal-body">
                           <input type="hidden" id="rejectRequestId" name="request_id">
                           <div class="form-group">
-                            <label for="rejectReason">Reason for Rejection</label>
+                            <label for="rejectReason">Reason for Pending</label>
                             <textarea class="form-control" id="rejectReason" name="reject_reason" rows="3" required></textarea>
                           </div>
                         </div>
                         <div class="modal-footer">
                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                          <button type="submit" class="btn btn-danger">Reject Request</button>
+                          <button type="submit" class="btn btn-danger">Pending Request</button>
                         </div>
                       </form>
                     </div>
