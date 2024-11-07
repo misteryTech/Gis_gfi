@@ -1,13 +1,7 @@
 <?php
 include("header.php");
 
-// Fetch all students from the database
-$conn = mysqli_connect("localhost", "root", "", "gis_database");
-
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
+include ("connection.php");
 
 
 ?>

@@ -1,12 +1,8 @@
 <?php
 include("header.php");
 
-// Database connection
-$conn = mysqli_connect("localhost", "root", "", "gis_database");
+include ("connection.php");
 
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 
 // Fetch the encoder's course based on the session encoder_id
 $encoder_id = $_SESSION['id'];

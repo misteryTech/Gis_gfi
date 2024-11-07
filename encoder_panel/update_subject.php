@@ -1,9 +1,6 @@
 <?php
 // Database connection
-$conn = mysqli_connect("localhost", "root", "", "gis_database");
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+include ("connection.php");
 
 // Check if the required data is sent via POST
 if (isset($_POST['id'], $_POST['subject_code'], $_POST['subject_name'], $_POST['subject_unit'], $_POST['year'], $_POST['semester'])) {

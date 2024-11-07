@@ -1,10 +1,6 @@
 <?php
 // Database connection
-$conn = mysqli_connect("localhost", "root", "", "gis_database");
-
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+include ("connection.php");
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $query = mysqli_real_escape_string($conn, $_POST['query']);
