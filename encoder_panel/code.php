@@ -61,25 +61,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Try to upload file
     if ($uploadOk == 0) {
-        echo json_encode(['status' => 'error', 'message' => 'Sorry, your file was not uploaded.']);
-        exit();
+        echo "<script>
+                alert('Sorry, your file was not uploaded.');
+                window.history.back();
+              </script>";
     } else {
         if (move_uploaded_file($_FILES["student_photo"]["tmp_name"], $target_file)) {
             // SQL query to insert the data into the database
             $query = "INSERT INTO students (student_photo, student_id, first_name, last_name, gender, phone, email, year_level, course, username, password, student_status)
                       VALUES ('$target_file', '$student_id', '$first_name', '$last_name', '$gender', '$phone', '$email', '$year_level', '$course', '$username', '$password', '$student_status')";
-
-            // Execute the query
-            if (mysqli_query($conn, $query)) {
-                echo json_encode(['status' => 'success', 'message' => 'Student has been successfully registered']);
+            $result = mysqli_query($conn, $query);
+    
+            if ($result) {
+                echo "<script>
+                        alert('Student registered successfully!');
+                        window.history.back();
+                      </script>";
             } else {
-                echo json_encode(['status' => 'error', 'message' => 'Failed to register student in the database']);
+                echo "<script>
+                        alert('Failed to register student.');
+                        window.history.back();
+                      </script>";
             }
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'Failed to upload student photo']);
+            echo "<script>
+                    alert('Sorry, there was an error uploading your file.');
+                    window.history.back();
+                  </script>";
         }
     }
-} else {
-    echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
-}
 ?>

@@ -1,5 +1,10 @@
 <?php
 include("header.php");
+
+// Assuming course is set when the user logs in
+$course = $_SESSION['encoder_course']; // Replace with actual course data from user login
+
+
 ?>
 <body>
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
@@ -113,31 +118,20 @@ include("header.php");
                                 <option value="fourth-year">Fourth Year</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
-                           <select class="shadow form-control" id="courseSelect" name="course" required>
-                                <option value="" disabled selected>Select Course</option>
-                                <!-- Courses will be populated here dynamically -->
-                                <?php
-                                // Database connection  
-                                include ("connection.php");
-
-                                $courseSql = "SELECT * FROM course_table ORDER BY course_name ASC"; // Adjust your table name accordingly
-                                $courseResult = mysqli_query($conn, $courseSql);
-                                if (mysqli_num_rows($courseResult) > 0) {
-                                    while ($courseRow = mysqli_fetch_assoc($courseResult)) {
-                                        echo "<option value='{$courseRow['course_name']}'>{$courseRow['course_name']}</option>";
-                                    }
-                                } else {
-                                    echo "<option value='' disabled>No courses available</option>";
-                                }
-
-                                ?>
-                            </select>
+              
+                                 <div class="col-md-6">
+                        <input class="shadow form-control" type="text" id="subject-course" name="course"  placeholder="course" value="<?php echo $course; ?>" required>
+            
                         </div>
 
-                        <hr>
+       
+                    
 
-                        <div class="col-md-12">
+
+
+                        
+                    </div>
+                    <div class="col-md-12">
                             <select class="shadow form-control" id="student_status" name="student_status" required>
                                 <option value="" disabled selected>Student Status</option>
                                 <option value="first-year">Regular</option>
@@ -146,10 +140,7 @@ include("header.php");
                             </select>
                         </div>
 
-
-
                         
-                    </div>
                     <div>
                         <button class="btn btn-primary shadow d-block w-100" name="student_registration" type="submit">Register</button>
                     </div>
