@@ -102,7 +102,8 @@ include("connection.php");
                     <tbody id="subjects-table-body">
                         <?php
                         // Fetching subjects
-                        $sql = "SELECT * FROM course_table";
+                        $sql = "SELECT * FROM course_table ORDER BY date_registered DESC";
+
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
