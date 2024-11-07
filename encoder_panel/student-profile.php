@@ -107,7 +107,7 @@ while ($grade = mysqli_fetch_assoc($encoded_encoded_grades_result)) {
                         <li><a class="dropdown-item" href="student_requirements.php">Requirements</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link " href="encode-encoded_grades.php">Encode encoded grades</a></li>
+                <li class="nav-item"><a class="nav-link " href="encode-grades.php">Encode encoded grades</a></li>
                 <li class="nav-item"><a class="nav-link" href="generate_reports.php">Generate Reports</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
@@ -138,6 +138,7 @@ while ($grade = mysqli_fetch_assoc($encoded_encoded_grades_result)) {
                                 <p><strong>Contact Info (Email):</strong> <?php echo htmlspecialchars($student['email']); ?></p>
                                 <p><strong>Year Level:</strong> <?php echo htmlspecialchars($student['year_level']); ?></p>
                                 <p><strong>Course:</strong> <?php echo htmlspecialchars($student['course']); ?></p>
+                                <p><strong>Status:</strong> <?php echo htmlspecialchars($student['student_status']); ?></p>
                             </div>
                         </div>
                     </div>
