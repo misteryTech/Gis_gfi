@@ -1,6 +1,5 @@
 <?php
 
-session_start();
 // Database connection
 $conn = mysqli_connect("localhost", "root", "", "gis_database");
 if (!$conn) {

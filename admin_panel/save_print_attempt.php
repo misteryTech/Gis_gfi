@@ -1,12 +1,6 @@
 <?php
 // save_print_attempt.php
-
-// Database connection
-$conn = mysqli_connect("localhost", "root", "", "gis_database");
-
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
+include ("connection.php");
 
 // Get data from the AJAX request
 $student_id = isset($_POST['student_id']) ? intval($_POST['student_id']) : 0;

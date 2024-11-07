@@ -25,7 +25,7 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
                         <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-                        <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
+               
                     </ul>
                 </li>
 
@@ -36,7 +36,6 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                     <ul class="dropdown-menu" aria-labelledby="manageDropdown">
                         <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
                         <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-                        <li><a class="dropdown-item" href="requirements.php">Requirements</a></li>
                         <li><a class="dropdown-item" href="request_grade_page.php">Request Grade</a></li>
                     </ul>
                 </li>
@@ -134,8 +133,8 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                     <div class="col-md-12">
                             <select class="shadow form-control" id="student_status" name="student_status" required>
                                 <option value="" disabled selected>Student Status</option>
-                                <option value="first-year">Regular</option>
-                                <option value="second-year">Irregular</option>
+                                <option value="Regular">Regular</option>
+                                <option value="Irregular">Irregular</option>
                
                             </select>
                         </div>

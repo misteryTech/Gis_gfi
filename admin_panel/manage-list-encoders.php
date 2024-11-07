@@ -1,12 +1,8 @@
 <?php
 include("header.php");
 
-// Fetch all encoders from the database
-$conn = mysqli_connect("localhost", "root", "", "gis_database");
+include ("connection.php");
 
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
 
 $query = "SELECT * FROM encoder";
 $result = mysqli_query($conn, $query);

@@ -27,7 +27,7 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
                         <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-                        <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
+              
                     </ul>
                 </li>
 
@@ -38,7 +38,7 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                     <ul class="dropdown-menu" aria-labelledby="manageDropdown">
                         <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
                         <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-                        <li><a class="dropdown-item" href="requirements.php">Requirements</a></li>
+                     
                         <li><a class="dropdown-item" href="request_grade_page.php">Request Grade</a></li>
                     </ul>
                 </li>
