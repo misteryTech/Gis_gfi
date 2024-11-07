@@ -31,31 +31,43 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
     // Check if file is a real image
-    if(isset($_FILES["student_photo"])) {
+    if (isset($_FILES["student_photo"])) {
         $check = getimagesize($_FILES["student_photo"]["tmp_name"]);
-        if($check !== false) {
+        if ($check !== false) {
             $uploadOk = 1;
         } else {
-            echo json_encode(['status' => 'error', 'message' => 'File is not an image.']);
+            echo "<script>
+                    alert('File is not an image.');
+                    window.history.back();
+                  </script>";
             exit();
         }
     }
 
     // Check if file already exists
     if (file_exists($target_file)) {
-        echo json_encode(['status' => 'error', 'message' => 'Sorry, file already exists.']);
+        echo "<script>
+                alert('Sorry, file already exists.');
+                window.history.back();
+              </script>";
         exit();
     }
 
     // Check file size (limit to 2MB)
     if ($_FILES["student_photo"]["size"] > 2000000) {
-        echo json_encode(['status' => 'error', 'message' => 'Sorry, your file is too large.']);
+        echo "<script>
+                alert('Sorry, your file is too large.');
+                window.history.back();
+              </script>";
         exit();
     }
 
     // Allow only certain file formats (jpg, jpeg, png, gif)
     if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-        echo json_encode(['status' => 'error', 'message' => 'Sorry, only JPG, JPEG, PNG & GIF files are allowed.']);
+        echo "<script>
+                alert('Sorry, only JPG, JPEG, PNG & GIF files are allowed.');
+                window.history.back();
+              </script>";
         exit();
     }
 
@@ -90,4 +102,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   </script>";
         }
     }
+}
 ?>
