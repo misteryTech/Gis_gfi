@@ -5,12 +5,6 @@ require 'connection.php';
 // Start session to retrieve encoder info
 session_start();
 
-// Check if the user is logged in and has a valid session
-if (!isset($_SESSION['encoder_id'])) {
-    // If not logged in, redirect to login page or show an error message
-    header("Location: login.php");
-    exit;
-}
 
 // Get the encoder's user ID from the session
 $encoder_id = $_SESSION['encoder_id'];
