@@ -60,102 +60,9 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
     <div class="container py-5">
         <div class="row">
             <div class="col-md-8 col-xl-6 text-center mx-auto">
-                <h2 class="display-6 fw-bold mb-4">Subject <span class="underline">Registration</span></h2>
-                <p class="text-muted">Please fill out the form below to register a new subject.</p>
+                <h2 class="display-6 fw-bold mb-4">Archived <span class="underline">Subject</span></h2>
             </div>
         </div>
-        <div class="row d-flex justify-content-center">
-            <div class="col-md-10 col-xl-8">
-
-                <!-- Subject Registration Form -->
-                <form class="p-3 p-xl-4" method="post" id="subjectForm" action="subject_registration.php">
-                    <div class="row mb-3">
-                    <div class="col-md-4">
-    <input class="shadow form-control" type="text" id="subject-code" name="subject_code" placeholder="Subject Code" required>
-    <div id="subject-code-error" class="text-danger mt-1" style="display: none;"></div>
-</div>
-
-
-
-                        <div class="col-md-4">
-                            <input class="shadow form-control" type="text" id="subject-name" name="subject_name" placeholder="Subject Name" required>
-                        </div>
-                        <div class="col-md-4">
-                            <input class="shadow form-control" type="number" id="subject-units" name="subject_unit" placeholder="Subject Unit" min="0.01" step="0.01" required>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <select class="shadow form-control" id="year" name="year" required>
-                                <option value="" disabled selected>Select Year</option>
-                                <option value="first-year">First Year</option>
-                                <option value="second-year">Second Year</option>
-                                <option value="third-year">Third Year</option>
-                                <option value="fourth-year">Fourth Year</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <select class="shadow form-control" id="semester" name="semester" required>
-                                <option value="" disabled selected>Select Semester</option>
-                                <option value="first-semester">First Semester</option>
-                                <option value="second-semester">Second Semester</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <select class="shadow form-control" id="curriculum" name="curriculum" required>
-                                <option value="" disabled selected>Select Curriculum</option>
-                                <option value="New">New Curriculum</option>
-                                <option value="Old">Old Curriculum</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                        <input class="shadow form-control" type="text" id="subject-course" name="course"  placeholder="course" value="<?php echo $course; ?>" required>
-                        </div>
-                    </div>
-
-                    <div class="d-flex justify-content-between">
-                     
-                        <button class="btn btn-success shadow" id="submit_subject" name="submit_subject" type="submit">Register Subject</button>
-                        <a href="archived-subject.php" class="btn btn-primary shadow" name="submit_course">View Archived Subject</a>
-
-                    </div>
-                </form>
-
-                <!-- Add Course Modal -->
-                <div class="modal fade" id="addCourseModal" tabindex="-1" aria-labelledby="addCourseModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="addCourseModalLabel">Add Course</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <form action="course_registration.php" method="post" id="courseForm">
-                                    <div class="row mb-3">
-                                        <div class="col-md-6">
-                                            <input class="shadow form-control" type="text" id="course-name" name="course_name" placeholder="Course Name" required>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <input class="shadow form-control" type="text" id="department" name="department" placeholder="Department" required>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-success shadow d-block w-100" name="submit_course" type="submit">Register Course</button>
-
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Modal -->
-            </div>
-        </div>
-
-
 
         <div class="row d-flex justify-content-center">
             <div class="col-md-10 col-xl-12">
@@ -176,7 +83,7 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                     <tbody id="subjects-table-body">
                         <?php
                         // Fetching subjects
-                        $sql = "SELECT * FROM subjects WHERE archive='0' AND course='$course'";
+                        $sql = "SELECT * FROM subjects WHERE archive='1' AND course='$course'";
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) > 0) {
                             while ($row = mysqli_fetch_assoc($result)) {
