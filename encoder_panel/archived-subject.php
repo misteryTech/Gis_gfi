@@ -153,7 +153,7 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
         // Confirm archiving the subject
         $('#confirmArchiveButton').click(function() {
             $.ajax({
-                url: 'archive_subject.php', // PHP file to handle archiving
+                url: 'restore_subject.php', // PHP file to handle archiving
                 type: 'POST',
                 data: { id: subjectIdToArchive },
                 success: function(response) {
