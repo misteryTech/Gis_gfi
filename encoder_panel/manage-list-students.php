@@ -51,7 +51,7 @@ if ($result_course && mysqli_num_rows($result_course) > 0) {
                 </li>
                 <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
                 <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
-                <li><a class="dropdown-item" href="request_grade_page.php">Request Grade</a></li>
+                <li class="nav-item"><a class="nav-link" href="request_grade_page.php">Request Grade</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>

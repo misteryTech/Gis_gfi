@@ -46,7 +46,6 @@
      
                         <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
                         <li><a class="dropdown-item" href="manage-requirements.php">Requirements</a></li>
-                        <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
                     </ul>
                 </li>
                 <!-- Manage Students Dropdown -->

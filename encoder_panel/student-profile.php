@@ -22,9 +22,9 @@ if ($student_id > 0) {
     $stmt->close();
 }
 
-// Fetch encoded grades with textual year converted to numeric values
-$encoded_grades_result = mysqli_query($conn, "
-    SELECT subjects.subject_name, grades.grade, subjects.subject_code, subjects.year, subjects.semester AS semester, subjects.unit,
+// Fetch encoded encoded_grades with textual year converted to numeric values
+$encoded_encoded_grades_result = mysqli_query($conn, "
+    SELECT subjects.subject_name, encoded_grades_table.grade, subjects.subject_code, subjects.year, subjects.semester AS semester, subjects.unit,
            CASE
                WHEN subjects.year = 'first-year' THEN 1
                WHEN subjects.year = 'second-year' THEN 2
@@ -32,22 +32,22 @@ $encoded_grades_result = mysqli_query($conn, "
                WHEN subjects.year = 'fourth-year' THEN 4
                ELSE 0
            END AS numeric_year
-    FROM grades
-    JOIN subjects ON grades.subject_id = subjects.id
-    WHERE grades.student_id = $student_id
+    FROM encoded_grades_table
+    JOIN subjects ON encoded_grades_table.subject_id = subjects.id
+    WHERE encoded_grades_table.student_id = $student_id
     ORDER BY semester ASC
 ");
 
 mysqli_close($conn);
 
 // Prepare data for tab pills
-$grades_by_year = [];
-while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
+$encoded_grades_by_year = [];
+while ($grade = mysqli_fetch_assoc($encoded_encoded_grades_result)) {
     $year = $grade['numeric_year'];
-    if (!isset($grades_by_year[$year])) {
-        $grades_by_year[$year] = [];
+    if (!isset($encoded_grades_by_year[$year])) {
+        $encoded_grades_by_year[$year] = [];
     }
-    $grades_by_year[$year][] = $grade;
+    $encoded_grades_by_year[$year][] = $grade;
 }
 ?>
 
@@ -56,7 +56,7 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encode Grades</title>
+    <title>Encode encoded_grades</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <style>
@@ -68,7 +68,7 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
         .form-row .form-group {
             flex: 1;
         }
-        .encoded-grades-table th, .encoded-grades-table td {
+        .encoded-encoded_grades-table th, .encoded-encoded_grades-table td {
             text-align: center;
    
         }
@@ -112,7 +112,7 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
                         <li><a class="dropdown-item" href="student_requirements.php">Requirements</a></li>
                     </ul>
                 </li>
-                <li class="nav-item"><a class="nav-link " href="encode-grades.php">Encode Grades</a></li>
+                <li class="nav-item"><a class="nav-link " href="encode-encoded_grades.php">Encode encoded_grades</a></li>
                 <li class="nav-item"><a class="nav-link" href="generate_reports.php">Generate Reports</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
@@ -146,8 +146,8 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-primarys btn-sm" href="print_grades.php?student_id=<?php echo htmlspecialchars($student['id']); ?>">Print Grades</a>
-                    <h4 class="mt-5">Encoded Grades</h4>
+                    <a class="btn btn-primarys btn-sm" href="print_encoded_grades.php?student_id=<?php echo htmlspecialchars($student['id']); ?>">Print encoded_grades</a>
+                    <h4 class="mt-5">Encoded encoded_grades</h4>
                     <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
                         <?php for ($year = 1; $year <= 4; $year++): ?>
                             <li class="nav-item" role="presentation">
@@ -161,8 +161,8 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
                     <div class="tab-content" id="pills-tabContent">
                         <?php for ($year = 1; $year <= 4; $year++): ?>
                             <div class="tab-pane fade <?php echo ($year == 1) ? 'show active' : ''; ?>" id="pills-year<?php echo $year; ?>" role="tabpanel" aria-labelledby="pills-year<?php echo $year; ?>-tab">
-                                <?php if (isset($grades_by_year[$year]) && count($grades_by_year[$year]) > 0): ?>
-                                    <table class="table table-striped encoded-grades-table">
+                                <?php if (isset($encoded_grades_by_year[$year]) && count($encoded_grades_by_year[$year]) > 0): ?>
+                                    <table class="table table-striped encoded-encoded_grades-table">
                                         <thead>
                                             <tr>
                                                 <th>Subject Code</th>
@@ -173,7 +173,7 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <?php foreach ($grades_by_year[$year] as $grade): ?>
+                                            <?php foreach ($encoded_grades_by_year[$year] as $grade): ?>
                                                 <tr>
                                                     <td><?php echo htmlspecialchars($grade['subject_code']); ?></td>
                                                     <td><?php echo htmlspecialchars($grade['subject_name']); ?></td>
@@ -185,7 +185,7 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
                                         </tbody>
                                     </table>
                                 <?php else: ?>
-                                    <p>No grades available for this year.</p>
+                                    <p>No encode grades available for this year.</p>
                                 <?php endif; ?>
                             </div>
                         <?php endfor; ?>
@@ -206,7 +206,7 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
 
 <script>
     $(document).ready(function() {
-        $('.encoded-grades-table').DataTable();
+        $('.encoded-encoded_grades-table').DataTable();
     });
 </script>
 </body>
