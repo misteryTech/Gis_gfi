@@ -4,10 +4,13 @@
     <?php include("topnav.php"); ?>
 
     <style>
-        .gradient-background {
-            background: linear-gradient(to bottom right, #ff4d4d, #ff9999); /* Gradient red */
-            padding: 4rem 0; /* Adjusts the padding for the section */
-        }
+   .gradient-background {
+    background: url('picture/background.jpg'); /* Gradient + Image */
+    background-size: cover; /* Ensures the image covers the section */
+    background-position: center center; /* Centers the image */
+    padding: 4rem 0; /* Adjusts the padding for the section */
+}
+
 
         .login-form {
             max-width: 400px; /* Limit the width of the form */
@@ -44,7 +47,7 @@
         <div class="container py-md-5">
             <div class="row">
                 <div class="col-md-6 text-center">
-                    <img class="img-fluid w-100" src="assets/img/illustrations/login.svg" alt="Login Illustration">
+
                 </div>
                 <div class="col-md-5 col-xl-4 text-center text-md-start login-form">
                     <h2 class="display-6 fw-bold mb-5">

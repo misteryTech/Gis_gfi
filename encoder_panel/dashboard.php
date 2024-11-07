@@ -45,7 +45,8 @@
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
      
                         <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-                        <li><a class="dropdown-item" href="manage-requirements.php">Requirements</a></li>
+        
+
                     </ul>
                 </li>
                 <!-- Manage Students Dropdown -->
@@ -56,13 +57,12 @@
                     <ul class="dropdown-menu" aria-labelledby="manageDropdown">
                         <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
                         <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-                        <li><a class="dropdown-item" href="student_requirements.php">Requirements</a></li>
                         <li><a class="dropdown-item" href="request_grade_page.php">Request Grade</a></li>
                     </ul>
                 </li>
                 <!-- Other Links -->
                 <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
-                <li class="nav-item"><a class="nav-link" href="generate-reports.php">Generate Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="generate_reports.php">Generate Reports</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>
@@ -201,6 +201,14 @@ $totalPrint = $resultTotalPrint->fetch_assoc()['total_print'];
 
     </div>
 </div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 <?php
     include("footer.php");

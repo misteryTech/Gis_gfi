@@ -3,11 +3,26 @@
 <body>
     <?php include("topnav.php"); ?>
 
-    <section class="py-4 py-md-5 my-5">
+    <style>
+    {
+            border-color: #ff4d4d; /* Border color when focused */
+            box-shadow: 0 0 5px rgba(255, 77, 77, 0.5); /* Focus shadow */
+        }
+
+        .login-form button {
+            background-color: #ff4d4d; /* Button color */
+        }
+
+        .login-form button:hover {
+            background-color: #ff1a1a; /* Darker shade on hover */
+        }
+    </style>
+
+    <section class="py-4 py-md-5 my-5 gradient-background" >
         <div class="container py-md-5">
             <div class="row">
                 <div class="col-md-6 text-center">
-                    <img class="img-fluid w-100" src="assets/img/illustrations/login.svg" alt="Login Illustration">
+                    <img class="img-fluid w-100" src="picture/background.jpg" alt="Login Illustration">
                 </div>
                 <div class="col-md-5 col-xl-4 text-center text-md-start">
                     <h2 class="display-6 fw-bold mb-5">

@@ -21,7 +21,7 @@ if ($student_id > 0) {
 
 // Fetch encoded grades with textual year converted to numeric values
 $encoded_grades_result = mysqli_query($conn, "
-    SELECT subjects.subject_name, grades.grade, grades.status, subjects.subject_code, subjects.year, subjects.semester AS semester, subjects.unit,
+    SELECT subjects.subject_name, encoded_grades_table.grade, encoded_grades_table.status, subjects.subject_code, subjects.year, subjects.semester AS semester, subjects.unit,
            CASE
                WHEN subjects.year = 'first-year' THEN 1
                WHEN subjects.year = 'second-year' THEN 2
@@ -29,9 +29,9 @@ $encoded_grades_result = mysqli_query($conn, "
                WHEN subjects.year = 'fourth-year' THEN 4
                ELSE 0
            END AS numeric_year
-    FROM grades
-    JOIN subjects ON grades.subject_id = subjects.id
-    WHERE grades.student_id = $id
+    FROM encoded_grades_table
+    JOIN subjects ON encoded_grades_table.subject_id = subjects.id
+    WHERE encoded_grades_table.student_id = $id
     ORDER BY semester ASC
 ");
 
