@@ -13,8 +13,7 @@
 
 
             </ul>
-            <a class="btn btn-success shadow" role="button" href="procedures.php">Procedure</a>
-
+     
             <a class="btn btn-primary shadow" role="button" href="student_login.php">Login</a>
         </div>
     </div>

@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_student'])) {
 }
 
 // Fetch encoded grades
-$encoded_grades_result = $conn->prepare("SELECT * FROM grades WHERE student_id = ? AND status='Encoded' ");
+$encoded_grades_result = $conn->prepare("SELECT * FROM encoded_grades_table WHERE student_id = ? AND status='Encoded' ");
 $encoded_grades_result->bind_param("i", $id);
 $encoded_grades_result->execute();
 $grades_result = $encoded_grades_result->get_result();

@@ -1,13 +1,8 @@
 <?php
 include("header.php");
 
-// Database connection
-$conn = mysqli_connect("localhost", "root", "", "gis_database");
 
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
-}
-
+include ("connection.php");
 // Get the student ID from the session
 $student_id = $_SESSION['student_id'];
 $id = $_SESSION['id'];
@@ -18,7 +13,7 @@ if ($student_id) {
     $query = "SELECT id, year, status, date_request, comment, semester
               FROM grade_access_requests_db 
               WHERE student_id = '$student_id' 
-              ORDER BY date_request DESC";
+              ORDER BY id DESC";
     $result = mysqli_query($conn, $query);
 
     while ($row = mysqli_fetch_assoc($result)) {
@@ -89,25 +84,15 @@ mysqli_close($conn);
 
                             <br>
 
-                            <label for="year">Select Semester:</label>
+                            <label for="semester">Select Semester:</label>
                             <select class="form-control" name="semester" id="semester" required>
-                                <option value="">--Select Year--</option>
+                                <option value="">--Select Semester--</option>
                                 <option value="1st sem">1st Semester</option>
                                 <option value="2nd sem">2nd Semester</option>
-                        
                             </select>
-
-
-
-                          
                         </div>
-
-                       
                     </div>
-                    
-                 
 
-                    
                     <button type="submit" class="btn btn-primary">Request Grades</button>
                 </form>
 
@@ -137,7 +122,7 @@ mysqli_close($conn);
                             <?php endforeach; ?>
                         <?php else: ?>
                             <tr>
-                                <td colspan="4" class="no-requests">No grade requests found.</td>
+                                <td colspan="6" class="no-requests">No grade requests found.</td>
                             </tr>
                         <?php endif; ?>
                     </tbody>
@@ -150,9 +135,15 @@ mysqli_close($conn);
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
-    $(document).ready(function() {
-        $('.encoded-grades-table').DataTable();
+$(document).ready(function() {
+    $('.encoded-grades-table').DataTable({
+        columns: [
+            { targets: 5, data: 'desc' } // Match 'desc' field in your data source
+            // add other columns as needed
+        ]
+
     });
+});
 </script>
 </body>
 </html>

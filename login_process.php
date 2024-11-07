@@ -2,72 +2,70 @@
 
 header('Content-Type: application/json');
 
-$response = array('success' => false, 'message' => '');
+$response = ['success' => false, 'message' => ''];
 
 try {
     // Database connection settings
-    $dsn = 'mysql:host=localhost;dbname=gis_database'; // Adjust the host, dbname, etc.
-    $username = 'root'; // Replace with your database username
-    $password = ''; // Replace with your database password
+    $dsn = 'mysql:host=localhost;dbname=gis_database';
+    $username = 'root';
+    $password = '';
 
     // Create a PDO instance
     $conn = new PDO($dsn, $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        // Get form data
-        $email = isset($_POST['email']) ? trim($_POST['email']) : '';
-        $password = isset($_POST['password']) ? $_POST['password'] : '';
+        // Get and sanitize form data
+        $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+        $password = filter_input(INPUT_POST, 'password', FILTER_SANITIZE_STRING);
 
-        // Basic validation (server-side)
+        // Basic validation
         if (empty($email) || empty($password)) {
             $response['message'] = 'All fields are required.';
             echo json_encode($response);
             exit;
         }
 
-        // Function to check login for a table
+        // Login check function
         function checkLogin($conn, $email, $password, $table) {
             $stmt = $conn->prepare("SELECT id, email, password, course FROM $table WHERE email = :email");
             $stmt->bindParam(':email', $email);
             $stmt->execute();
-
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
+
             if ($user && password_verify($password, $user['password'])) {
                 return $user;
             }
             return false;
         }
 
-        // Check if user exists in 'users' table
-        $user = checkLogin($conn, $email, $password, 'users');
-        if ($user) {
+        // Check in 'users' table
+        if ($user = checkLogin($conn, $email, $password, 'users')) {
             session_start();
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_email'] = $user['email'];
-            $_SESSION['user_course'] = $user['course']; // Store course in session
-            $response['success'] = true;
-            $response['message'] = 'Login successful.';
+            $_SESSION['user_course'] = $user['course'];
+            $response = ['success' => true, 'message' => 'Login successful.'];
             echo json_encode($response);
             exit;
         }
 
-        // Check if user exists in 'encoder' table
-        $encoder = checkLogin($conn, $email, $password, 'encoder');
-        if ($encoder) {
+        // Check in 'encoder' table
+        if ($encoder = checkLogin($conn, $email, $password, 'encoder')) {
             session_start();
             $_SESSION['id'] = $encoder['id'];
-            $_SESSION['encoder_id'] = $encoder['encoder_id'];
-            $_SESSION['encoder_course'] = $encoder['course']; // Store course in session
             $_SESSION['encoder_email'] = $encoder['email'];
-            $response['success'] = true;
-            $response['message'] = 'Login successful as encoder.';
-            $response['redirect'] = 'encoder_panel/'; // Redirect to encoder panel
+            $_SESSION['encoder_course'] = $encoder['course'];
+            $response = [
+                'success' => true,
+                'message' => 'Login successful as encoder.',
+                'redirect' => 'encoder_panel/'
+            ];
             echo json_encode($response);
             exit;
         }
 
-        // Invalid credentials if neither table has the user
+        // If no match in either table
         $response['message'] = 'Invalid email or password.';
     } else {
         $response['message'] = 'Invalid request method.';
