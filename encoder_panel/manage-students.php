@@ -133,8 +133,8 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                     <div class="col-md-12">
                             <select class="shadow form-control" id="student_status" name="student_status" required>
                                 <option value="" disabled selected>Student Status</option>
-                                <option value="Regular">Regular</option>
-                                <option value="Irregular">Irregular</option>
+                                <option value="Regular">REGULAR </option>
+                                <option value="Irreg">IRREG</option>
                
                             </select>
                         </div>
@@ -157,6 +157,12 @@ include("footer.php");
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 
+document.getElementById("phone-number").addEventListener("input", function(event) {
+        // Replace non-numeric characters with an empty string
+        this.value = this.value.replace(/\D/g, '');
+    });
+
+    
 function togglePasswordVisibility() {
     const passwordInput = document.getElementById("password");
     const toggleIcon = document.querySelector(".toggle-password");

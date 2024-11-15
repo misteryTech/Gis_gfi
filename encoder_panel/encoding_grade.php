@@ -21,7 +21,7 @@ if ($student_id > 0) {
 $subjects_result = null;
 if ($student) {
     $course = $student['course'];
-    $stmt = $conn->prepare("SELECT id, subject_code, subject_name, unit, curriculum FROM subjects WHERE course = ?");
+    $stmt = $conn->prepare("SELECT id, subject_code, subject_name, unit, curriculum FROM subjects WHERE course = ? AND archive='0' ");
     $stmt->bind_param("s", $course);
     $stmt->execute();
     $subjects_result = $stmt->get_result();

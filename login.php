@@ -4,70 +4,106 @@
     <?php include("topnav.php"); ?>
 
     <style>
-   .gradient-background {
-    background: url('picture/background.jpg'); /* Gradient + Image */
-    background-size: cover; /* Ensures the image covers the section */
-    background-position: center center; /* Centers the image */
-    padding: 4rem 0; /* Adjusts the padding for the section */
-}
+        /* Full-Screen Background Style */
+        .gradient-background {
+            background: url('picture/background.jpg') no-repeat center center; /* Background Image */
+            background-size: cover; /* Ensures the image covers the section */
+            height: 100vh; /* Full viewport height */
+            display: flex; /* Use flexbox for centering */
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
+        }
 
-
+        /* Form Container Styling */
         .login-form {
-            max-width: 400px; /* Limit the width of the form */
-            margin: 0 auto; /* Center the form */
-            background: rgba(255, 255, 255, 0.8); /* White background with some transparency */
-            padding: 2rem; /* Padding around the form */
-            border-radius: 10px; /* Rounded corners for the form */
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Box shadow for a floating effect */
+            max-width: 450px; /* Max width for form */
+            width: 100%; /* Ensure form takes full available width up to max-width */
+            background: rgba(255, 255, 255, 0.85); /* Slight transparency */
+            padding: 3rem; /* Inner padding */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); /* Strong shadow for floating effect */
         }
 
         .login-form h2 {
             margin-bottom: 2rem; /* Space below the heading */
+            font-size: 2rem; /* Large heading */
+            text-align: center; /* Centered heading */
         }
 
+        /* Input Field Styles */
         .login-form input {
-            border: 1px solid #ccc; /* Border color for inputs */
+            border: 1px solid #ccc; /* Border for inputs */
+            margin-bottom: 1.5rem; /* Space between inputs */
+            padding: 10px; /* Padding inside inputs */
+            border-radius: 5px; /* Rounded corners */
+            width: 100%; /* Full width inputs */
         }
 
+        /* Focus State for Inputs */
         .login-form input:focus {
-            border-color: #ff4d4d; /* Border color when focused */
-            box-shadow: 0 0 5px rgba(255, 77, 77, 0.5); /* Focus shadow */
+            border-color: #ff4d4d; /* Highlight border color */
+            box-shadow: 0 0 5px rgba(255, 77, 77, 0.5); /* Focus shadow effect */
+            outline: none; /* Remove default outline */
         }
 
+        /* Button Styling */
         .login-form button {
-            background-color: #ff4d4d; /* Button color */
+            background-color: #ff4d4d; /* Button background color */
+            color: white; /* Text color */
+            width: 100%; /* Full width button */
+            padding: 12px; /* Button padding */
+            border: none;
+            border-radius: 5px; /* Rounded button edges */
+            font-size: 1.1rem; /* Button text size */
         }
 
+        /* Button Hover Effect */
         .login-form button:hover {
             background-color: #ff1a1a; /* Darker shade on hover */
+            cursor: pointer; /* Pointer cursor */
+        }
+
+        /* Error Message Styling */
+        .login-form small {
+            color: #ff4d4d; /* Red color for error messages */
+            font-size: 0.875rem; /* Smaller error text */
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .gradient-background {
+                padding: 4rem 0; /* Adjust padding for smaller screens */
+            }
+            .login-form {
+                padding: 2rem; /* Reduce padding on smaller screens */
+                max-width: 350px; /* Smaller form size for mobile */
+            }
+            .login-form h2 {
+                font-size: 1.5rem; /* Smaller heading on mobile */
+            }
         }
     </style>
 
+    <!-- Full-Screen Section with Gradient Background -->
     <section class="gradient-background">
-        <div class="container py-md-5">
-            <div class="row">
-                <div class="col-md-6 text-center">
-
+        <div class="login-form">
+            <h2 class="fw-bold mb-5">
+                <span class="underline pb-1"><strong>Administrator</strong></span><br>
+                <span class="underline pb-1"><strong>Login</strong></span>
+            </h2>
+            <form id="loginForm" method="post" data-bs-theme="light">
+                <div class="mb-3">
+                    <input class="form-control shadow-sm" type="email" name="email" id="email" placeholder="Email" required>
+                    <small id="emailError" class="text-danger"></small>
                 </div>
-                <div class="col-md-5 col-xl-4 text-center text-md-start login-form">
-                    <h2 class="display-6 fw-bold mb-5">
-                        <span class="underline pb-1"><strong>Login</strong><br></span>
-                    </h2>
-                    <form id="loginForm" method="post" data-bs-theme="light">
-                        <div class="mb-3">
-                            <input class="shadow form-control" type="email" name="email" id="email" placeholder="Email" required>
-                            <small id="emailError" class="text-danger"></small>
-                        </div>
-                        <div class="mb-3">
-                            <input class="shadow form-control" type="password" name="password" id="password" placeholder="Password" required>
-                            <small id="passwordError" class="text-danger"></small>
-                        </div>
-                        <div class="mb-5">
-                            <button class="btn btn-primary shadow" type="submit">Log in</button>
-                        </div>
-                    </form>
+                <div class="mb-3">
+                    <input class="form-control shadow-sm" type="password" name="password" id="password" placeholder="Password" required>
+                    <small id="passwordError" class="text-danger"></small>
                 </div>
-            </div>
+                <div class="mb-4">
+                    <button class="btn btn-primary shadow-sm" type="submit">Log in</button>
+                </div>
+            </form>
         </div>
     </section>
 
@@ -79,7 +115,7 @@
     <script>
         $(document).ready(function() {
             $('#loginForm').on('submit', function(event) {
-                event.preventDefault(); // Prevent the default form submission
+                event.preventDefault(); // Prevent form submission
 
                 // Clear previous errors
                 $('#emailError').text('');
@@ -102,7 +138,7 @@
                 }
 
                 if (!isValid) {
-                    return; // Stop if there are validation errors
+                    return; // Stop if validation errors exist
                 }
 
                 $.ajax({
@@ -120,7 +156,7 @@
                                 timerProgressBar: true,
                                 willClose: () => {
                                     if (response.redirect === 'encoder_panel/') {
-                                        window.location.href = 'encoder_panel/dashboard.php'; // Redirect for encoders
+                                        window.location.href = 'encoder_panel/dashboard.php'; // Redirect for encoder users
                                     } else {
                                         window.location.href = 'admin_panel/dashboard.php'; // Redirect for admin users
                                     }
@@ -135,7 +171,7 @@
                         }
                     },
                     error: function(jqXHR, textStatus, errorThrown) {
-                        console.error('AJAX error:', textStatus, errorThrown); // Debug output
+                        console.error('AJAX error:', textStatus, errorThrown); // Debugging output
                         Swal.fire({
                             icon: 'error',
                             title: 'Oops...',

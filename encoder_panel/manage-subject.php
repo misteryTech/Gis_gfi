@@ -99,6 +99,7 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                                 <option value="" disabled selected>Select Semester</option>
                                 <option value="first-semester">First Semester</option>
                                 <option value="second-semester">Second Semester</option>
+                                <option value="summer">Summer</option>
                             </select>
                         </div>
                     </div>

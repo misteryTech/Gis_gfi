@@ -4,48 +4,93 @@
     <?php include("topnav.php"); ?>
 
     <style>
-    {
-            border-color: #ff4d4d; /* Border color when focused */
-            box-shadow: 0 0 5px rgba(255, 77, 77, 0.5); /* Focus shadow */
+         /* Full-screen background with gradient */
+         .gradient-background {
+            background: url('picture/background.jpg') no-repeat center center; /* Background Image */
+            background-size: cover; /* Ensure the image covers the section */
+            height: 100vh; /* Full viewport height */
+            display: flex; /* Use flexbox for vertical centering */
+            justify-content: center; /* Center content horizontally */
+            align-items: center; /* Center content vertically */
         }
 
+        /* Form Styling */
+        .login-form {
+            max-width: 400px; /* Limit the width of the form */
+            width: 100%; /* Ensure form takes full available width up to max-width */
+            background: rgba(255, 255, 255, 0.85); /* White background with slight transparency */
+            padding: 2rem; /* Padding around the form */
+            border-radius: 10px; /* Rounded corners */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); /* Darker shadow to make the form stand out */
+        }
+
+        .login-form h2 {
+            margin-bottom: 2rem; /* Space below the heading */
+            text-align: center;
+        }
+
+        /* Input field styles */
+        .login-form input {
+            border: 1px solid #ccc; /* Border for inputs */
+            padding: 10px;
+            margin-bottom: 1.5rem; /* Space between inputs */
+            border-radius: 5px; /* Rounded input borders */
+            width: 100%; /* Full width inputs */
+        }
+
+        .login-form input:focus {
+            border-color: #ff4d4d; /* Highlight the input when focused */
+            box-shadow: 0 0 5px rgba(255, 77, 77, 0.5); /* Focus shadow */
+            outline: none;
+        }
+
+        /* Button Styles */
         .login-form button {
             background-color: #ff4d4d; /* Button color */
+            color: white; /* Button text color */
+            width: 100%; /* Full width button */
+            padding: 12px; /* Button padding */
+            border: none;
+            border-radius: 5px; /* Rounded button edges */
+            font-size: 1.1rem; /* Button text size */
         }
 
+        /* Button Hover State */
         .login-form button:hover {
             background-color: #ff1a1a; /* Darker shade on hover */
+            cursor: pointer; /* Pointer cursor on hover */
+        }
+
+        /* Links */
+        .login-form p a {
+            color: #ff4d4d; /* Link color */
+            text-decoration: none;
+        }
+
+        .login-form p a:hover {
+            text-decoration: underline; /* Underline link on hover */
         }
     </style>
 
-    <section class="py-4 py-md-5 my-5 gradient-background" >
-        <div class="container py-md-5">
-            <div class="row">
-                <div class="col-md-6 text-center">
-                    <img class="img-fluid w-100" src="picture/background.jpg" alt="Login Illustration">
+<section class="gradient-background">
+        <div class="login-form">
+            <h2 class="fw-bold mb-5">Login</h2>
+            <form id="loginForm" method="post" data-bs-theme="light">
+                <div class="mb-3">
+                    <input class="shadow form-control" type="text" name="id_no" id="id_no" placeholder="ID Number" required>
+                    <small id="idNoError" class="text-danger"></small>
                 </div>
-                <div class="col-md-5 col-xl-4 text-center text-md-start">
-                    <h2 class="display-6 fw-bold mb-5">
-                        <span class="underline pb-1"><strong>Login</strong><br></span>
-                    </h2>
-                    <form id="loginForm" method="post" data-bs-theme="light">
-                        <div class="mb-3">
-                            <input class="shadow form-control" type="text" name="id_no" id="id_no" placeholder="ID Number" required>
-                            <small id="idNoError" class="text-danger"></small>
-                        </div>
-                        <div class="mb-3">
-                            <input class="shadow form-control" type="password" name="password" id="password" placeholder="Password" required>
-                            <small id="passwordError" class="text-danger"></small>
-                        </div>
-                        <div class="mb-5">
-                            <button class="btn btn-primary shadow" type="submit">Log in</button>
-                        </div>
-                    </form>
-                    <p class="text-muted">
-                        <a href="forgotten-password.html">Forgot your password?</a>
-                    </p>
+                <div class="mb-3">
+                    <input class="shadow form-control" type="password" name="password" id="password" placeholder="Password" required>
+                    <small id="passwordError" class="text-danger"></small>
                 </div>
-            </div>
+                <div class="mb-5">
+                    <button class="btn btn-primary shadow" type="submit">Log in</button>
+                </div>
+            </form>
+            <p class="text-muted text-center">
+                <a href="forgot_password_page.php">FORGOT PASSWORD?</a>
+            </p>
         </div>
     </section>
 

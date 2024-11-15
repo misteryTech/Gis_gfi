@@ -1,7 +1,6 @@
 <?php
 include ("connection.php");
 
-
 // Check if form is submitted via AJAX
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -16,7 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $year_level = mysqli_real_escape_string($conn, $_POST['year_level']);
     $course = mysqli_real_escape_string($conn, $_POST['course']);
     $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $password = password_hash(mysqli_real_escape_string($conn, $_POST['password']), PASSWORD_DEFAULT); // Hash the password
+
+    // Hash the password using SHA-256 (simple hash, not recommended for real applications)
+    $password = hash('sha256', mysqli_real_escape_string($conn, $_POST['password']));
 
     // Photo Upload Handling
     $target_dir = "upload_encoder/"; // Directory to store uploaded photos
@@ -31,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Execute the query
         if (mysqli_query($conn, $query)) {
-            echo json_encode(['status' => 'success', 'message' => 'encoder has been successfully registered']);
+            echo json_encode(['status' => 'success', 'message' => 'Encoder has been successfully registered']);
         } else {
             echo json_encode(['status' => 'error', 'message' => 'Failed to register encoder in the database']);
         }

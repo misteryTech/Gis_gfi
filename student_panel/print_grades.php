@@ -90,7 +90,7 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
                         <?php for ($year = 1; $year <= 4; $year++): ?>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link <?php echo ($year == 1) ? 'active' : ''; ?>" id="pills-year<?php echo $year; ?>-tab" data-bs-toggle="pill" href="#pills-year<?php echo $year; ?>" role="tab" aria-controls="pills-year<?php echo $year; ?>" aria-selected="<?php echo ($year == 1) ? 'true' : 'false'; ?>">
-                                    Year <?php echo $year; ?>
+                                    <?php echo $year; ?> Year
                                 </a>
                             </li>
                         <?php endfor; ?>
@@ -140,9 +140,6 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
 
 <?php include("footer.php"); ?>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
 <script>
     $(document).ready(function() {
         // Initialize DataTable for each year's table

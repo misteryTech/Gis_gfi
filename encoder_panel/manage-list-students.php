@@ -15,7 +15,7 @@ if ($result_course && mysqli_num_rows($result_course) > 0) {
     $encoder_course = $row_course['course'];
 
     // Fetch all students who are enrolled in the same course
-    $query_students = "SELECT * FROM students WHERE course = '$encoder_course'";
+    $query_students = "SELECT * FROM students WHERE course = '$encoder_course' ORDER BY id DESC";
     $result_students = mysqli_query($conn, $query_students);
 } else {
     echo "Course not found for the encoder.";
@@ -99,7 +99,7 @@ if ($result_course && mysqli_num_rows($result_course) > 0) {
                                 echo "<td>" . htmlspecialchars($row['course']) . "</td>";
                                 echo "<td>
                                        <a class='btn btn-primary btn-sm' href='student-profile.php?student_id=" . htmlspecialchars($row['id']) . "'>View Profile</a>
-                                       <button class='btn btn-danger btn-sm delete-btn' data-id='" . htmlspecialchars($row['id']) . "'>Delete</button>
+                                                   <button class='btn btn-primary shadow archive-button' data-id='{$row['id']}' data-name='{$row['id']}'>Archive</button>
                                      </td>";
                                 echo "</tr>";
                             }

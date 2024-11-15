@@ -61,7 +61,7 @@ include("header.php");
                 <form class="p-3 p-xl-4 form-floating" method="post" enctype="multipart/form-data" id="studentRegistrationForm">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <input class="shadow form-control" type="file" id="student-photo" name="student_photo" placeholder="Student Photo" required>
+                            <input class="shadow form-control" type="file" id="student-photo" name="student_photo" placeholder="Student Photo">
                         </div>
                         <div class="col-md-6">
                             <input class="shadow form-control" type="text" id="student-id" name="student_id" placeholder="Student ID" required>

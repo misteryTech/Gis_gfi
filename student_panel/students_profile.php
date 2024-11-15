@@ -1,12 +1,10 @@
 <?php
 include("header.php");
-
-include ("connection.php");
-
+include("connection.php");
 
 // Get the student ID from the session
-$student_id = $_SESSION['student_id'] ? intval($_SESSION['student_id']) : 0;
-$id = $_SESSION['id']  ? intval($_SESSION['id']) : 0;
+$student_id = isset($_SESSION['student_id']) ? intval($_SESSION['student_id']) : 0;
+$id = isset($_SESSION['id']) ? intval($_SESSION['id']) : 0;
 
 // Fetch student details
 $student = null;
@@ -34,10 +32,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_student'])) {
     $year_level = $_POST['year_level'];
     $course = $_POST['course'];
 
+    // Check if a new profile picture was uploaded
+    $target_dir = "uploads/";
+    if (!empty($_FILES['student_photo']['name'])) {
+        $student_photo = $_FILES['student_photo']['name'];
+        $target_file = $target_dir . basename($student_photo);
+
+        // Attempt to move the uploaded file
+        if (move_uploaded_file($_FILES["student_photo"]["tmp_name"], $target_file)) {
+            // Update profile picture path in the database
+            $photo_path = $target_file;
+        } else {
+            $error_message = "Failed to upload the new profile picture.";
+        }
+    } else {
+        // Keep the existing photo path if no new file is uploaded
+        $photo_path = $student['student_photo'];
+    }
+
     // Update student details
-    $update_stmt = $conn->prepare("UPDATE students SET first_name=?, last_name=?, gender=?, phone=?, email=?, year_level=?, course=? WHERE student_id=?");
-    $update_stmt->bind_param("sssssisi", $first_name, $last_name, $gender, $phone, $email, $year_level, $course, $student_id);
-    
+    $update_stmt = $conn->prepare("UPDATE students SET first_name=?, last_name=?, gender=?, phone=?, email=?, year_level=?, course=?, student_photo=? WHERE student_id=?");
+    $update_stmt->bind_param("ssssssssi", $first_name, $last_name, $gender, $phone, $email, $year_level, $course, $photo_path, $student_id);
+
     if ($update_stmt->execute()) {
         $success_message = "Student details updated successfully.";
         // Refresh student details after update
@@ -63,6 +79,7 @@ $grades_exist = mysqli_num_rows($grades_result) > 0;
 
 mysqli_close($conn);
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -109,6 +126,7 @@ mysqli_close($conn);
                                 <p><strong>Contact Info (Email):</strong> <?php echo htmlspecialchars($student['email']); ?></p>
                                 <p><strong>Year Level:</strong> <?php echo htmlspecialchars($student['year_level']); ?></p>
                                 <p><strong>Course:</strong> <?php echo htmlspecialchars($student['course']); ?></p>
+                                <p><strong>Student Status:</strong> <?php echo htmlspecialchars($student['student_status']); ?></p>
                             </div>
                             <div class="col-md-2 text-end">
                                 <!-- Edit Button -->
@@ -134,7 +152,14 @@ mysqli_close($conn);
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form method="POST" action="">
+                                    <form method="POST" action="" enctype="multipart/form-data">
+
+                                    <div class="mb-3">
+        <label for="student_photo" class="form-label">Profile Picture</label>
+        <input type="file" class="form-control" id="student_photo" name="student_photo" accept="image/*">
+    </div>
+
+
                                         <div class="mb-3">
                                             <label for="first_name" class="form-label">First Name</label>
                                             <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo htmlspecialchars($student['first_name']); ?>" required>

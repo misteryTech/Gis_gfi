@@ -9,6 +9,7 @@ $result = mysqli_query($conn, $query);
 
 
 
+
 ?>
 <body>
 
@@ -64,6 +65,7 @@ $result = mysqli_query($conn, $query);
 
                           
                             <th>Course</th>
+                            <th>Action</th>
                       
                         </tr>
                     </thead>
@@ -78,6 +80,8 @@ $result = mysqli_query($conn, $query);
                                echo "<td>" . htmlspecialchars($row['first_name']) . " " . htmlspecialchars($row['last_name']) . "</td>";
                           
                                echo "<td>" . htmlspecialchars($row['course']) . "</td>";
+                               echo "<td><button class='btn btn-success shadow edit-btn' data-id='{$row['encoder_id']}' data-bs-toggle='modal' data-bs-target='#editencoderModal'>Edit Profile</button></td>";
+
                               
                            }
                        } else {
@@ -126,6 +130,21 @@ $result = mysqli_query($conn, $query);
             <label for="edit-encoder-course" class="form-label">Course</label>
             <input type="text" class="form-control" id="edit-encoder-course" name="course">
           </div>
+
+          <div class="mb-3">
+            <label for="edit-encoder-username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="edit-encoder-username" name="username">
+          </div>
+
+          <div class="mb-3">
+  <label for="edit-encoder-password" class="form-label">Password</label>
+  <div class="input-group">
+    <input type="password" class="form-control" id="edit-encoder-password" name="password">
+    <button type="button" id="toggle-password" class="btn btn-outline-secondary">Show</button>
+  </div>
+</div>
+
+          
           <button type="submit" class="btn btn-primary">Save changes</button>
         </form>
       </div>
@@ -142,57 +161,69 @@ include("footer.php");
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <script>
-$(document).ready(function() {
-    // Initialize DataTable
-    $('#encodersTable').DataTable();
 
-    // Fetch encoder data into the edit modal
-    $('.edit-btn').click(function() {
-        var encoderId = $(this).data('id');
+$('#toggle-password').click(function() {
+    const passwordInput = $('#edit-encoder-password');
+    const button = $(this);
+    
+    if (passwordInput.attr('type') === 'password') {
+        passwordInput.attr('type', 'text');
+        button.text('Hide'); // Change button text to "Hide"
+    } else {
+        passwordInput.attr('type', 'password');
+        button.text('Show'); // Change button text back to "Show"
+    }
+});
 
-        // Fetch encoder details using AJAX (replace `get-encoder.php` with your actual backend URL)
-        $.ajax({
-            url: 'get-encoder.php',
-            type: 'POST',
-            data: {id: encoderId},
-            success: function(response) {
-                var encoder = JSON.parse(response);
-                $('#edit-encoder-id').val(encoder.id);
+
+   // Initialize DataTable
+   $('#encodersTable').DataTable();
+
+// Fetch encoder data into the edit modal
+$('.edit-btn').click(function() {
+    var encoderId = $(this).data('id');
+
+    $.ajax({
+        url: 'get_encoder_id.php',
+        type: 'POST',
+        data: { id: encoderId },
+        success: function(response) {
+            var encoder = JSON.parse(response);
+            if (!encoder.error) {
+                $('#edit-encoder-id').val(encoder.encoder_id);
                 $('#edit-encoder-name').val(encoder.first_name + ' ' + encoder.last_name);
                 $('#edit-encoder-gender').val(encoder.gender);
                 $('#edit-encoder-phone').val(encoder.phone);
                 $('#edit-encoder-email').val(encoder.email);
                 $('#edit-encoder-course').val(encoder.course);
+                $('#edit-encoder-username').val(encoder.username);
+                $('#edit-encoder-password').val(encoder.password);
+            } else {
+                alert("Error loading encoder details");
             }
-        });
-    });
-
-    // Delete encoder functionality
-    $('.delete-btn').click(function() {
-        var encoderId = $(this).data('id');
-
-        swal({
-            title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this encoder's data!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                $.ajax({
-                    url: 'delete-encoder.php',
-                    type: 'POST',
-                    data: {id: encoderId},
-                    success: function(response) {
-                        swal("encoder has been deleted!", {
-                            icon: "success",
-                        }).then(() => {
-                            location.reload();
-                        });
-                    }
-                });
-            }
-        });
+        }
     });
 });
+
+// Handle form submission for editing encoder
+$('#editencoderForm').submit(function(event) {
+    event.preventDefault();
+
+    $.ajax({
+        url: 'update-encoder.php',
+        type: 'POST',
+        data: $(this).serialize(),
+        success: function(response) {
+            var result = JSON.parse(response);
+            if (result.success) {
+                alert(result.success);
+                $('#editencoderModal').modal('hide');
+                location.reload();
+            } else {
+                alert(result.error);
+            }
+        }
+    });
+});
+
 </script>
