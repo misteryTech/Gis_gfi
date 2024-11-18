@@ -114,7 +114,7 @@ mysqli_close($conn);
                         <div class="row align-items-center">
                             <!-- Student Photo -->
                             <div class="col-md-3">
-                                <img src="../admin_panel/<?php echo htmlspecialchars($student['student_photo']); ?>" alt="Student Image" class="img-fluid rounded">
+                                <img src="../student_panel/<?php echo htmlspecialchars($student['student_photo']); ?>" alt="Student Image" class="img-fluid rounded">
                             </div>
 
                             <!-- Student Info -->
