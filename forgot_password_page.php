@@ -29,15 +29,16 @@
         }
 
         /* Input Field Styles */
-        .login-form input {
+        .login-form input, .login-form select {
             border: 1px solid #ccc; /* Border for inputs */
             margin-bottom: 1.5rem; /* Space between inputs */
             padding: 10px; /* Padding inside inputs */
             border-radius: 5px; /* Rounded corners for inputs */
+            width: 100%;
         }
 
         /* Focus State for Inputs */
-        .login-form input:focus {
+        .login-form input:focus, .login-form select:focus {
             border-color: #ff4d4d; /* Highlight border color */
             box-shadow: 0 0 5px rgba(255, 77, 77, 0.5); /* Focus shadow */
             outline: none;
@@ -91,18 +92,27 @@
                             <span class="underline pb-1"><strong>Password</strong></span>
                             <span class="underline pb-1"><strong>Reset</strong></span>
                         </h2>
-                        <form id="passwordResetForm" method="post" data-bs-theme="light">
-
-                              <div class="mb-3">
-                                <input class="form-control shadow-sm" type="email" name="email" id="email" placeholder="Enter Student ID" required>
-                                <small id="emailError" class="text-danger"></small>
+                        <form id="passwordResetForm" method="post">
+                            <div class="mb-3">
+                                <input class="form-control shadow-sm" type="text" name="user_id" id="user_id" placeholder="Enter User ID" required>
+                                <small id="user_idError" class="text-danger"></small>
                             </div>
-
 
                             <div class="mb-3">
                                 <input class="form-control shadow-sm" type="email" name="email" id="email" placeholder="Enter your email" required>
                                 <small id="emailError" class="text-danger"></small>
                             </div>
+
+                            <!-- Dropdown for Role Selection -->
+                            <div class="mb-3">
+                                <select class="form-control shadow-sm" name="role" id="role" required>
+                                    <option value="">Select Role</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Staff">Staff</option>
+                                </select>
+                                <small id="roleError" class="text-danger"></small>
+                            </div>
+
                             <div class="mb-4">
                                 <button class="btn btn-primary shadow-sm" type="submit">Contact Administrator</button>
                             </div>
@@ -119,58 +129,75 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).ready(function() {
-            $('#passwordResetForm').on('submit', function(event) {
-                event.preventDefault(); // Prevent the default form submission
+        $('#passwordResetForm').on('submit', function(event) {
+            event.preventDefault();
 
-                // Clear previous errors
-                $('#emailError').text('');
+            // Clear previous errors
+            $('#emailError').text('');
+            $('#user_idError').text('');
+            $('#roleError').text('');
 
-                var email = $('#email').val().trim();
+            var email = $('#email').val().trim();
+            var user_id = $('#user_id').val().trim();
+            var role = $('#role').val().trim();
 
-                // Validate form inputs
-                var isValid = true;
+            // Validate inputs
+            var isValid = true;
 
-                if (email === '') {
-                    $('#emailError').text('Email is required.');
-                    isValid = false;
-                }
+            if (user_id === '') {
+                $('#user_idError').text('User ID is required.');
+                isValid = false;
+            }
 
-                if (!isValid) {
-                    return; // Stop if there are validation errors
-                }
+            if (email === '') {
+                $('#emailError').text('Email is required.');
+                isValid = false;
+            }
 
-                $.ajax({
-                    url: 'password_reset_process.php',
-                    type: 'POST',
-                    dataType: 'json',
-                    data: { email: email },
-                    success: function(response) {
-                        if (response.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Password Reset Link Sent',
-                                text: 'Check your email for further instructions.',
-                                timer: 1500,
-                                timerProgressBar: true
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Password Reset Failed',
-                                text: response.message
-                            });
-                        }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error('AJAX error:', textStatus, errorThrown); // Debug output
+            if (role === '') {
+                $('#roleError').text('Role is required.');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                return; // Stop if validation fails
+            }
+
+            // Submit via AJAX
+            $.ajax({
+                url: 'password_reset_process.php',
+                type: 'POST',
+                dataType: 'json',
+                data: { email: email, user_id: user_id, role: role },
+                success: function(response) {
+                    if (response.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Request Submitted',
+                            text: response.message,
+                            timer: 1500,
+                            timerProgressBar: true
+                        }).then(() => {
+                            // Clear the form fields
+                            $('#email').val('');
+                            $('#user_id').val('');
+                            $('#role').val('');
+                        });
+                    } else {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Oops...',
-                            text: 'Something went wrong! Please try again later.'
+                            title: 'Request Failed',
+                            text: response.message
                         });
                     }
-                });
+                },
+                error: function() {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops...',
+                        text: 'Something went wrong! Please try again later.'
+                    });
+                }
             });
         });
     </script>

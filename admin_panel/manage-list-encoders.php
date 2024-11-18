@@ -33,7 +33,7 @@ $result = mysqli_query($conn, $query);
                         <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
                     </ul>   
                 </li>
-
+                <li class="nav-item"><a class="nav-link" href="request_password.php">Request Password</a></li>
              
                 <li class="nav-item"><a class="nav-link " href="manage-course.php">Manage Course</a></li>
                 <li class="nav-item"><a class="nav-link " href="encoder-manage.php">Manage Encoder</a></li>
@@ -105,12 +105,19 @@ $result = mysqli_query($conn, $query);
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="editencoderForm">
-          <input type="hidden" id="edit-encoder-id" name="encoder_id">
+        <form id="editencoderForm" method="">
+          <input type="text" id="edit-encoder-id" name="encoder_id">
           <div class="mb-3">
-            <label for="edit-encoder-name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="edit-encoder-name" name="encoder_name">
+            <label for="edit-encoder-firstname" class="form-label">Firstname</label>
+            <input type="text" class="form-control" id="edit-encoder-firstname" name="firstname">
           </div>
+
+          <div class="mb-3">
+            <label for="edit-encoder-lastname" class="form-label">Lastname</label>
+            <input type="text" class="form-control" id="edit-encoder-lastname" name="lastname">
+          </div>
+
+
           <div class="mb-3">
             <label for="edit-encoder-gender" class="form-label">Gender</label>
             <select class="form-control" id="edit-encoder-gender" name="gender">
@@ -144,6 +151,20 @@ $result = mysqli_query($conn, $query);
   </div>
 </div>
 
+
+
+
+<div class="mb-3">
+  <label for="edit-encoder-password" class="form-label">Change Passwords</label>
+  <div class="input-group">
+    <input type="password" class="form-control" id="change-encoder-password" name="change_password">
+    <button type="button" id="toggle-passwords" class="btn btn-outline-secondary">Show</button>
+  </div>
+</div>
+
+
+
+
           
           <button type="submit" class="btn btn-primary">Save changes</button>
         </form>
@@ -176,6 +197,22 @@ $('#toggle-password').click(function() {
 });
 
 
+$('#toggle-passwords').click(function() {
+    const passwordInput = $('#change-encoder-password');
+    const button = $(this);
+    
+    if (passwordInput.attr('type') === 'password') {
+        passwordInput.attr('type', 'text');
+        button.text('Hide'); // Change button text to "Hide"
+    } else {
+        passwordInput.attr('type', 'password');
+        button.text('Show'); // Change button text back to "Show"
+    }
+});
+
+
+
+
    // Initialize DataTable
    $('#encodersTable').DataTable();
 
@@ -190,8 +227,10 @@ $('.edit-btn').click(function() {
         success: function(response) {
             var encoder = JSON.parse(response);
             if (!encoder.error) {
-                $('#edit-encoder-id').val(encoder.encoder_id);
-                $('#edit-encoder-name').val(encoder.first_name + ' ' + encoder.last_name);
+                $('#edit-encoder-id').val(encoder.id);
+                $('#edit-encoder-firstname').val(encoder.first_name);
+                $('#edit-encoder-lastname').val(encoder.last_name);
+
                 $('#edit-encoder-gender').val(encoder.gender);
                 $('#edit-encoder-phone').val(encoder.phone);
                 $('#edit-encoder-email').val(encoder.email);
@@ -204,24 +243,28 @@ $('.edit-btn').click(function() {
         }
     });
 });
-
-// Handle form submission for editing encoder
 $('#editencoderForm').submit(function(event) {
-    event.preventDefault();
+    event.preventDefault(); // Prevent default form submission
 
+    // Send the form data via AJAX to update encoder information
     $.ajax({
         url: 'update-encoder.php',
         type: 'POST',
-        data: $(this).serialize(),
+        data: $(this).serialize(), // Serialize form data
         success: function(response) {
-            var result = JSON.parse(response);
+            var result = JSON.parse(response); // Parse the response
+
             if (result.success) {
                 alert(result.success);
-                $('#editencoderModal').modal('hide');
-                location.reload();
+                $('#editencoderModal').modal('hide'); // Close modal
+                location.reload(); // Reload the page to show updated info
             } else {
-                alert(result.error);
+                alert(result.error); // Show error if any
             }
+        },
+        error: function(xhr, status, error) {
+            console.error("AJAX Error:", error);
+            alert("Unable to update encoder details. Please try again.");
         }
     });
 });

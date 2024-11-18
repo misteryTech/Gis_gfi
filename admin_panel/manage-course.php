@@ -16,7 +16,7 @@ include("connection.php");
             <ul class="navbar-nav mx-auto">
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle " href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Administrator
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
@@ -24,9 +24,10 @@ include("connection.php");
                     </ul>
                 </li>
 
-             
 
-                <li class="nav-item"><a class="nav-link " href="manage-course.php">Manage Course</a></li>
+
+                <li class="nav-item"><a class="nav-link" href="request_password.php">Request Password</a></li>
+                <li class="nav-item"><a class="nav-link active" href="manage-course.php">Manage Course</a></li>
                 <li class="nav-item"><a class="nav-link " href="encoder-manage.php">Manage Encoder</a></li>
                 <li class="nav-item"><a class="nav-link" href="manage-list-encoders.php">Encoders List</a></li>
 

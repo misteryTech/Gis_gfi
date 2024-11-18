@@ -21,7 +21,8 @@
                         <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
                     </ul>
                 </li>
-
+                <li class="nav-item"><a class="nav-link" href="request_password.php">Request Password</a></li>
+                
                 <li class="nav-item"><a class="nav-link " href="manage-course.php">Manage Course</a></li>
 
                 <li class="nav-item"><a class="nav-link " href="encoder-manage.php">Manage Encoder</a></li>
