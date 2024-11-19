@@ -156,7 +156,7 @@
                                 timerProgressBar: true,
                                 willClose: () => {
                                     if (response.redirect === 'encoder_panel/') {
-                                        window.location.href = 'encoder_panel/dashboard.php'; // Redirect for encoder users
+                                        window.location.href = 'encoder_panel/encoder_profile.php'; // Redirect for encoder users
                                     } else {
                                         window.location.href = 'admin_panel/dashboard.php'; // Redirect for admin users
                                     }

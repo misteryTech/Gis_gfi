@@ -1,5 +1,5 @@
 <?php
-include ("connection.php");
+include("connection.php");
 
 // Check connection
 if (!$conn) {
@@ -9,9 +9,7 @@ if (!$conn) {
 
 // Check if form is submitted via POST
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
     // Get form data
-    $student_photo = $_FILES['student_photo']['name'];
     $student_id = mysqli_real_escape_string($conn, $_POST['student_id']);
     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
     $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
@@ -23,85 +21,74 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $student_status = mysqli_real_escape_string($conn, $_POST['student_status']);
     $password = password_hash(mysqli_real_escape_string($conn, $_POST['password']), PASSWORD_DEFAULT); // Hash the password
-    $archive = "0"; // Hash the password
+    $status = "unarchived";
+
+    // Initialize photo path
+    $student_photo = "";
 
     // Photo Upload Handling
-    $target_dir = "uploads/"; // Directory to store uploaded photos
-    $target_file = $target_dir . basename($student_photo);
-    $uploadOk = 1;
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    if (isset($_FILES['student_photo']) && $_FILES['student_photo']['error'] === UPLOAD_ERR_OK) {
+        $target_dir = "uploads/"; // Directory to store uploaded photos
+        $student_photo = basename($_FILES['student_photo']['name']);
+        $target_file = $target_dir . $student_photo;
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
 
-    // Check if file is a real image
-    if (isset($_FILES["student_photo"])) {
-        $check = getimagesize($_FILES["student_photo"]["tmp_name"]);
-        if ($check !== false) {
-            $uploadOk = 1;
-        } else {
+        // Validate the image
+        $check = getimagesize($_FILES['student_photo']['tmp_name']);
+        if ($check === false) {
             echo "<script>
                     alert('File is not an image.');
                     window.history.back();
                   </script>";
             exit();
         }
-    }
 
-    // Check if file already exists
-    if (file_exists($target_file)) {
-        echo "<script>
-                alert('Sorry, file already exists.');
-                window.history.back();
-              </script>";
-        exit();
-    }
+        // Check if file size exceeds 2MB
+        if ($_FILES['student_photo']['size'] > 2000000) {
+            echo "<script>
+                    alert('Sorry, your file is too large.');
+                    window.history.back();
+                  </script>";
+            exit();
+        }
 
-    // Check file size (limit to 2MB)
-    if ($_FILES["student_photo"]["size"] > 2000000) {
-        echo "<script>
-                alert('Sorry, your file is too large.');
-                window.history.back();
-              </script>";
-        exit();
-    }
+        // Allow specific file formats
+        if (!in_array($imageFileType, ['jpg', 'jpeg', 'png', 'gif'])) {
+            echo "<script>
+                    alert('Sorry, only JPG, JPEG, PNG, and GIF files are allowed.');
+                    window.history.back();
+                  </script>";
+            exit();
+        }
 
-    // Allow only certain file formats (jpg, jpeg, png, gif)
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg" && $imageFileType != "gif") {
-        echo "<script>
-                alert('Sorry, only JPG, JPEG, PNG & GIF files are allowed.');
-                window.history.back();
-              </script>";
-        exit();
-    }
-
-    // Try to upload file
-    if ($uploadOk == 0) {
-        echo "<script>
-                alert('Sorry, your file was not uploaded.');
-                window.history.back();
-              </script>";
-    } else {
-        if (move_uploaded_file($_FILES["student_photo"]["tmp_name"], $target_file)) {
-            // SQL query to insert the data into the database
-            $query = "INSERT INTO students (student_photo, student_id, first_name, last_name, gender, phone, email, year_level, course, username, password, student_status, archive)
-                      VALUES ('$target_file', '$student_id', '$first_name', '$last_name', '$gender', '$phone', '$email', '$year_level', '$course', '$username', '$password', '$student_status', '$archive')";
-            $result = mysqli_query($conn, $query);
-    
-            if ($result) {
-                echo "<script>
-                        alert('Student registered successfully!');
-                        window.history.back();
-                      </script>";
-            } else {
-                echo "<script>
-                        alert('Failed to register student.');
-                        window.history.back();
-                      </script>";
-            }
-        } else {
+        // Move uploaded file
+        if (!move_uploaded_file($_FILES['student_photo']['tmp_name'], $target_file)) {
             echo "<script>
                     alert('Sorry, there was an error uploading your file.');
                     window.history.back();
                   </script>";
+            exit();
         }
+
+        // Set the stored file path
+        $student_photo = $target_file;
+    }
+
+    // SQL query to insert data into the database
+    $query = "INSERT INTO students (student_photo, student_id, first_name, last_name, gender, phone, email, year_level, course, username, password, student_status, status)
+              VALUES ('$student_photo', '$student_id', '$first_name', '$last_name', '$gender', '$phone', '$email', '$year_level', '$course', '$username', '$password', '$student_status', '$status')";
+    $result = mysqli_query($conn, $query);
+
+    if ($result) {
+        echo "<script>
+                alert('Student registered successfully!');
+                window.location.href = 'manage-students.php'; // Redirect to a success page
+              </script>";
+    } else {
+        echo "<script>
+                alert('Failed to register student.');
+                window.history.back();
+              </script>";
     }
 }
 ?>

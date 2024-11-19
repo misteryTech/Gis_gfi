@@ -140,6 +140,19 @@ include("footer.php");
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script>
 
+document.getElementById('phone-number').addEventListener('input', function(e) {
+    // Replace any non-numeric character with an empty string
+    this.value = this.value.replace(/[^0-9]/g, '');
+    
+    // Enforce maxlength of 11 digits
+    if (this.value.length > 11) {
+        this.value = this.value.slice(0, 11);
+    }
+});
+
+
+
+
 function togglePasswordVisibility() {
     const passwordInput = document.getElementById("password");
     const toggleIcon = document.querySelector(".toggle-password");

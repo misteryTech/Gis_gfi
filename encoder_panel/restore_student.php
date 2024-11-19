@@ -56,8 +56,8 @@ $encoder_id = $_SESSION['id'];
     <div class="container py-5">
         <div class="row">
             <div class="col-md-8 col-xl-6 text-center mx-auto">
-                <h2 class="display-6 fw-bold mb-4">Student <span class="underline">List</span></h2>
-                <a href="restore_student.php"><button class='btn btn-warning shadow '>Archive Student</button></a> 
+                <h2 class="display-6 fw-bold mb-4">Archive <span class="underline"> Students</span></h2>
+   
             </div>
         </div>
         <div class="row d-flex justify-content-center">
@@ -85,7 +85,7 @@ $encoder_id = $_SESSION['id'];
                             $encoder_course = $row_course['course'];
                         
                             // Fetch all students who are enrolled in the same course
-                            $query_students = "SELECT * FROM students WHERE course = '$encoder_course' AND status='unarchived' ORDER BY id DESC";
+                            $query_students = "SELECT * FROM students WHERE course = '$encoder_course' AND status='archived' ORDER BY id DESC";
                             $result_students = mysqli_query($conn, $query_students);
                         } else {
                             echo "Course not found for the encoder.";
@@ -104,8 +104,8 @@ $encoder_id = $_SESSION['id'];
                                 echo "<td>" . htmlspecialchars($row['course']) . "</td>";
                                 echo "<td>" . htmlspecialchars($row['date_registered']) . "</td>";
                                 echo "<td>
-                                <a class='btn btn-primary btn-sm d-inline-block' href='student-profile.php?student_id=" . htmlspecialchars($row['id']) . "'>View Profile</a>
-                                <button class='btn btn-danger btn-sm d-inline-block archive-btn' data-id='{$row['id']}'>Archive</button>
+                           
+                                <button class='btn btn-success btn-sm d-inline-block archive-btn' data-id='{$row['id']}'>Restore</button>
                               </td>";
                         
                                 echo "</tr>";
@@ -176,9 +176,7 @@ include("footer.php");
 
 $(document).ready(function() {
     // Initialize DataTable
-    $('#studentsTable').DataTable({
-        
-    });
+    $('#studentsTable').DataTable();
 
 
     
@@ -186,7 +184,7 @@ $(document).on('click', '.archive-btn', function () {
     var encoderId = $(this).data('id');
     if (confirm("Are you sure you want to archive this encoder?")) {
         $.ajax({
-            url: 'archive_student.php',
+            url: 'restore_student_process.php',
             type: 'POST',
             data: { id: encoderId },
             success: function (response) {

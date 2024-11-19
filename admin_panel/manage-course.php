@@ -96,14 +96,14 @@ include("connection.php");
                
                             <th>Course Name</th>
                             <th>Department</th>
-                  
+                            <th>Date Registered</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody id="subjects-table-body">
                         <?php
                         // Fetching subjects
-                        $sql = "SELECT * FROM course_table ORDER BY date_registered DESC";
+                        $sql = "SELECT * FROM course_table ";
 
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) > 0) {
@@ -111,6 +111,7 @@ include("connection.php");
                                 echo "<tr>
                                     <td>{$row['course_name']}</td>
                                     <td>{$row['department']}</td>
+                                    <td>{$row['date_registered']}</td>
                                
                                     <td>
                                         <button class='btn btn-primary shadow archive-button' data-id='{$row['id']}' data-name='{$row['course_name']}'>Archive</button>
@@ -151,7 +152,19 @@ include("connection.php");
 <?php include("footer.php"); ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
+
+       // Initialize DataTable
+   $('#subjectsTable').DataTable(
+    {
+                order: [[2, 'desc']], // Default sort by the third column (Score) in descending order
+            }
+            
+   );
+
+
+
     $(document).ready(function() {
         let subjectIdToArchive;
         let subjectNameToArchive;

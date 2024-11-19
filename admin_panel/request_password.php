@@ -50,38 +50,55 @@ include("connection.php");
     <thead>
         <tr>
             <th>User Id</th>
-            <th>Email</th>
+            <th>Name</th>
             <th>Request Date</th>
             <th>Request Time</th>
             <th>Status</th>
+            <th>Role</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody id="reset-requests-table-body">
         <?php
         // Fetching all password reset requests
-        $sql = "SELECT 
-            *, 
-            DATE(request_time) AS request_date, 
-            TIME_FORMAT(TIME(request_time), '%h:%i %p') AS request_time_only 
-        FROM password_reset_requests 
-      ";
+        $sql = "
+        SELECT 
+            PRR.*, 
+            DATE(PRR.request_time) AS request_date, 
+            TIME_FORMAT(TIME(PRR.request_time), '%h:%i %p') AS request_time_only, 
+            S.first_name, 
+            S.last_name 
+        FROM password_reset_requests AS PRR
+        LEFT JOIN students AS S ON PRR.user_id = S.student_id
+    ";
+    
 
         $result = mysqli_query($conn, $sql);
 
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<tr>
-                        <td>{$row['user_id']}</td>
-                        <td>{$row['email']}</td>
-                        <td>{$row['request_date']}</td> <!-- Display the date -->
-                        <td>{$row['request_time_only']}</td> <!-- Display the time -->
-                        <td>{$row['status']}</td>
+             <td style='color: " . (empty($row['user_id']) ? "red" : "black") . ";'>" . 
+    (!empty($row['user_id']) ? htmlspecialchars($row['user_id']) : "Not Registered") . 
+"</td>
+<td style='color: " . ((empty($row['first_name']) && empty($row['last_name'])) ? "red" : "black") . ";'>" . 
+    (!empty($row['first_name']) || !empty($row['last_name']) 
+        ? htmlspecialchars($row['first_name'] . ' ' . $row['last_name']) 
+        : "Student Not Registered") . 
+"</td>
+
+
+                        <td>" . htmlspecialchars($row['request_date']) . "</td> <!-- Display the date -->
+                        <td>" . htmlspecialchars($row['request_time_only']) . "</td> <!-- Display the time -->
+                        <td>" . htmlspecialchars($row['status']) . "</td>
+                        <td>" . htmlspecialchars($row['role']) . "</td>
                         <td>
-                            <button class='btn btn-success shadow reset-status-button' data-id='{$row['id']}' data-status='{$row['status']}'>Update Status</button>
+                            <button class='btn btn-success shadow reset-status-button' data-id='" . htmlspecialchars($row['id']) . "' data-status='" . htmlspecialchars($row['status']) . "'>Update Status</button>
                         </td>
                     </tr>";
             }
+        
+        
         } else {
             echo "<tr><td colspan='6'>No password reset requests found.</td></tr>";
         }

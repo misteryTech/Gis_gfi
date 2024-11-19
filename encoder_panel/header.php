@@ -1,6 +1,3 @@
-<?php
-session_start(); // Start the session
-?>
 
 <!DOCTYPE html>
 <html data-bs-theme="light" lang="en">
@@ -33,3 +30,7 @@ session_start(); // Start the session
     }
     .dropdown-item{}
 </style>
+
+<?php
+session_start(); // Start the session
+?>

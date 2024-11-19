@@ -46,9 +46,8 @@ include ("connection.php");
     <div class="container py-5">
         <div class="row">
             <div class="col-md-8 col-xl-6 text-center mx-auto">
-                <h2 class="display-6 fw-bold mb-4">Encoder <span class="underline">List</span></h2>
-               <a href="restore_encoder.php"><button class='btn btn-warning shadow '>Archive Encoder</button></a> 
-            </div>
+                <h2 class="display-6 fw-bold mb-4">Archive <span class="underline">List</span></h2>
+              </div>
         </div>
         <div class="row d-flex justify-content-center">
             <div class="col-md-10 col-xl-12">
@@ -59,8 +58,7 @@ include ("connection.php");
                             <th>Encoder ID</th>
                             <th>Name</th>
 
-                          
-                            <th>Course</th>
+          
                             <th>Date Registered</th>
                             <th>Action</th>
                       
@@ -70,7 +68,7 @@ include ("connection.php");
                         <?php
 
 
-                        $query = "SELECT * FROM encoder WHERE status='unarchive' ";
+                        $query = "SELECT * FROM encoder WHERE status='archived' ";
                         $result = mysqli_query($conn, $query);
 
 
@@ -81,11 +79,10 @@ include ("connection.php");
                                echo "<td>" . htmlspecialchars($row['encoder_id']) . "</td>";
                                echo "<td>" . htmlspecialchars($row['first_name']) . " " . htmlspecialchars($row['last_name']) . "</td>";
                           
-                               echo "<td>" . htmlspecialchars($row['course']) . "</td>";
+                   
                                echo "<td>" . htmlspecialchars($row['date_registered']) . "</td>";
                                echo "<td>
-                               <button class='btn btn-success shadow edit-btn' data-id='{$row['encoder_id']}' data-bs-toggle='modal' data-bs-target='#editencoderModal'>Profile</button>
-                               <button class='btn btn-danger shadow archive-btn' data-id='{$row['encoder_id']}'>Archive</button>
+                               <button class='btn btn-success shadow archive-btn' data-id='{$row['encoder_id']}'>Restore</button>
                            </td>";
 
                               
@@ -102,79 +99,7 @@ include ("connection.php");
     </div>
 </section>
 
-<!-- Edit encoder Modal -->
-<div class="modal fade" id="editencoderModal" tabindex="-1" aria-labelledby="editencoderModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editencoderModalLabel">Edit encoder</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="editencoderForm" method="">
-          <input type="hidden" id="edit-encoder-id" name="encoder_id">
-          <div class="mb-3">
-            <label for="edit-encoder-firstname" class="form-label">Firstname</label>
-            <input type="text" class="form-control" id="edit-encoder-firstname" name="firstname">
-          </div>
 
-          <div class="mb-3">
-            <label for="edit-encoder-lastname" class="form-label">Lastname</label>
-            <input type="text" class="form-control" id="edit-encoder-lastname" name="lastname">
-          </div>
-
-
-          <div class="mb-3">
-            <label for="edit-encoder-gender" class="form-label">Gender</label>
-            <select class="form-control" id="edit-encoder-gender" name="gender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="edit-encoder-phone" class="form-label">Phone</label>
-            <input type="text" class="form-control" max="11" id="edit-encoder-phone" name="phone">
-          </div>
-          <div class="mb-3">
-            <label for="edit-encoder-email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="edit-encoder-email" name="email">
-          </div>
-          <div class="mb-3">
-            <label for="edit-encoder-course" class="form-label">Course</label>
-            <input type="text" class="form-control" id="edit-encoder-course" name="course">
-          </div>
-
-          <div class="mb-3">
-            <label for="edit-encoder-username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="edit-encoder-username" name="username">
-          </div>
-
-          <div class="mb-3">
-  <label for="edit-encoder-password" class="form-label">Password</label>
-  <div class="input-group">
-    <input type="password" class="form-control" id="edit-encoder-password" name="password">
-    <button type="button" id="toggle-password" class="btn btn-outline-secondary">Show</button>
-  </div>
-</div>
-
-
-
-
-<div class="mb-3">
-  <label for="edit-encoder-password" class="form-label">Change Passwords</label>
-  <div class="input-group">
-    <input type="password" class="form-control" id="change-encoder-password" name="change_password">
-    <button type="button" id="toggle-passwords" class="btn btn-outline-secondary">Show</button>
-  </div>
-</div>
-
-
-
-
-          
-          <button type="submit" class="btn btn-primary">Save changes</button>
-        </form>
-      </div>
     </div>
   </div>
 </div>
@@ -191,9 +116,9 @@ include("footer.php");
 
 $(document).on('click', '.archive-btn', function () {
     var encoderId = $(this).data('id');
-    if (confirm("Are you sure you want to archive this encoder?")) {
+    if (confirm("Are you sure you want to restore this encoder?")) {
         $.ajax({
-            url: 'archive_encoder.php',
+            url: 'restore_encoder_process.php',
             type: 'POST',
             data: { id: encoderId },
             success: function (response) {
@@ -213,34 +138,6 @@ $(document).on('click', '.archive-btn', function () {
     }
 });
 
-
-
-$('#toggle-password').click(function() {
-    const passwordInput = $('#edit-encoder-password');
-    const button = $(this);
-    
-    if (passwordInput.attr('type') === 'password') {
-        passwordInput.attr('type', 'text');
-        button.text('Hide'); // Change button text to "Hide"
-    } else {
-        passwordInput.attr('type', 'password');
-        button.text('Show'); // Change button text back to "Show"
-    }
-});
-
-
-$('#toggle-passwords').click(function() {
-    const passwordInput = $('#change-encoder-password');
-    const button = $(this);
-    
-    if (passwordInput.attr('type') === 'password') {
-        passwordInput.attr('type', 'text');
-        button.text('Hide'); // Change button text to "Hide"
-    } else {
-        passwordInput.attr('type', 'password');
-        button.text('Show'); // Change button text back to "Show"
-    }
-});
 
 
 

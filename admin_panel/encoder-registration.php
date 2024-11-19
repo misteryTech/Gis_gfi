@@ -16,6 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $course = mysqli_real_escape_string($conn, $_POST['course']);
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = password_hash(mysqli_real_escape_string($conn, $_POST['password']), PASSWORD_DEFAULT); // Hash the password
+    $status = "unarchive"; // Hash the password
 
     // Photo Upload Handling
     $target_dir = "upload_encoder/"; // Directory to store uploaded photos
@@ -25,8 +26,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (move_uploaded_file($_FILES["encoder_photo"]["tmp_name"], $target_file)) {
 
         // SQL query to insert the data into the database
-        $query = "INSERT INTO encoder (encoder_photo, encoder_id, first_name, last_name, gender, phone, email, year_level, course, username, password)
-                  VALUES ('$target_file', '$encoder_id', '$first_name', '$last_name', '$gender', '$phone', '$email', '$year_level', '$course', '$username', '$password')";
+        $query = "INSERT INTO encoder (encoder_photo, encoder_id, first_name, last_name, gender, phone, email, year_level, course, username, password, status)
+                  VALUES ('$target_file', '$encoder_id', '$first_name', '$last_name', '$gender', '$phone', '$email', '$year_level', '$course', '$username', '$password', '$status')";
 
         // Execute the query
         if (mysqli_query($conn, $query)) {

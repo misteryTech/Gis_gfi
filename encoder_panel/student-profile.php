@@ -54,6 +54,9 @@ while ($grade = mysqli_fetch_assoc($encoded_encoded_grades_result)) {
     <title>Encode encoded_grades</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <style>
         .form-row {
             display: flex;
@@ -142,8 +145,28 @@ while ($grade = mysqli_fetch_assoc($encoded_encoded_grades_result)) {
                             </div>
                         </div>
                     </div>
-                    <a class="btn btn-primarys btn-sm" href="print_encoded_grades.php?student_id=<?php echo htmlspecialchars($student['id']); ?>">Print encoded_grades</a>
-                    <h4 class="mt-5">Encoded encoded_grades</h4>
+
+                    <div class="container mt-5">
+    <h3>Print Grades</h3>
+    <!-- Semester Filter Button -->
+    <div class="dropdown">
+        <button class="btn btn-success btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            Print Encoded Grades
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li>
+                <a class="dropdown-item" href="print_encoded_grades.php?student_id=<?php echo htmlspecialchars($student['id']); ?>&semester=1">Print 1st Semester</a>
+            </li>
+            <li>
+                <a class="dropdown-item" href="print_encoded_grades.php?student_id=<?php echo htmlspecialchars($student['id']); ?>&semester=2">Print 2nd Semester</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+                    <h4 class="mt-5">Encoded Grades</h4>
                     <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
                         <?php for ($year = 1; $year <= 4; $year++): ?>
                             <li class="nav-item" role="presentation">

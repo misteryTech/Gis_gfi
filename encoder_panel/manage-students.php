@@ -61,7 +61,7 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                 <form class="p-3 p-xl-4 form-floating" action="code.php" method="post" enctype="multipart/form-data" id="studentRegistrationForm">
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <input class="shadow form-control" type="file" id="student-photo" name="student_photo" placeholder="Student Photo" required>
+                            <input class="shadow form-control" type="file" id="student-photo" name="student_photo" placeholder="Student Photo">
                         </div>
                         <div class="col-md-6">
                             <input class="shadow form-control" type="text" id="student-id" name="student_id" placeholder="Student ID" required>
@@ -111,10 +111,14 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                         <div class="col-md-6">
                             <select class="shadow form-control" id="year-level" name="year_level" required>
                                 <option value="" disabled selected>Select Year Level</option>
-                                <option value="first-year">First Year</option>
-                                <option value="second-year">Second Year</option>
-                                <option value="third-year">Third Year</option>
-                                <option value="fourth-year">Fourth Year</option>
+                                <option value="1st Year">1st year</option>
+                                <option value="1st Year Summer">1st year Summer</option>
+                                <option value="2nd Year">2nd Year</option>
+                                <option value="2nd Year Summer">2nd Year Summer</option>
+                                <option value="3rd Year">3rd Year</option>
+                                <option value="3rd Year Summer">3rd Year Summer</option>
+                                <option value="4th Year">4th Year</option>
+                                <option value="4th Year Summer">4th Year Summer</option>
                             </select>
                         </div>
               

@@ -5,9 +5,10 @@ include("connection.php");
 
 // Assuming course is set when the user logs in
 $course = $_SESSION['encoder_course']; // Replace with actual course data from user login
-
-
 ?>
+
+
+
 <body>
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
     <div class="container">
@@ -22,17 +23,18 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
             <ul class="navbar-nav mx-auto">
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle " href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle active" href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Encoder
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
+                    <li><a class="dropdown-item" href="encoder_profile.php">Profile</a></li>
                         <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
               
                     </ul>
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle " href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Manage Students
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdown">
@@ -163,7 +165,7 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                 <table class="table table-striped" id="subjectsTable">
                     <thead>
                         <tr>
-                            <th>ID</th>
+                            <th>#</th>
                             <th>Subject Code</th>
                             <th>Subject Name</th>
                             <th>Year</th>
@@ -228,8 +230,27 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
 
 <?php include("footer.php"); ?>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
 <script>
+
+$(document).ready(function () {
+            // Initialize DataTable with filtering and ordering
+            $('#subjectsTable').DataTable({
+                order: [[0, 'desc']], // Default sort by Subject Code
+                columnDefs: [
+                    { orderable: false, targets: [8] } // Disable ordering on Actions column
+                ]
+            });
+
+            // Archive button functionality (example)
+ 
+        });
+
+
+
     $(document).ready(function() {
         let subjectIdToArchive;
         let subjectNameToArchive;
