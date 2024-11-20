@@ -107,7 +107,7 @@ include("header.php");
                                 // Database connection  
                                 include ("connection.php");
 
-                                $courseSql = "SELECT * FROM course_table ORDER BY course_name ASC"; // Adjust your table name accordingly
+                                $courseSql = "SELECT * FROM course_table WHERE status='unarchived' ORDER BY date_registered DESC"; // Adjust your table name accordingly
                                 $courseResult = mysqli_query($conn, $courseSql);
                                 if (mysqli_num_rows($courseResult) > 0) {
                                     while ($courseRow = mysqli_fetch_assoc($courseResult)) {

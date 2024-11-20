@@ -54,8 +54,7 @@ include("connection.php");
         </div>
         <div class="row d-flex justify-content-center">
     <div class="col-md-10 col-xl-8 text-center">
-        <button class="btn btn-primary shadow mb-3" data-bs-toggle="modal" data-bs-target="#addCourseModal">Add Course</button>
-        <a href="restore_course.php"><button class='btn btn-warning shadow '>Archive Course</button></a> 
+    
         
         <!-- Add Course Modal -->
         <div class="modal fade" id="addCourseModal" tabindex="-1" aria-labelledby="addCourseModalLabel" aria-hidden="true">
@@ -106,7 +105,7 @@ include("connection.php");
                     <tbody id="courses-table-body">
                         <?php
                         // Fetching courses
-                        $sql = "SELECT * FROM course_table WHERE status='unarchived'";
+                        $sql = "SELECT * FROM course_table WHERE status='archive'";
 
                         $result = mysqli_query($conn, $sql);
                         if (mysqli_num_rows($result) > 0) {
@@ -117,7 +116,7 @@ include("connection.php");
                                     <td>{$row['date_registered']}</td>
                                
                                     <td>
-                                        <button class='btn btn-primary shadow archive-button' data-id='{$row['id']}' data-name='{$row['course_name']}'>Archive</button>
+                                        <button class='btn btn-success shadow archive-button' data-id='{$row['id']}' data-name='{$row['course_name']}'>Restore</button>
                                     </td>
                                 </tr>";
                             }
@@ -185,7 +184,7 @@ include("connection.php");
         // Confirm archiving the course
         $('#confirmArchiveButton').click(function() {
             $.ajax({
-                url: 'archive_course.php', // PHP file to handle archiving
+                url: 'restore_course_process.php', // PHP file to handle archiving
                 type: 'POST',
                 data: { id: courseIdToArchive },
                 success: function(response) {
