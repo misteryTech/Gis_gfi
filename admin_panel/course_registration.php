@@ -7,13 +7,14 @@ if (isset($_POST['submit_course'])) {
     // Get the form data
     $course_name = $_POST['course_name'];
     $department = $_POST['department'];
+    $status = "unarchived";
 
     // Prepare the SQL query
-    $sql = "INSERT INTO course_table (course_name, department) VALUES (?, ?)";
+    $sql = "INSERT INTO course_table (course_name, department) VALUES (?, ?, ?)";
 
     // Prepare and bind parameters to prevent SQL injection
     if ($stmt = $conn->prepare($sql)) {
-        $stmt->bind_param("ss", $course_name, $department);
+        $stmt->bind_param("sss", $course_name, $department, $status);
 
  // Execute the query and check if it was successful
 if ($stmt->execute()) {
