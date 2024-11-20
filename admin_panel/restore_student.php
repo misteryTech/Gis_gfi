@@ -3,8 +3,6 @@ include("header.php");
 
 include ("connection.php");
 
-$query = "SELECT * FROM students";
-$result = mysqli_query($conn, $query);
 
 
 
@@ -21,43 +19,21 @@ $result = mysqli_query($conn, $query);
         </button>
         <div class="collapse navbar-collapse" id="navcol-1">
             <ul class="navbar-nav mx-auto">
-
             <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle " href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link dropdown-toggle " href="#" id="manageDropdowns" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Administrator
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
                         <li><a class="dropdown-item" href="admin-panel.php">Admin Panel</a></li>
-                        <li><a class="dropdown-item" href="encoder-manage.php">Manage Encoder</a></li>
-                        <li><a class="dropdown-item" href="manage-list-encoders.php">Encoders List</a></li>
-                        <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-                        <li><a class="dropdown-item" href="manage-requirements.php">Requirements</a></li>
-                        <li><a class="dropdown-item" href="requirements.php">Requirements List</a></li>
-                    </ul>
-
-
+                    </ul>   
                 </li>
+                <li class="nav-item"><a class="nav-link" href="request_password.php">Request Password</a></li>
+             
+                <li class="nav-item"><a class="nav-link " href="manage-course.php">Manage Course</a></li>
+                <li class="nav-item"><a class="nav-link " href="encoder-manage.php">Manage Encoder</a></li>
+                <li class="nav-item"><a class="nav-link " href="manage-list-encoders.php">Encoders List</a></li>
 
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="#" id="manageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Manage Students
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="manageDropdown">
-                        <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
-                        <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-                        <li><a class="dropdown-item" href="student_requirements.php">Requirements</a></li>
-                        <li><a class="dropdown-item" href="request_grade_page.php">Request Grade</a></li>
-                    </ul>
-                </li>
-
-
-
-
-
-
-                <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>
-                <li class="nav-item"><a class="nav-link" href="integrations.html">Generate Reports</a></li>
+                <li class="nav-item"><a class="nav-link active" href="manage-list-student.php">Student List</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>
@@ -68,7 +44,8 @@ $result = mysqli_query($conn, $query);
     <div class="container py-5">
         <div class="row">
             <div class="col-md-8 col-xl-6 text-center mx-auto">
-                <h2 class="display-6 fw-bold mb-4">Student <span class="underline">List</span></h2>
+                <h2 class="display-6 fw-bold mb-4">Archive <span class="underline">List</span></h2>
+      
             </div>
         </div>
         <div class="row d-flex justify-content-center">
@@ -76,7 +53,7 @@ $result = mysqli_query($conn, $query);
                 <table class="table table-striped" id="studentsTable">
                     <thead>
                         <tr>
-                            <th>Photo</th>
+                   
                             <th>Student ID</th>
                             <th>Name</th>
 
@@ -88,17 +65,22 @@ $result = mysqli_query($conn, $query);
                     <tbody>
                         <?php
 
+
+                        $query = "SELECT * FROM students WHERE status='archive'";
+                        $result = mysqli_query($conn, $query);
+
+
                        if (mysqli_num_rows($result) > 0) {
                            while ($row = mysqli_fetch_assoc($result)) {
                                echo "<tr>";
-                               echo "<td><img src='" . htmlspecialchars($row['student_photo']) . "' width='50'></td>";
+                           
                                echo "<td>" . htmlspecialchars($row['student_id']) . "</td>";
                                echo "<td>" . htmlspecialchars($row['first_name']) . " " . htmlspecialchars($row['last_name']) . "</td>";
                                echo "<td>" . htmlspecialchars($row['year_level']) . "</td>";
                                echo "<td>" . htmlspecialchars($row['course']) . "</td>";
                                echo "<td>
-                                       <a class='btn btn-primary btn-sm' href='student-profile.php?student_id=" . htmlspecialchars($row['id']) . "'>View Profile</a>
-                                       <button class='btn btn-danger btn-sm delete-btn' data-id='" . htmlspecialchars($row['id']) . "'>Delete</button>
+                                   
+                                       <button class='btn btn-success btn-sm delete-btn' data-id='" . htmlspecialchars($row['id']) . "'>Restore</button>
                                      </td>";
                                echo "</tr>";
                            }
@@ -195,18 +177,18 @@ $(document).ready(function() {
 
         swal({
             title: "Are you sure?",
-            text: "Once deleted, you will not be able to recover this student's data!",
-            icon: "warning",
+            text: "You want to restore this data",
+            icon: "success",
             buttons: true,
             dangerMode: true,
         }).then((willDelete) => {
             if (willDelete) {
                 $.ajax({
-                    url: 'delete-student.php',
+                    url: 'restore-student-progress.php',
                     type: 'POST',
                     data: {id: studentId},
                     success: function(response) {
-                        swal("Student has been deleted!", {
+                        swal("Student has been restored!", {
                             icon: "success",
                         }).then(() => {
                             location.reload();

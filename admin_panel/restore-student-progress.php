@@ -8,7 +8,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $student_id = mysqli_real_escape_string($conn, $_POST['id']);
 
     // Delete query
-    $query = "UPDATE students SET status='archive'
+    $query = "UPDATE students SET status='unarchived'
   
     WHERE id = $student_id";
 
