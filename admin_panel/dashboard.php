@@ -52,8 +52,7 @@
                 <li class="nav-item"><a class="nav-link " href="manage-course.php">Manage Course</a></li>
                 <li class="nav-item"><a class="nav-link " href="encoder-manage.php">Manage Encoder</a></li>
                 <li class="nav-item"><a class="nav-link" href="manage-list-encoders.php">Encoders List</a></li>
-
-                <li class="nav-item"><a class="nav-link" href="generate_reports.php">Generate Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="manage-list-student.php">Student List</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>
         </div>

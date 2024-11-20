@@ -277,6 +277,9 @@ $('.edit-btn').click(function() {
         }
     });
 });
+
+
+
 $('#editencoderForm').submit(function(event) {
     event.preventDefault(); // Prevent default form submission
 

@@ -44,10 +44,11 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
      
-                        <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-        
+     <li><a class="dropdown-item" href="encoder_profile.php">Profile</a></li>
+     <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
 
-                    </ul>
+
+ </ul>
                 </li>
                 <!-- Manage Students Dropdown -->
                 <li class="nav-item dropdown">

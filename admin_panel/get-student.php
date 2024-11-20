@@ -1,22 +1,19 @@
 <?php
-// Database connection
-include ("connection.php");
+include("connection.php");
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get student ID
-    $student_id = mysqli_real_escape_string($conn, $_POST['id']);
+if (isset($_POST['id'])) {
+    $student_id = $_POST['id'];
+    $query = "SELECT * FROM students WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param("i", $student_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
-    // Fetch student details
-    $query = "SELECT * FROM students WHERE id = '$student_id'";
-    $result = mysqli_query($conn, $query);
-
-    if ($result && mysqli_num_rows($result) > 0) {
-        $student = mysqli_fetch_assoc($result);
-        echo json_encode($student);
+    if ($result->num_rows > 0) {
+        $encoder = $result->fetch_assoc();
+        echo json_encode($encoder);
     } else {
-        echo json_encode(['status' => 'error', 'message' => 'Student not found']);
+        echo json_encode(['error' => 'Encoder not found']);
     }
-
-    mysqli_close($conn);
 }
 ?>

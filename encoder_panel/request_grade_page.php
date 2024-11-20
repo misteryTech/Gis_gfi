@@ -24,9 +24,12 @@ include ("connection.php");
                         Encoder
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="manageDropdowns">
-                        <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
-              
-                    </ul>
+     
+     <li><a class="dropdown-item" href="encoder_profile.php">Profile</a></li>
+     <li><a class="dropdown-item" href="manage-subject.php">Manage Subject</a></li>
+
+
+ </ul>
                 </li>
 
                 <li class="nav-item dropdown">

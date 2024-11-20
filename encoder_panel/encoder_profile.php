@@ -106,7 +106,7 @@ if (!$encoder) {
 
                             <!-- Encoder Info -->
                             <div class="col-md-7">
-                                <h4><strong>ID:</strong>  <?php echo htmlspecialchars($encoder['id']); ?></h4>
+                                <h4><strong>ID:</strong>  <?php echo htmlspecialchars($encoder['encoder_id']); ?></h4>
                                 <h4><strong>Name:</strong> <?php echo htmlspecialchars($encoder['first_name'] . ' ' . $encoder['last_name']); ?></h4>
                                 <p><strong>Gender:</strong> <?php echo htmlspecialchars($encoder['gender']); ?></p>
                                 <p><strong>Contact Info (Phone):</strong> <?php echo htmlspecialchars($encoder['phone']); ?></p>

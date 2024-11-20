@@ -22,12 +22,17 @@ if ($student_id > 0) {
 
 // Fetch encoded grades based on the selected semester
 $encoded_grades_result = mysqli_query($conn, "
-    SELECT subjects.subject_name, encoded_grades_table.grade, subjects.subject_code, subjects.year, subjects.semester AS semester, subjects.unit
-    FROM encoded_grades_table
-    JOIN subjects ON encoded_grades_table.subject_id = subjects.id
-    WHERE encoded_grades_table.student_id = $student_id
-      AND subjects.semester = $semester
-    ORDER BY subjects.year ASC
+ SELECT  EGT.*, S.*,
+             CASE
+               WHEN S.year = 'first-year' THEN 1
+               WHEN S.year = 'second-year' THEN 2
+               WHEN S.year = 'third-year' THEN 3
+               WHEN S.year = 'fourth-year' THEN 4
+               ELSE 0
+           END AS numeric_year
+    FROM encoded_grades_table AS EGT
+    JOIN subjects AS S ON S.id = EGT.subject_id
+    WHERE EGT.student_id = '$student_id' AND s.semester = '$semester'
 ");
 
 // Prepare data for tab pills
@@ -261,43 +266,51 @@ body {
 </div>
 
 
-        <!-- Encoded Grades Section -->
-        <div class="encoded-grades">
-            <h3>Encoded Grades - Semester <?php echo $semester; ?></h3>
-            <div class="row">
-                <?php for ($year = 1; $year <= 4; $year++): ?>
-                    <?php if (isset($grades_by_year[$year]) && count($grades_by_year[$year]) > 0): ?>
-                        <div class="col-md-6">
-                            <h4>Year <?php echo $year; ?></h4>
-                            <table class="table table-striped encoded-grades-table">
-                                <thead>
-                                    <tr>
-                                        <th>Subject Code</th>
-                                        <th>Subject Name</th>
-                                        <th>Grade</th>
-                                        <th>Units</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php foreach ($grades_by_year[$year] as $grade): ?>
-                                        <tr>
-                                            <td><?php echo htmlspecialchars($grade['subject_code']); ?></td>
-                                            <td><?php echo htmlspecialchars($grade['subject_name']); ?></td>
-                                            <td><?php echo htmlspecialchars($grade['grade']); ?></td>
-                                            <td><?php echo htmlspecialchars($grade['unit']); ?></td>
-                                        </tr>
-                                    <?php endforeach; ?>
-                                </tbody>
-                            </table>
-                        </div>
-                    <?php else: ?>
-                        <div class="col-md-6">
-                            <p>No grades available for Year <?php echo $year; ?>.</p>
-                        </div>
-                    <?php endif; ?>
-                <?php endfor; ?>
+   <!-- Encoded Grades Section -->
+<div class="encoded-grades">
+    <h3>Encoded Grades - Semester <?php echo htmlspecialchars($semester); ?></h3>
+    <div class="row">
+        <?php 
+        // Array to map year numbers to proper labels
+        $year_labels = ['1st Year', '2nd Year', '3rd Year', '4th Year'];
+
+        for ($year = 1; $year <= 4; $year++): 
+        ?>
+            <div class="col-md-6">
+                <?php if (isset($grades_by_year[$year]) && count($grades_by_year[$year]) > 0): ?>
+                    <h4><?php echo htmlspecialchars($year_labels[$year - 1]); ?></h4>
+                    <table class="table table-striped encoded-grades-table">
+                        <thead>
+                            <tr>
+                                <th>Subject Code</th>
+                                <th>Subject Name</th>
+                                <th>Grade</th>
+                                <th>Units</th>
+                                <th>Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($grades_by_year[$year] as $grade): ?>
+                                <tr>
+                                    <td><?php echo htmlspecialchars($grade['subject_code']); ?></td>
+                                    <td><?php echo htmlspecialchars($grade['subject_name']); ?></td>
+                                    <td><?php echo htmlspecialchars($grade['grade']); ?></td>
+                                    <td><?php echo htmlspecialchars($grade['unit']); ?></td>
+                                    <td><?php echo !empty($grade['remarks']) ? htmlspecialchars($grade['remarks']) : 'TBE'; ?></td>
+
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <h4><?php echo htmlspecialchars($year_labels[$year - 1]); ?></h4>
+                    <p>No grades available for this year.</p>
+                <?php endif; ?>
             </div>
-        </div>
+        <?php endfor; ?>
+    </div>
+</div>
+
 
         <!-- Print Button -->
         <div class="mt-3">

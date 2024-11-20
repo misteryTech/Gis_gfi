@@ -87,8 +87,9 @@ mysqli_close($conn);
                             <label for="semester">Select Semester:</label>
                             <select class="form-control" name="semester" id="semester" required>
                                 <option value="">--Select Semester--</option>
-                                <option value="1st sem">1st Semester</option>
-                                <option value="2nd sem">2nd Semester</option>
+                                <option value="1">1st Semester</option>
+                                <option value="2">2nd Semester</option>
+                                <option value="Summer">Summer</option>
                             </select>
                         </div>
                     </div>
@@ -97,10 +98,10 @@ mysqli_close($conn);
                 </form>
 
                 <h3 class="mt-5">Your Grade Requests</h3>
-                <table class="table table-bordered encoded-grades-table mt-3">
+                <table class="table table-bordered encoded-grades-table mt-3" id="requestTable">
                     <thead>
                         <tr>
-                            <th>Request ID</th>
+                            <th>#</th>
                             <th>Year</th>
                             <th>Semester</th>
                             <th>Status</th>
@@ -136,13 +137,16 @@ mysqli_close($conn);
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script>
 $(document).ready(function() {
-    $('.encoded-grades-table').DataTable({
+    $('#requestTable').DataTable({
         columns: [
             { targets: 5, data: 'desc' } // Match 'desc' field in your data source
             // add other columns as needed
         ]
 
     });
+
+
+
 });
 </script>
 </body>

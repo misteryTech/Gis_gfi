@@ -3,9 +3,6 @@ include("header.php");
 
 include ("connection.php");
 
-
-
-
 ?>
 <body>
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
@@ -79,7 +76,7 @@ include ("connection.php");
                                echo "<td>" . htmlspecialchars($row['year_level']) . "</td>";
                                echo "<td>" . htmlspecialchars($row['course']) . "</td>";
                                echo "<td>
-                                       <a class='btn btn-success btn-sm' href='student-profile.php?student_id=" . htmlspecialchars($row['id']) . "'>Profile</a>
+                                   <button class='btn btn-success shadow edit-btn' data-id='{$row['student_id']}' data-bs-toggle='modal' data-bs-target='#editStudentModal'>Profile</button>
                                        <button class='btn btn-danger btn-sm delete-btn' data-id='" . htmlspecialchars($row['id']) . "'>Archive</button>
                                      </td>";
                                echo "</tr>";
@@ -162,11 +159,13 @@ $(document).ready(function() {
             success: function(response) {
                 var student = JSON.parse(response);
                 $('#edit-student-id').val(student.id);
-                $('#edit-student-name').val(student.first_name + ' ' + student.last_name);
+
                 $('#edit-student-gender').val(student.gender);
                 $('#edit-student-phone').val(student.phone);
                 $('#edit-student-email').val(student.email);
                 $('#edit-student-course').val(student.course);
+            }else{
+                alert("Error loading encoder details");
             }
         });
     });
