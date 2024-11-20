@@ -5,35 +5,46 @@ include 'connection.php';
 // Check if the form is submitted
 if (isset($_POST['submit_course'])) {
     // Get the form data
-    $course_name = $_POST['course_name'];
-    $department = $_POST['department'];
-    $status = "unarchived";
+    $course_name = trim($_POST['course_name']);
+    $department = trim($_POST['department']);
+    $status = "unarchived"; // Default status
+
+    // Validate form inputs (e.g., ensure non-empty values)
+    if (empty($course_name) || empty($department)) {
+        echo "<script>
+                alert('All fields are required.');
+                window.location.href = 'manage-course.php';
+              </script>";
+        exit();
+    }
 
     // Prepare the SQL query
-    $sql = "INSERT INTO course_table (course_name, department) VALUES (?, ?, ?)";
+    $sql = "INSERT INTO course_table (course_name, department, status) VALUES (?, ?, ?)";
 
     // Prepare and bind parameters to prevent SQL injection
     if ($stmt = $conn->prepare($sql)) {
         $stmt->bind_param("sss", $course_name, $department, $status);
 
- // Execute the query and check if it was successful
-if ($stmt->execute()) {
-    echo "<script>
-            alert('Course registered successfully!');
-            window.location.href = 'manage-course.php'; // Replace 'manage-subject.php' with the actual page you want to redirect to
-          </script>";
-} else {
-    echo "<script>
-            alert('Error: " . $stmt->error . "');
-            window.location.href = 'manage-course.php'; // Replace 'manage-subject.php' with the actual page you want to redirect to
-          </script>";
-}
-
+        // Execute the query and check if it was successful
+        if ($stmt->execute()) {
+            echo "<script>
+                    alert('Course registered successfully!');
+                    window.location.href = 'manage-course.php';
+                  </script>";
+        } else {
+            echo "<script>
+                    alert('Error: " . htmlspecialchars($stmt->error) . "');
+                    window.location.href = 'manage-course.php';
+                  </script>";
+        }
 
         // Close the statement
         $stmt->close();
     } else {
-        echo "Error preparing statement: " . $conn->error;
+        echo "<script>
+                alert('Error preparing statement: " . htmlspecialchars($conn->error) . "');
+                window.location.href = 'manage-course.php';
+              </script>";
     }
 
     // Close the database connection

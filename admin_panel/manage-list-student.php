@@ -4,6 +4,12 @@ include("header.php");
 include ("connection.php");
 
 ?>
+
+<!-- DataTables and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
+
 <body>
 <nav class="navbar navbar-expand-md fixed-top navbar-shrink py-3" id="mainNav">
     <div class="container">
@@ -76,8 +82,8 @@ include ("connection.php");
                                echo "<td>" . htmlspecialchars($row['year_level']) . "</td>";
                                echo "<td>" . htmlspecialchars($row['course']) . "</td>";
                                echo "<td>
-                                   <button class='btn btn-success shadow edit-btn' data-id='{$row['student_id']}' data-bs-toggle='modal' data-bs-target='#editStudentModal'>Profile</button>
-                                       <button class='btn btn-danger btn-sm delete-btn' data-id='" . htmlspecialchars($row['id']) . "'>Archive</button>
+                                <button class='btn btn-success shadow edit-btn' data-id='{$row['student_id']}' data-bs-toggle='modal' data-bs-target='#editStudentModal'>Profile</button>
+                                <button class='btn btn-danger btn-sm delete-btn' data-id='" . htmlspecialchars($row['id']) . "'>Archive</button>
                                      </td>";
                                echo "</tr>";
                            }
@@ -138,9 +144,7 @@ include ("connection.php");
 include("footer.php");
 ?>
 
-<!-- DataTables and jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
 
 <script>
 $(document).ready(function() {
@@ -172,30 +176,42 @@ $(document).ready(function() {
 
     // Delete student functionality
     $('.delete-btn').click(function() {
-        var studentId = $(this).data('id');
+    var studentId = $(this).data('id');
 
-        swal({
-            title: "Are you sure?",
-            text: "Once Archive, this will transfer to archive files!",
-            icon: "warning",
-            buttons: true,
-            dangerMode: true,
-        }).then((willDelete) => {
-            if (willDelete) {
-                $.ajax({
-                    url: 'delete-student.php',
-                    type: 'POST',
-                    data: {id: studentId},
-                    success: function(response) {
-                        swal("Student has been archive!", {
+    swal({
+        title: "Are you sure?",
+        text: "Once archived, this will transfer to archive files!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    }).then((willDelete) => {
+        if (willDelete) {
+            $.ajax({
+                url: 'delete-student.php',
+                type: 'POST',
+                data: { id: studentId },
+                success: function(response) {
+                    if (response.trim() === "success") {
+                        swal("Student has been archived!", {
                             icon: "success",
                         }).then(() => {
                             location.reload();
                         });
+                    } else {
+                        swal("Error archiving student!", {
+                            icon: "error",
+                        });
                     }
-                });
-            }
-        });
+                },
+                error: function() {
+                    swal("An error occurred while processing your request.", {
+                        icon: "error",
+                    });
+                }
+            });
+        }
     });
+});
+
 });
 </script>

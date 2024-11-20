@@ -1,23 +1,23 @@
 <?php
-// Database connection
-include ("connection.php");
+include('connection.php');
 
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['id'])) {
+    $studentId = intval($_POST['id']); // Sanitize input to prevent SQL injection
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Get student ID
-    $student_id = mysqli_real_escape_string($conn, $_POST['id']);
+    // Update student status to "archived"
+    $query = "UPDATE students SET status='archived' WHERE id = ?";
+    $stmt = $conn->prepare($query);
+    $stmt->bind_param('i', $studentId);
 
-    // Delete query
-    $query = "UPDATE students SET status='archive'
-  
-    WHERE id = $student_id";
-
-    if (mysqli_query($conn, $query)) {
-        echo json_encode(['status' => 'success']);
+    if ($stmt->execute()) {
+        echo "success"; // Send success response
     } else {
-        echo json_encode(['status' => 'error', 'message' => mysqli_error($conn)]);
+        echo "error"; // Send error response
     }
 
-    mysqli_close($conn);
+    $stmt->close();
+    $conn->close();
+} else {
+    echo "invalid"; // Invalid request
 }
 ?>
