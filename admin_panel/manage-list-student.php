@@ -5,9 +5,7 @@ include ("connection.php");
 
 ?>
 
-<!-- DataTables and jQuery -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+
 
 
 <body>
@@ -83,7 +81,7 @@ include ("connection.php");
                                echo "<td>" . htmlspecialchars($row['course']) . "</td>";
                                echo "<td>
                                 <button class='btn btn-success shadow edit-btn' data-id='{$row['student_id']}' data-bs-toggle='modal' data-bs-target='#editStudentModal'>Profile</button>
-                                <button class='btn btn-danger btn-sm delete-btn' data-id='" . htmlspecialchars($row['id']) . "'>Archive</button>
+                              <button class='btn btn-danger shadow archive-btn' data-id='{$row['student_id']}'>Archive</button>
                                      </td>";
                                echo "</tr>";
                            }
@@ -98,120 +96,216 @@ include ("connection.php");
         </div>
     </div>
 </section>
-
-<!-- Edit Student Modal -->
 <div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="editStudentModalLabel">Edit Student</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form id="editStudentForm">
-          <input type="hidden" id="edit-student-id" name="student_id">
-          <div class="mb-3">
-            <label for="edit-student-name" class="form-label">Name</label>
-            <input type="text" class="form-control" id="edit-student-name" name="student_name">
-          </div>
-          <div class="mb-3">
-            <label for="edit-student-gender" class="form-label">Gender</label>
-            <select class="form-control" id="edit-student-gender" name="gender">
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
-            </select>
-          </div>
-          <div class="mb-3">
-            <label for="edit-student-phone" class="form-label">Phone</label>
-            <input type="text" class="form-control" id="edit-student-phone" name="phone">
-          </div>
-          <div class="mb-3">
-            <label for="edit-student-email" class="form-label">Email</label>
-            <input type="email" class="form-control" id="edit-student-email" name="email">
-          </div>
-          <div class="mb-3">
-            <label for="edit-student-course" class="form-label">Course</label>
-            <input type="text" class="form-control" id="edit-student-course" name="course">
-          </div>
-          <button type="submit" class="btn btn-primary">Save changes</button>
-        </form>
-      </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStudentModalLabel">Edit Student</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editStudentForm">
+                    <input type="hidden" id="edit-student-id" name="student_id">
+                    <div class="mb-3">
+                        <label for="edit-first-name" class="form-label">First Name</label>
+                        <input type="text" class="form-control" id="edit-first-name" name="first_name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-last-name" class="form-label">Last Name</label>
+                        <input type="text" class="form-control" id="edit-last-name" name="last_name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit-last-name" class="form-label">Student Status</label>
+                        <input type="text" class="form-control" id="edit-status" name="status" required>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="edit-last-name" class="form-label">Date Registered</label>
+                        <input type="date" class="form-control" id="edit-date-registered" name="date_registered" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit-student-gender" class="form-label">Gender</label>
+                        <select class="form-control" id="edit-student-gender" name="gender" required>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-student-phone" class="form-label">Phone</label>
+                        <input type="text" class="form-control" id="edit-student-phone" name="phone" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-student-email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="edit-student-email" name="email" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="edit-student-course" class="form-label">Course</label>
+                        <input type="text" class="form-control" id="edit-student-course" name="course" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="edit-student-course" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="edit-student-username" name="username" required>
+                    </div>
+
+                    
+
+                    <!-- Change Password Field -->
+                    <div class="mb-3">
+                        <label for="edit-student-password" class="form-label">Change Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="edit-student-password" name="password" placeholder="Enter new password">
+                            <button type="button" class="btn btn-outline-secondary toggle-password" data-target="#edit-student-password">Show</button>
+                        </div>
+                        <small class="form-text text-muted">Leave blank to keep the current password.</small>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 
 <?php
 include("footer.php");
 ?>
 
-
+<!-- DataTables and jQuery -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 <script>
-$(document).ready(function() {
-    // Initialize DataTable
+$(document).ready(function () {
     $('#studentsTable').DataTable();
 
-    // Fetch student data into the edit modal
-    $('.edit-btn').click(function() {
+    // Fetch Student Data for Editing
+    $(document).on('click', '.edit-btn', function () {
         var studentId = $(this).data('id');
 
-        // Fetch student details using AJAX (replace `get-student.php` with your actual backend URL)
         $.ajax({
             url: 'get-student.php',
             type: 'POST',
-            data: {id: studentId},
-            success: function(response) {
+            data: { id: studentId },
+            success: function (response) {
                 var student = JSON.parse(response);
-                $('#edit-student-id').val(student.id);
 
-                $('#edit-student-gender').val(student.gender);
-                $('#edit-student-phone').val(student.phone);
-                $('#edit-student-email').val(student.email);
-                $('#edit-student-course').val(student.course);
-            }else{
-                alert("Error loading encoder details");
-            }
+                if (!student.error) {
+                    $('#edit-student-id').val(student.student_id);
+                    $('#edit-first-name').val(student.first_name);
+                    $('#edit-last-name').val(student.last_name);
+                    $('#edit-student-gender').val(student.gender);
+                    $('#edit-student-phone').val(student.phone);
+                    $('#edit-student-email').val(student.email);
+                    $('#edit-student-course').val(student.course);
+                    $('#edit-student-username').val(student.username);
+                    $('#edit-status').val(student.student_status);
+                    $('#edit-date-registered').val(student.date_registered);
+                } else {
+                    alert(student.error);
+                }
+            },
+            error: function () {
+                alert('Error fetching student details.');
+            },
         });
     });
 
-    // Delete student functionality
-    $('.delete-btn').click(function() {
-    var studentId = $(this).data('id');
 
-    swal({
-        title: "Are you sure?",
-        text: "Once archived, this will transfer to archive files!",
-        icon: "warning",
-        buttons: true,
-        dangerMode: true,
-    }).then((willDelete) => {
-        if (willDelete) {
+    // Toggle password visibility
+    $(document).on('click', '.toggle-password', function () {
+        const inputSelector = $(this).data('target');
+        const inputField = $(inputSelector);
+        const inputType = inputField.attr('type');
+
+        if (inputType === 'password') {
+            inputField.attr('type', 'text');
+            $(this).text('Hide');
+        } else {
+            inputField.attr('type', 'password');
+            $(this).text('Show');
+        }
+    });
+
+    // Save Edited Student Data
+    $('#editStudentForm').submit(function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: 'update-student.php',
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function (response) {
+                var result = JSON.parse(response);
+
+                if (result.success) {
+                    alert('Student updated successfully.');
+                    $('#editStudentModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert(result.error);
+                }
+            },
+            error: function () {
+                alert('Error updating student.');
+            },
+        });
+    });
+
+
+
+    // Save Edited Student Data
+    $('#editStudentForm').submit(function (event) {
+        event.preventDefault();
+
+        $.ajax({
+            url: 'update-student.php',
+            type: 'POST',
+            data: $(this).serialize(),
+            success: function (response) {
+                var result = JSON.parse(response);
+
+                if (result.success) {
+                    alert('Student updated successfully.');
+                    $('#editStudentModal').modal('hide');
+                    location.reload();
+                } else {
+                    alert(result.error);
+                }
+            },
+            error: function () {
+                alert('Error updating student.');
+            },
+        });
+    });
+
+    // Archive Student
+    $(document).on('click', '.archive-btn', function () {
+        var studentId = $(this).data('id');
+
+        if (confirm('Are you sure you want to archive this student?')) {
             $.ajax({
-                url: 'delete-student.php',
+                url: 'archive-student.php',
                 type: 'POST',
                 data: { id: studentId },
-                success: function(response) {
-                    if (response.trim() === "success") {
-                        swal("Student has been archived!", {
-                            icon: "success",
-                        }).then(() => {
-                            location.reload();
-                        });
+                success: function (response) {
+                    var result = JSON.parse(response);
+
+                    if (result.success) {
+                        alert('Student archived successfully.');
+                        location.reload();
                     } else {
-                        swal("Error archiving student!", {
-                            icon: "error",
-                        });
+                        alert(result.error);
                     }
                 },
-                error: function() {
-                    swal("An error occurred while processing your request.", {
-                        icon: "error",
-                    });
-                }
+                error: function () {
+                    alert('Error archiving student.');
+                },
             });
         }
     });
 });
 
-});
 </script>

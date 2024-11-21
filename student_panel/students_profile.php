@@ -136,14 +136,7 @@ mysqli_close($conn);
                         </div>
                     </div>
 
-                    <h4 class="mt-4">Grades</h4>
-                    <?php if (!$grades_exist): ?>
-                        <div class="alert alert-danger text-center">No grades encoded.</div>
-                    <?php else: ?>
-                        <!-- Display grades by year -->
-                        <div class="alert alert-info text-center">Grades Uploaded.</div>
-                    <?php endif; ?>
-
+                   
                     <!-- Edit Student Modal -->
                     <div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
                         <div class="modal-dialog">

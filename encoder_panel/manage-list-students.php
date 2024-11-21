@@ -2,7 +2,7 @@
 include("header.php");
 
 include ("connection.php");
-session_start(); // Start the session
+
 
 // Fetch the encoder's course based on the session encoder_id
 $encoder_id = $_SESSION['id'];
