@@ -287,7 +287,7 @@ $(document).ready(function () {
 
         if (confirm('Are you sure you want to archive this student?')) {
             $.ajax({
-                url: 'archive-student.php',
+                url: 'archive_student.php',
                 type: 'POST',
                 data: { id: studentId },
                 success: function (response) {
