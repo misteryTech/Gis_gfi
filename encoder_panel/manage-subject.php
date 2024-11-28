@@ -83,7 +83,15 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                             <input class="shadow form-control" type="text" id="subject-name" name="subject_name" placeholder="Subject Name" required>
                         </div>
                         <div class="col-md-4">
-                            <input class="shadow form-control" type="number" id="subject-units" name="subject_unit" placeholder="Subject Unit" min="0.01" step="0.01" required>
+                        <input class="shadow form-control" 
+       type="number" 
+       id="subject-units" 
+       name="subject_unit" 
+       placeholder="Subject Unit" 
+       min="1" 
+       step="1" 
+       required>
+
                         </div>
                     </div>
                     <div class="row mb-3">
@@ -249,6 +257,18 @@ $(document).ready(function () {
  
         });
 
+
+        
+        document.getElementById('subject-units').addEventListener('input', function (e) {
+    const value = e.target.value;
+    
+    // Check if the value is an integer (whole number)
+    if (!Number.isInteger(Number(value))) {
+        e.target.setCustomValidity("Please enter a whole number."); // Custom validation message
+    } else {
+        e.target.setCustomValidity(""); // Clear custom error if value is valid
+    }
+});
 
 
     $(document).ready(function() {

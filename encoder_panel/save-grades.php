@@ -5,7 +5,6 @@ require 'connection.php';
 // Start session to retrieve encoder info
 session_start();
 
-
 // Get the encoder's user ID from the session
 $encoder_id = $_SESSION['encoder_id'];
 
@@ -32,10 +31,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $remark = $remarks[$i];
 
         // Format the grade to ensure it has exactly 2 decimal places
-        $formatted_grade = number_format($grade, 2, '.', ''); // Ensures 2 decimal places (e.g., 3 -> 3.00)
+        // This step is optional if your database can directly handle float or decimal values
+        $formatted_grade = floatval($grade);  // Treat grade as a float (decimal)
 
         // Bind parameters and execute the statement
-        $stmt->bind_param("iiisi", $student_id, $subject_id, $formatted_grade, $remark, $encoder_id);
+        // 'i' for integer (student_id, subject_id), 'd' for decimal/float (grade), 's' for string (remarks)
+        $stmt->bind_param("iiids", $student_id, $subject_id, $formatted_grade, $remark, $encoder_id);
         $stmt->execute();
     }
 

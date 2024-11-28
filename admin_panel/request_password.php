@@ -78,8 +78,8 @@ include("connection.php");
         if (mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_assoc($result)) {
                 echo "<tr>
-             <td style='color: " . (empty($row['user_id']) ? "red" : "black") . ";'>" . 
-    (!empty($row['user_id']) ? htmlspecialchars($row['user_id']) : "Not Registered") . 
+             <td style='color: " . (empty($row['user_id']) ? "red" : "black") . ";'>" 
+             . (!empty($row['user_id']) ? htmlspecialchars($row['user_id']) : "Not Registered") . 
 "</td>
 <td style='color: " . ((empty($row['first_name']) && empty($row['last_name'])) ? "red" : "black") . ";'>" . 
     (!empty($row['first_name']) || !empty($row['last_name']) 
