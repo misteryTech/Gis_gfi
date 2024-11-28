@@ -1,0 +1,139 @@
+Logging grades before insert:
+Subject ID: 20, Grade: 0, Remarks: tbe
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 3.1, Remarks: failed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 3.1, Remarks: failed
+Logging grades before insert:
+Subject ID: 20, Grade: 3.4, Remarks: tbe
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 2.2, Remarks: passed
+Subject ID: 21, Grade: 1.2, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 0, Remarks: tbe
+Subject ID: 21, Grade: 2.4, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 34, Remarks: tbe
+Subject ID: 21, Grade: 1.2, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 2, Remarks: passed
+Subject ID: 21, Grade: 3.1, Remarks: failed
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 3.1, Remarks: failed
+Subject ID: 21, Grade: 2.9, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 3.1, Remarks: failed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 3.4, Remarks: tbe
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging formatted grade before insert:
+Formatted Grade: 2.1
+Logging formatted grade before insert:
+Formatted Grade: 2.1
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging formatted grade before insert:
+Formatted Grade: 2.1
+Logging formatted grade before insert:
+Formatted Grade: 2.1
+Logging grades before insert:
+Subject ID: 20, Grade: 3.4, Remarks: tbe
+Subject ID: 21, Grade: 2.9, Remarks: passed
+Logging formatted grade before insert:
+Formatted Grade: 3.4
+Logging formatted grade before insert:
+Formatted Grade: 2.9
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging formatted grade before insert:
+Formatted Grade: 2.1
+Logging formatted grade before insert:
+Formatted Grade: 2.1
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging grade before insert:
+Grade: 2.1
+Logging grade before insert:
+Grade: 2.1
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging grade before insert:
+Grade: 2.1
+Logging grade before insert:
+Grade: 2.1
+Logging grades before insert:
+Subject ID: 20, Grade: 3.9, Remarks: tbe
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging grade before insert:
+Grade: 3.9
+Logging grade before insert:
+Grade: 2.1
+Logging grades before insert:
+Subject ID: 20, Grade: 2.1, Remarks: passed
+Subject ID: 21, Grade: 3.9, Remarks: tbe
+Logging grade before insert:
+Grade: 2.1
+Logging grade before insert:
+Grade: 3.9
+Logging grades before insert:
+Subject ID: 20, Grade: 3.9, Remarks: tbe
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging formatted grade before insert:
+Formatted Grade: 3.9
+Logging formatted grade before insert:
+Formatted Grade: 2.1
+Logging grades before insert:
+Subject ID: 20, Grade: 3.9, Remarks: tbe
+Subject ID: 21, Grade: 3.2, Remarks: tbe
+Logging formatted grade before insert:
+Formatted Grade: 3.9
+Logging formatted grade before insert:
+Formatted Grade: 3.2
+Logging grades before insert:
+Subject ID: 20, Grade: 4, Remarks: failed
+Subject ID: 21, Grade: 2, Remarks: passed
+Logging formatted grade before insert:
+Formatted Grade: 4
+Logging formatted grade before insert:
+Formatted Grade: 2
+Logging grades before insert:
+Subject ID: 20, Grade: 3.9, Remarks: failed
+Subject ID: 21, Grade: 3.9, Remarks: failed
+Logging formatted grade before insert:
+Formatted Grade: 3.9
+Logging formatted grade before insert:
+Formatted Grade: 3.9
+Logging grades before insert:
+Subject ID: 20, Grade: 3.9, Remarks: failed
+Subject ID: 21, Grade: 2.1, Remarks: passed
+Logging formatted grade before insert:
+Formatted Grade: 3.9
+Logging formatted grade before insert:
+Formatted Grade: 2.1

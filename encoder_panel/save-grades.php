@@ -6,7 +6,7 @@ require 'connection.php';
 session_start();
 
 // Get the encoder's user ID from the session
-$encoder_id = $_SESSION['encoder_id'];
+$encoder_id = $_SESSION['id'];
 
 // Check if form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -15,8 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Get subject IDs, grades, and remarks from the form
     $subject_ids = $_POST['subject_ids'];
-    $grades = $_POST['grades'];
+    $grades = $_POST['grades'];  // Grades are stored as strings
     $remarks = $_POST['remarks'];
+    $remarks = $_POST['unit'];
+
+    // Log the data for debugging purposes
+    $logData = "Logging grades before insert:\n";
+    for ($i = 0; $i < count($grades); $i++) {
+        $logData .= "Subject ID: " . htmlspecialchars($subject_ids[$i]) . ", Grade: " . htmlspecialchars($grades[$i]) . ", Remarks: " . htmlspecialchars($remarks[$i]) . "\n";
+    }
+    file_put_contents('grades_log.txt', $logData, FILE_APPEND);  // Write to a log file
 
     // Prepare SQL to insert grades into the database
     $insert_query = "INSERT INTO encoded_grades_table (student_id, subject_id, grade, remarks, encoder_id) VALUES (?, ?, ?, ?, ?)";
@@ -27,16 +35,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Loop through the subjects and insert each student's grade and remarks
     for ($i = 0; $i < count($subject_ids); $i++) {
         $subject_id = $subject_ids[$i];
-        $grade = $grades[$i];
+        $grade = $grades[$i];  // Get grade as string from the form
         $remark = $remarks[$i];
 
-        // Format the grade to ensure it has exactly 2 decimal places
-        // This step is optional if your database can directly handle float or decimal values
-        $formatted_grade = floatval($grade);  // Treat grade as a float (decimal)
+        // Bind parameters:
+        // 'i' for integer (student_id, subject_id), 's' for string (grade and remarks), 'i' for encoder_id, 'd' for decimal (grade)
+        $stmt->bind_param("iidsi", $student_id, $subject_id, $grade, $remark, $encoder_id);
 
-        // Bind parameters and execute the statement
-        // 'i' for integer (student_id, subject_id), 'd' for decimal/float (grade), 's' for string (remarks)
-        $stmt->bind_param("iiids", $student_id, $subject_id, $formatted_grade, $remark, $encoder_id);
+        // Debugging: Log formatted grade before insertion
+        error_log("Formatted Grade: " . var_export($grade, true));
+        $logData = "Logging formatted grade before insert:\n";
+        $logData .= "Formatted Grade: " . $grade . "\n";
+        file_put_contents('grades_log.txt', $logData, FILE_APPEND);  // Log to file
+
+        // Execute the statement
         $stmt->execute();
     }
 

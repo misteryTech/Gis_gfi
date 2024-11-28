@@ -24,13 +24,9 @@ if (!$student) {
 
 // Handle student update
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_student'])) {
-    $first_name = $_POST['first_name'];
-    $last_name = $_POST['last_name'];
     $gender = $_POST['gender'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
-    $year_level = $_POST['year_level'];
-    $course = $_POST['course'];
 
     // Check if a new profile picture was uploaded
     $target_dir = "uploads/";
@@ -50,12 +46,20 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_student'])) {
         $photo_path = $student['student_photo'];
     }
 
-    // Update student details
-    $update_stmt = $conn->prepare("UPDATE students SET first_name=?, last_name=?, gender=?, phone=?, email=?, year_level=?, course=?, student_photo=? WHERE student_id=?");
-    $update_stmt->bind_param("ssssssssi", $first_name, $last_name, $gender, $phone, $email, $year_level, $course, $photo_path, $student_id);
+    // Update student details (editable fields only)
+    $update_stmt = $conn->prepare("
+        UPDATE students 
+        SET gender = ?, 
+            phone = ?, 
+            email = ?, 
+            student_photo = ? 
+        WHERE student_id = ?
+    ");
+    $update_stmt->bind_param("ssssi", $gender, $phone, $email, $photo_path, $student_id);
 
     if ($update_stmt->execute()) {
         $success_message = "Student details updated successfully.";
+
         // Refresh student details after update
         $stmt = $conn->prepare("SELECT * FROM students WHERE student_id = ?");
         $stmt->bind_param("i", $student_id);
@@ -67,7 +71,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['update_student'])) {
         $error_message = "Failed to update student details.";
     }
 }
-
 // Fetch encoded grades
 $encoded_grades_result = $conn->prepare("SELECT * FROM encoded_grades_table WHERE student_id = ? AND remarks='passed' ");
 $encoded_grades_result->bind_param("i", $id);
@@ -138,59 +141,43 @@ mysqli_close($conn);
 
                    
                     <!-- Edit Student Modal -->
-                    <div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="editStudentModalLabel">Edit Student Information</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <form method="POST" action="" enctype="multipart/form-data">
-
-                                    <div class="mb-3">
-        <label for="student_photo" class="form-label">Profile Picture</label>
-        <input type="file" class="form-control" id="student_photo" name="student_photo" accept="image/*">
-    </div>
-
-
-                                        <div class="mb-3">
-                                            <label for="first_name" class="form-label">First Name</label>
-                                            <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo htmlspecialchars($student['first_name']); ?>" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="last_name" class="form-label">Last Name</label>
-                                            <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo htmlspecialchars($student['last_name']); ?>" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="gender" class="form-label">Gender</label>
-                                            <select class="form-select" id="gender" name="gender" required>
-                                                <option value="Male" <?php echo ($student['gender'] == 'Male') ? 'selected' : ''; ?>>Male</option>
-                                                <option value="Female" <?php echo ($student['gender'] == 'Female') ? 'selected' : ''; ?>>Female</option>
-                                            </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="phone" class="form-label">Phone</label>
-                                            <input type="tel" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($student['phone']); ?>" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($student['email']); ?>" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="year_level" class="form-label">Year Level</label>
-                                            <input type="text" class="form-control" id="year_level" name="year_level" value="<?php echo htmlspecialchars($student['year_level']); ?>" required>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="course" class="form-label">Course</label>
-                                            <input type="text" class="form-control" id="course" name="course" value="<?php echo htmlspecialchars($student['course']); ?>" required>
-                                        </div>
-                                        <button type="submit" name="update_student" class="btn btn-primary">Update</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+ <!-- Edit Student Modal -->
+<div class="modal fade" id="editStudentModal" tabindex="-1" aria-labelledby="editStudentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editStudentModalLabel">Edit Student Information</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label for="student_photo" class="form-label">Profile Picture</label>
+                        <input type="file" class="form-control" id="student_photo" name="student_photo" accept="image/*">
                     </div>
+                    <div class="mb-3">
+                        <label for="gender" class="form-label">Gender</label>
+                        <select class="form-select" id="gender" name="gender" required>
+                            <option value="Male" <?php echo ($student['gender'] == 'Male') ? 'selected' : ''; ?>>Male</option>
+                            <option value="Female" <?php echo ($student['gender'] == 'Female') ? 'selected' : ''; ?>>Female</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">Phone</label>
+                        <input type="tel" class="form-control" id="phone" name="phone" value="<?php echo htmlspecialchars($student['phone']); ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($student['email']); ?>" required>
+                    </div>
+                    <!-- Only gender, phone, and email are editable -->
+                    <button type="submit" name="update_student" class="btn btn-primary">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
                 <?php endif; ?>
             </div>
         </div>

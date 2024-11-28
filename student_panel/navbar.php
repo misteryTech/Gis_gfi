@@ -10,7 +10,7 @@
            
            
                 <li class="nav-item"><a class="nav-link " href="students_profile.php">Profile</a></li>
-                <li class="nav-item"><a class="nav-link " href="request_grade_form.php">Request Form</a></li>
+             
                 <li class="nav-item"><a class="nav-link" href="print_grades.php">Grades</a></li>
             </ul>
             <a class="btn btn-primary shadow" role="button" href="logout.php">Logout</a>

@@ -2,6 +2,8 @@
 include("header.php");
 
 include ("connection.php");
+// Get the encoder's user ID from the session
+
 
 // Get the student ID from the query parameter
 $student_id = isset($_GET['student_id']) ? intval($_GET['student_id']) : 0;
@@ -167,7 +169,8 @@ mysqli_close($conn);
                             <td><?php echo htmlspecialchars($subject['unit']); ?></td>
                             <td>
                                 <input type="hidden" name="subject_ids[]" value="<?php echo htmlspecialchars($subject['id']); ?>">
-                                <input type="number" class="form-control" name="grades[]" min="0" max="100" step="0.01" required oninput="updateRemarks(this)">
+                                <input type="number" class="form-control" name="grades[]" min="1.00" max="5.00" step="0.01" required oninput="updateRemarks(this)">
+
                             </td>
                             <td>
                                 <select name="remarks[]" class="form-control">
@@ -261,23 +264,22 @@ function updateRemarks(gradeInput) {
     const gradeValue = parseFloat(gradeInput.value); // Parse the grade value as a float for decimals
     const remarksSelect = row.querySelector('select[name="remarks[]"]');
 
-    if (!isNaN(gradeValue)) {
-        if (gradeValue >= 1 && gradeValue <= 3) { // Grades 1, 2, 3 are passed
+    // Ensure grade value is within the valid range (1.00 to 5.00)
+    if (!isNaN(gradeValue) && gradeValue >= 1.00 && gradeValue <= 5.00) {
+        if (gradeValue >= 1.00 && gradeValue <= 3.00) { // Grades 1.00 to 3.00 are passed
             remarksSelect.value = 'passed';
             remarksSelect.style.backgroundColor = 'lightgreen';
-        } else if (gradeValue === 3.1 || gradeValue === 5) { // Grade 4 and 5 are failed
+        } else if (gradeValue > 3.00 && gradeValue <= 5.00) { // Grades 3.1 to 5.00 are failed
             remarksSelect.value = 'failed';
             remarksSelect.style.backgroundColor = 'lightcoral';
-        } else { // Any other grade is considered "To Be Encoded"
-            remarksSelect.value = 'tbe';
-            remarksSelect.style.backgroundColor = 'lightyellow';
         }
-
-        updateGradeColor(remarksSelect);
-    } else {
-        // If the grade value is invalid, reset remarks
-        remarksSelect.value = '';
-        remarksSelect.style.backgroundColor = ''; // Reset background
+    } else if (gradeInput.value === '') {
+        // If grade input is empty, reset remarks
+        remarksSelect.value = 'tbe';
+        remarksSelect.style.backgroundColor = ''; // Reset background color
+    } else { // If the grade is outside the valid range, reset remarks
+        remarksSelect.value = 'tbe';
+        remarksSelect.style.backgroundColor = ''; // Reset background color
     }
 }
 
