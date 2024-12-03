@@ -116,11 +116,8 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
 
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <select class="shadow form-control" id="curriculum" name="curriculum" required>
-                                <option value="" disabled selected>Select Curriculum</option>
-                                <option value="New">New Curriculum</option>
-                                <option value="Old">Old Curriculum</option>
-                            </select>
+
+                            <input class="shadow form-control"  type="text" " id="curriculum" name="curriculum"  placeholder="Curriculum" required>
                         </div>
                         <div class="col-md-6">
                         <input class="shadow form-control" type="text" id="subject-course" name="course"  placeholder="course" value="<?php echo $course; ?>" required>

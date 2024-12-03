@@ -60,6 +60,9 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
                             <input class="shadow form-control" type="text" id="student-id" name="student_id" placeholder="Enter Student ID" title="Please enter a unique Student ID" required>
                             <small id="student-id-help" class="form-text text-muted">This ID must be unique for each student.</small>
                         </div>
+
+               
+
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">

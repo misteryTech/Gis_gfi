@@ -16,14 +16,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $year_level = mysqli_real_escape_string($conn, $_POST['year_level']);
     $course = mysqli_real_escape_string($conn, $_POST['course']);
     $student_status = mysqli_real_escape_string($conn, $_POST['student_status']);
-    
+    $password = password_hash(mysqli_real_escape_string($conn, $_POST['student_id']), PASSWORD_DEFAULT); // Hash the password
+
+
     // Optional: You can set a default status and created_at timestamp
     $status = 'unarchived'; // Default status (could be 'active' or 'inactive')
     $created_at = date("Y-m-d H:i:s");  // Timestamp for record creation
 
     // SQL query to insert data into the students table
-    $query = "INSERT INTO students (student_id, first_name, last_name, year_level, course, student_status, status, date_registered)
-              VALUES ('$student_id', '$first_name', '$last_name', '$year_level', '$course', '$student_status', '$status', '$created_at')";
+    $query = "INSERT INTO students (student_id, first_name, last_name, year_level, course, student_status, status, date_registered, password)
+              VALUES ('$student_id', '$first_name', '$last_name', '$year_level', '$course', '$student_status', '$status', '$created_at', '$password')";
 
     // Execute the query
     $result = mysqli_query($conn, $query);

@@ -1,14 +1,11 @@
 <?php
-include ("connection.php");
+include("connection.php");
 
 session_start(); // Start the session
 $encoder_id = $_SESSION['id'];
 $course = $_SESSION['encoder_course'];
 
-
 // Database connection
-
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $query = mysqli_real_escape_string($conn, $_POST['query']);
 
@@ -16,6 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     SELECT * 
     FROM students 
     WHERE course = '" . mysqli_real_escape_string($conn, $course) . "'
+      AND status = 'unarchived' 
       AND (first_name LIKE '%$query%' OR last_name LIKE '%$query%')     
     LIMIT 10";
 
