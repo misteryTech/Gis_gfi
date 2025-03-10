@@ -48,7 +48,6 @@
 
              
 
-                <li class="nav-item"><a class="nav-link " href="request_password.php">Request Password</a></li>
                 <li class="nav-item"><a class="nav-link " href="manage-course.php">Manage Course</a></li>
                 <li class="nav-item"><a class="nav-link " href="encoder-manage.php">Manage Encoder</a></li>
                 <li class="nav-item"><a class="nav-link" href="manage-list-encoders.php">Encoders List</a></li>

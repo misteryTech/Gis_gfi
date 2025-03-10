@@ -56,10 +56,13 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
             <div class="col-md-10 col-xl-8">
                 <form class="p-3 p-xl-4 form-floating" action="code.php" method="post"  id="studentRegistrationForm">
                     <div class="row mb-3">
-                        <div class="col-md-6">
-                            <input class="shadow form-control" type="text" id="student-id" name="student_id" placeholder="Enter Student ID" title="Please enter a unique Student ID" required>
-                            <small id="student-id-help" class="form-text text-muted">This ID must be unique for each student.</small>
-                        </div>
+
+
+                    <div class="col-md-6">
+    <input class="shadow form-control" type="number" id="student-id" name="student_id" 
+        placeholder="Student ID" required maxlenght="11" oninput="validateStudentID(this)">
+    <small id="student-id-help" class="form-text text-muted">This ID must be unique for each student.</small>
+</div>
 
                
 
@@ -114,7 +117,22 @@ include("footer.php");
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
+    function validateStudentID(input) {
+    // Remove non-numeric characters
+    // Remove non-numeric characters
+    input.value = input.value.replace(/[^0-9]/g, '');
+
+    // Ensure exactly 11 digits
+    if (input.value.length > 11) {
+        input.value = input.value.slice(0, 11); // Trim extra digits
+    }
+
+}
+
+    
 document.addEventListener("DOMContentLoaded", function() {
+
+    
     document.getElementById('first-name').addEventListener('input', function (e) {
         const value = e.target.value;
         const namePattern = /^[A-Za-z]+$/;

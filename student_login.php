@@ -100,7 +100,21 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+
+document.addEventListener("DOMContentLoaded", function() {
+    // Get the current page URL
+    let currentPage = window.location.pathname.split("/").pop(); 
+
+    // Hide the button if on student_login.php
+    if (currentPage === "student_login.php") {
+        document.getElementById("login-btn").style.display = "none";
+    }
+});
+
+
      $(document).ready(function() {
+
+        
     $('#loginForm').submit(function(event) {
         event.preventDefault(); // Prevent the default form submission
 
