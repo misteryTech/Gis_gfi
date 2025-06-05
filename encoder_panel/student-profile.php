@@ -110,7 +110,7 @@ while ($grade = mysqli_fetch_assoc($encoded_encoded_grades_result)) {
                     <ul class="dropdown-menu" aria-labelledby="manageDropdown">
                         <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
                         <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-                        <li><a class="dropdown-item" href="request_grade_page.php">Request Grade</a></li>
+                   
                     </ul>
                 </li>
 
@@ -171,15 +171,22 @@ while ($grade = mysqli_fetch_assoc($encoded_encoded_grades_result)) {
 
 
                     <h4 class="mt-5">Encoded Grades</h4>
-                    <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
-                        <?php for ($year = 1; $year <= 4; $year++): ?>
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link <?php echo ($year == 1) ? 'active' : ''; ?>" id="pills-year<?php echo $year; ?>-tab" data-bs-toggle="pill" href="#pills-year<?php echo $year; ?>" role="tab" aria-controls="pills-year<?php echo $year; ?>" aria-selected="<?php echo ($year == 1) ? 'true' : 'false'; ?>">
-                                    Year <?php echo $year; ?>
-                                </a>
-                            </li>
-                        <?php endfor; ?>
-                    </ul>
+                                            <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
+                            <?php for ($year = 1; $year <= 4; $year++): ?>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link <?php echo ($year == 1) ? 'active' : ''; ?>" 
+                                       id="pills-year<?php echo $year; ?>-tab" 
+                                       data-bs-toggle="pill" 
+                                       href="#pills-year<?php echo $year; ?>" 
+                                       role="tab" 
+                                       aria-controls="pills-year<?php echo $year; ?>" 
+                                       aria-selected="<?php echo ($year == 1) ? 'true' : 'false'; ?>">
+                                        <?php echo $year . ($year == 1 ? 'st' : ($year == 2 ? 'nd' : ($year == 3 ? 'rd' : 'th'))) . " Year"; ?>
+                                    </a>
+                                </li>
+                            <?php endfor; ?>
+                        </ul>
+                            
 
                     <div class="tab-content" id="pills-tabContent">
                         <?php for ($year = 1; $year <= 4; $year++): ?>

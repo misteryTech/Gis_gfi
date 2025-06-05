@@ -12,6 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Get form data
     $student_id = mysqli_real_escape_string($conn, $_POST['student_id']);
     $first_name = mysqli_real_escape_string($conn, $_POST['first_name']);
+    $middle_name = mysqli_real_escape_string($conn, $_POST['middle-name']);
     $last_name = mysqli_real_escape_string($conn, $_POST['last_name']);
     $year_level = mysqli_real_escape_string($conn, $_POST['year_level']);
     $course = mysqli_real_escape_string($conn, $_POST['course']);
@@ -24,8 +25,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $created_at = date("Y-m-d H:i:s");  // Timestamp for record creation
 
     // SQL query to insert data into the students table
-    $query = "INSERT INTO students (student_id, first_name, last_name, year_level, course, student_status, status, date_registered, password)
-              VALUES ('$student_id', '$first_name', '$last_name', '$year_level', '$course', '$student_status', '$status', '$created_at', '$password')";
+    $query = "INSERT INTO students (student_id, first_name,middle_name,last_name, year_level, course, student_status, status, date_registered, password)
+              VALUES ('$student_id', '$first_name', '$middle_name', '$last_name', '$year_level', '$course', '$student_status', '$status', '$created_at', '$password')";
 
     // Execute the query
     $result = mysqli_query($conn, $query);

@@ -86,16 +86,18 @@ $encoder_id = $_SESSION['id'];
                             // Get the encoder's course
                             $row_course = mysqli_fetch_assoc($result_course);
                             $encoder_course = $row_course['course'];
+                         
                         
                             // Fetch all students who are enrolled in the same course
                             $query_students = "SELECT * FROM students WHERE course = '$encoder_course' AND status='unarchived' ORDER BY id DESC";
                             $result_students = mysqli_query($conn, $query_students);
                         } else {
+                          
                             echo "Course not found for the encoder.";
                             exit();
                         }
 
-
+                        echo $encoder_course;
                         // Check if there are any students in the same course
                         if ($result_students && mysqli_num_rows($result_students) > 0) {
                             while ($row = mysqli_fetch_assoc($result_students)) {

@@ -29,7 +29,7 @@
                     <ul class="dropdown-menu" aria-labelledby="manageDropdown">
                         <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
                         <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-                        <li><a class="dropdown-item" href="request_grade_page.php">Request Grade</a></li>
+                       
                     </ul>
                 </li>
                 <li class="nav-item"><a class="nav-link" href="encode-grades.php">Encode Grades</a></li>

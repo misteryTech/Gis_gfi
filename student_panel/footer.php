@@ -3,7 +3,7 @@
         <div class="row row-cols-1 row-cols-md-3">
             <div class="col-12 mb-4">
                 <div class="fw-bold mb-2">GENSANTOS FOUNDATION COLLEGE, INC.</div>
-                <p class="text-muted">Bulaong Extension, General Santos City, South Cotabato, Philippines, 9500</p>
+                <p class="text-white">Bulaong Extension, General Santos City, South Cotabato, Philippines, 9500</p>
             </div>
             
             <div class="col-12 mb-4">
@@ -20,7 +20,7 @@
                 <h3 class="fs-6 fw-bold">Contact Us</h3>
                 <ul class="list-unstyled">
                     <li><a href="mailto:gfistudentaffairs1994@gmail.com" class="text-white">gfistudentaffairs1994@gmail.com</a></li>
-                    <li><a href="tel:553-1937" class="text-white">553-1937 / 552-3594</a></li>
+                    <li><a href="tel:553-1937" class="text-white">553-1937 / 552-3594 <br> </a></li>
                     <li><a href="#" class="text-white">Bulaong Extension, General Santos City</a></li>
                 </ul>
             </div>
@@ -29,7 +29,7 @@
         <hr class="border-light">
         
         <div class="d-flex justify-content-between align-items-center pt-3">
-            <p class="mb-0 text-muted">Copyright © 2024 GFI FOUNDATION COLLEGE, INC. All Rights Reserved.</p>
+            <p class="mb-0 text-white">Copyright © 2024 GFI FOUNDATION COLLEGE, INC. All Rights Reserved.</p>
             
             <ul class="list-inline mb-0">
                 <li class="list-inline-item">

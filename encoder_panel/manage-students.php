@@ -68,10 +68,15 @@ $course = $_SESSION['encoder_course']; // Replace with actual course data from u
 
                     </div>
                     <div class="row mb-3">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <input class="shadow form-control" type="text" id="first-name" name="first_name" placeholder="First Name" required>
                         </div>
-                        <div class="col-md-6">
+
+                        <div class="col-md-4">
+                            <input class="shadow form-control" type="text" id="middle-name" name="middle-name" placeholder="Middle Name" required>
+                        </div>
+
+                        <div class="col-md-4">
                             <input class="shadow form-control" type="text" id="last-name" name="last_name" placeholder="Last Name" required>
                         </div>
                     </div>
@@ -133,6 +138,7 @@ include("footer.php");
 document.addEventListener("DOMContentLoaded", function() {
 
     
+
     document.getElementById('first-name').addEventListener('input', function (e) {
         const value = e.target.value;
         const namePattern = /^[A-Za-z]+$/;
@@ -142,6 +148,20 @@ document.addEventListener("DOMContentLoaded", function() {
             e.target.setCustomValidity("");
         }
     });
+
+
+    document.getElementById('middle-name').addEventListener('input', function (e) {
+        const value = e.target.value;
+        const namePattern = /^[A-Za-z]+$/;
+        if (!namePattern.test(value)) {
+            e.target.setCustomValidity("Last Name must contain only letters.");
+        } else {
+            e.target.setCustomValidity("");
+        }
+    });
+
+
+
 
     document.getElementById('last-name').addEventListener('input', function (e) {
         const value = e.target.value;

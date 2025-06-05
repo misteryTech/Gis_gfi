@@ -1,12 +1,10 @@
 <?php
 include("header.php");
+include("connection.php");
 
-include ("connection.php");
-
-// Get the student ID from the query parameter
 // Get the student ID from the session
 $student_id = $_SESSION['student_id'] ? intval($_SESSION['student_id']) : 0;
-$id = $_SESSION['id']  ? intval($_SESSION['id']) : 0;
+$id = $_SESSION['id'] ? intval($_SESSION['id']) : 0;
 
 // Fetch student details
 $student = null;
@@ -73,7 +71,6 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
 <body>
 <?php include("navbar.php"); ?>
 
-
 <section class="py-5 mt-5">
     <div class="container py-5">
         <div class="row d-flex justify-content-center">
@@ -81,16 +78,11 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
                 <h3 class="mb-4">Encoded Grades</h3>
 
                 <?php if ($student): ?>
-                
-
-
-                    <!-- Encoded Grades Section -->
-              
                     <ul class="nav nav-pills mb-4" id="pills-tab" role="tablist">
                         <?php for ($year = 1; $year <= 4; $year++): ?>
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link <?php echo ($year == 1) ? 'active' : ''; ?>" id="pills-year<?php echo $year; ?>-tab" data-bs-toggle="pill" href="#pills-year<?php echo $year; ?>" role="tab" aria-controls="pills-year<?php echo $year; ?>" aria-selected="<?php echo ($year == 1) ? 'true' : 'false'; ?>">
-                                    <?php echo $year; ?> Year
+                                    <?php echo $year . ($year == 1 ? 'st' : ($year == 2 ? 'nd' : ($year == 3 ? 'rd' : 'th'))) . " Year"; ?>
                                 </a>
                             </li>
                         <?php endfor; ?>
@@ -124,12 +116,11 @@ while ($grade = mysqli_fetch_assoc($encoded_grades_result)) {
                                         </tbody>
                                     </table>
                                 <?php else: ?>
-                                    <p>Request Subject for Year: <?php echo $year; ?>.</p>
+                                    <p>Request Subject for <?php echo $year . ($year == 1 ? 'st' : ($year == 2 ? 'nd' : ($year == 3 ? 'rd' : 'th'))) . " Year"; ?>.</p>
                                 <?php endif; ?>
                             </div>
                         <?php endfor; ?>
                     </div>
-
                 <?php else: ?>
                     <div class="alert alert-warning">Student not found.</div>
                 <?php endif; ?>

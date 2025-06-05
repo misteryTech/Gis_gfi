@@ -72,7 +72,7 @@ if (!$encoder) {
                     <ul class="dropdown-menu" aria-labelledby="manageDropdown">
                         <li><a class="dropdown-item" href="manage-students.php">Register Students</a></li>
                         <li><a class="dropdown-item" href="manage-list-students.php">Students List</a></li>
-                        <li><a class="dropdown-item" href="request_grade_page.php">Request Grade</a></li>
+            
                     </ul>
                 </li>
                 <!-- Other Links -->
@@ -98,7 +98,7 @@ if (!$encoder) {
                     <div class="alert alert-success text-center"><?php echo $success_message; ?></div>
                 <?php else: ?>
                     <div class="encoder-details mb-4">
-                        <div class="row align-items-center">
+                        <div class="row align-items-center">   
                             <!-- Encoder Photo -->
                             <div class="col-md-3">
                                 <img src="../picture/gfi-logo.png" alt="Encoder Image" class="img-fluid rounded" >

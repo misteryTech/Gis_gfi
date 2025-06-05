@@ -196,7 +196,7 @@ while ($subject = mysqli_fetch_assoc($subjects_result)) {
              role="tabpanel" 
              aria-labelledby="curriculum-tab-<?php echo md5($curriculum_name); ?>">
              
-            <h5 class="mt-4"><?php echo htmlspecialchars($curriculum_name); ?> Curriculum</h5>
+            <h5 class="mt-4"><?php echo htmlspecialchars($curriculum_name); ?> Subjects</h5>
             
             <div class="table-responsive">
                 <table class="table table-bordered curriculum-table">

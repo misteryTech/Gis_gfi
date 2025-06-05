@@ -137,3 +137,17 @@ Logging formatted grade before insert:
 Formatted Grade: 3.9
 Logging formatted grade before insert:
 Formatted Grade: 2.1
+Logging grades before insert:
+Subject ID: 22, Grade: 1.7, Remarks: 
+Subject ID: 23, Grade: 1.7, Remarks: 
+Logging formatted grade before insert:
+Formatted Grade: 1.7
+Logging formatted grade before insert:
+Formatted Grade: 1.7
+Logging grades before insert:
+Subject ID: 22, Grade: 1, Remarks: 
+Subject ID: 23, Grade: 1.7, Remarks: 
+Logging formatted grade before insert:
+Formatted Grade: 1
+Logging formatted grade before insert:
+Formatted Grade: 1.7
